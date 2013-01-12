@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Tala\Stripe;
+namespace Tala\Billing\Stripe;
 
 use Tala\Exception;
 use Tala\Exception\InvalidResponseException;

@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Tala\Stripe;
+namespace Tala\Billing\Stripe;
 
 class ResponseTest extends \PHPUnit_Framework_TestCase
 {
