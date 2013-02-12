@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Tala Payments package.
+ * This file is part of the Omnipay package.
  *
  * (c) Adrian Macneil <adrian@adrianmacneil.com>
  *
@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Tala\Billing\Stripe;
+namespace Omnipay\Billing\Stripe;
 
 class ResponseTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @expectedException Tala\Exception\InvalidResponseException
+     * @expectedException Omnipay\Exception\InvalidResponseException
      */
     public function testConstructEmpty()
     {
