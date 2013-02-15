@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Omnipay\Billing\Stripe;
+namespace Omnipay\Stripe;
 
 use Omnipay\GatewayTestCase;
 

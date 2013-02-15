@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Omnipay\Billing\Stripe;
+namespace Omnipay\Stripe;
 
-use Omnipay\AbstractGateway;
-use Omnipay\Request;
+use Omnipay\Common\AbstractGateway;
+use Omnipay\Common\Request;
 
 /**
  * Stripe Gateway
