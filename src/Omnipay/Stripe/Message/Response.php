@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Omnipay\Stripe;
+namespace Omnipay\Stripe\Message;
 
 use Omnipay\Common\Message\AbstractResponse;
 
