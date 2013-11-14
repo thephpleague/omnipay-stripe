@@ -2,7 +2,7 @@
 
 namespace Omnipay\Stripe;
 
-use Omnipay\GatewayTestCase;
+use Omnipay\Tests\GatewayTestCase;
 
 class GatewayTest extends GatewayTestCase
 {

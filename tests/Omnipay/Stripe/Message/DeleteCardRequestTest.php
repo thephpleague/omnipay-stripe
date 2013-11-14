@@ -2,7 +2,7 @@
 
 namespace Omnipay\Stripe\Message;
 
-use Omnipay\TestCase;
+use Omnipay\Tests\TestCase;
 
 class DeleteCardRequestTest extends TestCase
 {
