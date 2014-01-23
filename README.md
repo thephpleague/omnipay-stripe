@@ -36,6 +36,20 @@ The following gateways are provided by this package:
 For general usage instructions, please see the main [Omnipay](https://github.com/omnipay/omnipay)
 repository.
 
+The Stripe integration is fairly straight forward. Essentially you just pass
+a `token` field through to Stripe instead of the regular credit card data.
+
+Start by following the standard Stripe JS guide here:
+[https://stripe.com/docs/tutorials/forms](https://stripe.com/docs/tutorials/forms)
+
+After that you will have a `stripeToken` field which will be submitted to your server.
+Simply pass this through to the gateway as `token`, instead of the usual `card` array:
+
+```php
+$token = $_POST['stripeToken'];
+$response = $gateway->purchase(['amount' => '10.00', 'currency' => 'USD', 'token' => $token])->send();
+```
+
 ## Support
 
 If you are having general issues with Omnipay, we suggest posting on
