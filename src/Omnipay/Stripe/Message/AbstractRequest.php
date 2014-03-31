@@ -4,6 +4,8 @@ namespace Omnipay\Stripe\Message;
 
 /**
  * Stripe Abstract Request
+ *
+ * @method \Omnipay\Stripe\Message\Response send()
  */
 abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
