@@ -37,6 +37,16 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->setParameter('token', $value);
     }
 
+    public function getMetadata()
+    {
+        return $this->getParameter('metadata');
+    }
+
+    public function setMetadata($value)
+    {
+        return $this->setParameter('metadata', $value);
+    }
+
     abstract public function getEndpoint();
 
     public function getHttpMethod()

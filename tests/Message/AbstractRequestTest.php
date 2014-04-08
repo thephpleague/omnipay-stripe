@@ -19,4 +19,10 @@ class AbstractRequestTest extends TestCase
         $this->assertSame('abc123', $this->request->getCardToken());
         $this->assertSame('abc123', $this->request->getToken());
     }
+
+    public function testMetadata()
+    {
+        $this->assertSame($this->request, $this->request->setMetadata(array('foo' => 'bar')));
+        $this->assertSame(array('foo' => 'bar'), $this->request->getMetadata());
+    }
 }

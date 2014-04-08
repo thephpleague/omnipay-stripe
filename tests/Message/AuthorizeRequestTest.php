@@ -14,14 +14,23 @@ class AuthorizeRequestTest extends TestCase
                 'amount' => '12.00',
                 'currency' => 'USD',
                 'card' => $this->getValidCard(),
+                'description' => 'Order #42',
+                'metadata' => array(
+                    'foo' => 'bar',
+                ),
             )
         );
     }
 
-    public function testCaptureIsFalse()
+    public function testGetData()
     {
         $data = $this->request->getData();
+
+        $this->assertSame(1200, $data['amount']);
+        $this->assertSame('usd', $data['currency']);
+        $this->assertSame('Order #42', $data['description']);
         $this->assertSame('false', $data['capture']);
+        $this->assertSame(array('foo' => 'bar'), $data['metadata']);
     }
 
     /**

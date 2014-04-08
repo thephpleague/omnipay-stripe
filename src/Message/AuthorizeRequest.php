@@ -15,6 +15,7 @@ class AuthorizeRequest extends AbstractRequest
         $data['amount'] = $this->getAmountInteger();
         $data['currency'] = strtolower($this->getCurrency());
         $data['description'] = $this->getDescription();
+        $data['metadata'] = $this->getMetadata();
         $data['capture'] = 'false';
 
         if ($this->getCardReference()) {
