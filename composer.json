@@ -23,7 +23,7 @@
         }
     ],
     "autoload": {
-        "psr-0": { "Omnipay\\Stripe\\" : "src/" }
+        "psr-4": { "Omnipay\\Stripe\\" : "src/" }
     },
     "require": {
         "omnipay/common": "~2.0"
