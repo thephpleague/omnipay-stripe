@@ -17,6 +17,8 @@ class AuthorizeRequest extends AbstractRequest
         $data['description'] = $this->getDescription();
         $data['metadata'] = $this->getMetadata();
         $data['capture'] = 'false';
+        
+        $data['receipt_email'] = $this->getCard()->getEmail();
 
         if ($this->getCardReference()) {
             $data['customer'] = $this->getCardReference();
