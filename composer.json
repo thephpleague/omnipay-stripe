@@ -10,7 +10,7 @@
         "payment",
         "stripe"
     ],
-    "homepage": "https://github.com/omnipay/stripe",
+    "homepage": "https://github.com/thephpleague/omnipay-stripe",
     "license": "MIT",
     "authors": [
         {
@@ -19,7 +19,7 @@
         },
         {
             "name": "Omnipay Contributors",
-            "homepage": "https://github.com/omnipay/stripe/contributors"
+            "homepage": "https://github.com/thephpleague/omnipay-stripe/contributors"
         }
     ],
     "autoload": {
