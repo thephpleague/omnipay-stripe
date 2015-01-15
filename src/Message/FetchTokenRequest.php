@@ -3,13 +3,13 @@
 namespace Omnipay\Stripe\Message;
 
 /**
- * Stripe Fetch Transaction Request
+ * Stripe Fetch Token Request
  */
-class FetchTransactionRequest extends AbstractRequest
+class FetchTokenRequest extends AbstractRequest
 {
     public function getData()
     {
-        $this->validate('transactionReference');
+        $this->validate('token');
 
         $data = array();
 
@@ -18,7 +18,7 @@ class FetchTransactionRequest extends AbstractRequest
 
     public function getEndpoint()
     {
-        return $this->endpoint.'/charges/'.$this->getTransactionReference();
+        return $this->endpoint.'/tokens/'.$this->getToken();
     }
 
     public function getHttpMethod()
