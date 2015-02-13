@@ -1,9 +1,14 @@
 <?php
+/**
+ * Stripe Fetch Token Request
+ */
 
 namespace Omnipay\Stripe\Message;
 
 /**
  * Stripe Fetch Token Request
+ *
+ * @link https://stripe.com/docs/api#tokens
  */
 class FetchTokenRequest extends AbstractRequest
 {

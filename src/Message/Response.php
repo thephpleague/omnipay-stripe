@@ -1,4 +1,7 @@
 <?php
+/**
+ * Stripe Response
+ */
 
 namespace Omnipay\Stripe\Message;
 
@@ -6,10 +9,16 @@ use Omnipay\Common\Message\AbstractResponse;
 
 /**
  * Stripe Response
+ *
+ * This is the response class for all Stripe requests.
+ *
+ * @see \Omnipay\Stripe\Gateway
  */
 class Response extends AbstractResponse
 {
     /**
+     * Is the transaction successful?
+     *
      * @return bool
      */
     public function isSuccessful()
@@ -18,6 +27,8 @@ class Response extends AbstractResponse
     }
 
     /**
+     * Get the transaction reference.
+     *
      * @return string|null
      */
     public function getTransactionReference()
@@ -30,6 +41,8 @@ class Response extends AbstractResponse
     }
 
     /**
+     * Get a card reference, for createCard or createCustomer requests.
+     *
      * @return string|null
      */
     public function getCardReference()
@@ -42,6 +55,8 @@ class Response extends AbstractResponse
     }
 
     /**
+     * Get a token, for createCard requests.
+     *
      * @return string|null
      */
     public function getToken()
@@ -54,6 +69,8 @@ class Response extends AbstractResponse
     }
 
     /**
+     * Get the card data from the response.
+     *
      * @return array|null
      */
     public function getCard()
@@ -66,6 +83,10 @@ class Response extends AbstractResponse
     }
 
     /**
+     * Get the error message from the response.
+     *
+     * Returns null if the request was successful.
+     *
      * @return string|null
      */
     public function getMessage()
