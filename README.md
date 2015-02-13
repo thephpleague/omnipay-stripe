@@ -31,7 +31,7 @@ And run composer to update your dependencies:
 
 The following gateways are provided by this package:
 
-* Stripe
+* [Stripe](https://stripe.com/)
 
 For general usage instructions, please see the main [Omnipay](https://github.com/thephpleague/omnipay)
 repository.
@@ -49,6 +49,15 @@ Simply pass this through to the gateway as `token`, instead of the usual `card` 
 $token = $_POST['stripeToken'];
 $response = $gateway->purchase(['amount' => '10.00', 'currency' => 'USD', 'token' => $token])->send();
 ```
+
+## Test Mode
+
+Stripe accounts have test-mode API keys as well as live-mode API keys. These keys can be active
+at the same time. Data created with test-mode credentials will never hit the credit card networks
+and will never cost anyone money.
+
+Unlike some gateways, there is no test mode endpoint separate to the live mode endpoint, the
+Stripe API endpoint is the same for test and for live.
 
 ## Support
 
