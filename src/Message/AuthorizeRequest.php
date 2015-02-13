@@ -8,6 +8,11 @@ namespace Omnipay\Stripe\Message;
 /**
  * Stripe Authorize Request
  *
+ * An Authorize request is similar to a purchase request but the
+ * charge issues an authorization (or pre-authorization), and no money
+ * is transferred.  The transaction will need to be captured later
+ * in order to effect payment. Uncaptured charges expire in 7 days.
+ *
  * Example:
  *
  * <code>

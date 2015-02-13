@@ -1,9 +1,18 @@
 <?php
+/**
+ * Stripe Create Credit Card Request
+ */
 
 namespace Omnipay\Stripe\Message;
 
 /**
  * Stripe Create Credit Card Request
+ *
+ * This doesn't actually create a card, it creates a customer.
+ *
+ * See issue #8
+ *
+ * @link https://github.com/thephpleague/omnipay-stripe/issues/8
  */
 class CreateCardRequest extends AbstractRequest
 {

@@ -8,7 +8,6 @@ namespace Omnipay\Stripe\Message;
 /**
  * Stripe Capture Request
  *
- *
  * Use this request to capture and process a previously created authorization.
  *
  * Example -- note this example assumes that the authorization has been successful
