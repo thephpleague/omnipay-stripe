@@ -45,10 +45,12 @@ class AuthorizeRequestTest extends TestCase
 
     public function testDataWithCardReference()
     {
+        $this->request->setCustomerReference('abc');
         $this->request->setCardReference('xyz');
         $data = $this->request->getData();
 
-        $this->assertSame('xyz', $data['customer']);
+        $this->assertSame('abc', $data['customer']);
+        $this->assertSame('xyz', $data['card']);
     }
 
     public function testDataWithToken()

@@ -13,6 +13,16 @@ namespace Omnipay\Stripe\Message;
  * is transferred.  The transaction will need to be captured later
  * in order to effect payment. Uncaptured charges expire in 7 days.
  *
+ * Either a customerReference or a card is required.  If a customerReference
+ * is passed in then the cardReference must be the reference of a card
+ * assigned to the customer.  Otherwise, if you do not pass a customer ID,
+ * the card you provide must either be a token, like the ones returned by
+ * Stripe.js, or a dictionary containing a user's credit card details.
+ *
+ * IN OTHER WORDS: You cannot just pass a card reference into this request,
+ * you must also provide a customer reference if you want to use a stored
+ * card.
+ *
  * Example:
  *
  * <code>
@@ -73,8 +83,11 @@ class AuthorizeRequest extends AbstractRequest
         $data['metadata'] = $this->getMetadata();
         $data['capture'] = 'false';
 
-        if ($this->getCardReference()) {
-            $data['customer'] = $this->getCardReference();
+        if ($this->getCustomerReference()) {
+            $data['customer'] = $this->getCustomerReference();
+            if ($this->getCardReference()) {
+                $data['card'] = $this->getCardReference();
+            }
         } elseif ($this->getToken()) {
             $data['card'] = $this->getToken();
         } elseif ($this->getCard()) {
