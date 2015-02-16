@@ -41,6 +41,20 @@ class Response extends AbstractResponse
     }
 
     /**
+     * Get a customer reference, for createCustomer requests.
+     *
+     * @return string|null
+     */
+    public function getCustomerReference()
+    {
+        if (isset($this->data['object']) && 'customer' === $this->data['object']) {
+            return $this->data['id'];
+        }
+
+        return null;
+    }
+
+    /**
      * Get a card reference, for createCard or createCustomer requests.
      *
      * @return string|null
@@ -48,7 +62,9 @@ class Response extends AbstractResponse
     public function getCardReference()
     {
         if (isset($this->data['object']) && 'customer' === $this->data['object']) {
-            return $this->data['id'];
+            if (! empty($this->data['default_card'])) {
+                return $this->data['default_card'];
+            }
         }
 
         return null;
@@ -59,7 +75,7 @@ class Response extends AbstractResponse
      *
      * @return string|null
      */
-    public function getToken()
+    public function getReference()
     {
         if (isset($this->data['object']) && 'token' === $this->data['object']) {
             return $this->data['id'];
