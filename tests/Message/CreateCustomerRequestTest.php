@@ -43,6 +43,7 @@ class CreateCustomerRequestTest extends TestCase
         $this->assertFalse($response->isRedirect());
         $this->assertNull($response->getTransactionReference());
         $this->assertSame('cus_1MZSEtqSghKx99', $response->getCustomerReference());
+        $this->assertSame('card_15WhVwIobxWFFmzdQ3QBSwNi', $response->getCardReference());
         $this->assertNull($response->getMessage());
     }
 
