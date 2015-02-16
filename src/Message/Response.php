@@ -50,6 +50,11 @@ class Response extends AbstractResponse
         if (isset($this->data['object']) && 'customer' === $this->data['object']) {
             return $this->data['id'];
         }
+        if (isset($this->data['object']) && 'card' === $this->data['object']) {
+            if (! empty($this->data['customer'])) {
+                return $this->data['customer'];
+            }
+        }
 
         return null;
     }
@@ -66,6 +71,11 @@ class Response extends AbstractResponse
                 return $this->data['default_card'];
             }
         }
+        if (isset($this->data['object']) && 'card' === $this->data['object']) {
+            if (! empty($this->data['id'])) {
+                return $this->data['id'];
+            }
+        }
 
         return null;
     }
@@ -75,7 +85,7 @@ class Response extends AbstractResponse
      *
      * @return string|null
      */
-    public function getReference()
+    public function getToken()
     {
         if (isset($this->data['object']) && 'token' === $this->data['object']) {
             return $this->data['id'];

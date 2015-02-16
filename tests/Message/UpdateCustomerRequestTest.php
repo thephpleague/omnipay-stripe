@@ -4,27 +4,17 @@ namespace Omnipay\Stripe\Message;
 
 use Omnipay\Tests\TestCase;
 
-class CreateCardRequestTest extends TestCase
+class UpdateCustomerRequestTest extends TestCase
 {
     public function setUp()
     {
-        $this->request = new CreateCardRequest($this->getHttpClient(), $this->getHttpRequest());
-        $this->request->setCard($this->getValidCard());
+        $this->request = new UpdateCustomerRequest($this->getHttpClient(), $this->getHttpRequest());
+        $this->request->setCustomerReference('cus_1MZSEtqSghKx99');
     }
 
     public function testEndpoint()
     {
-        $this->assertSame('https://api.stripe.com/v1/customers', $this->request->getEndpoint());
-    }
-
-    /**
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
-     * @expectedExceptionMessage The card parameter is required
-     */
-    public function testCard()
-    {
-        $this->request->setCard(null);
-        $this->request->getData();
+        $this->assertSame('https://api.stripe.com/v1/customers/cus_1MZSEtqSghKx99', $this->request->getEndpoint());
     }
 
     public function testDataWithToken()
@@ -46,25 +36,25 @@ class CreateCardRequestTest extends TestCase
 
     public function testSendSuccess()
     {
-        $this->setMockHttpResponse('CreateCardSuccess.txt');
+        $this->setMockHttpResponse('UpdateCustomerSuccess.txt');
         $response = $this->request->send();
 
         $this->assertTrue($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
         $this->assertNull($response->getTransactionReference());
-        $this->assertSame('cus_1MZSEtqSghKx99', $response->getCardReference());
+        $this->assertSame('cus_1MZeNih5LdKxDq', $response->getCustomerReference());
         $this->assertNull($response->getMessage());
     }
 
     public function testSendFailure()
     {
-        $this->setMockHttpResponse('CreateCardFailure.txt');
+        $this->setMockHttpResponse('UpdateCustomerFailure.txt');
         $response = $this->request->send();
 
         $this->assertFalse($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
         $this->assertNull($response->getTransactionReference());
-        $this->assertNull($response->getCardReference());
-        $this->assertSame('You must provide an integer value for \'exp_year\'.', $response->getMessage());
+        $this->assertNull($response->getCustomerReference());
+        $this->assertSame('No such customer: cus_1MZeNih5LdKxDq', $response->getMessage());
     }
 }

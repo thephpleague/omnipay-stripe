@@ -28,16 +28,28 @@ class CreateCardRequest extends AbstractRequest
     public function getData()
     {
         $data = array();
-        $data['description'] = $this->getDescription();
+        
+        // Only set the description if we are creating a new customer.
+        if (! $this->getCustomerReference()) {
+            $data['description'] = $this->getDescription();
+        }
 
-        if ($this->getReference()) {
-            $data['card'] = $this->getReference();
+        // If a token is passed then use the token.
+        if ($this->getToken()) {
+            $data['card'] = $this->getToken();
+
+        // If a card is passed then use the card.
         } elseif ($this->getCard()) {
             $this->getCard()->validate();
             $data['card'] = $this->getCardData();
-            $data['email'] = $this->getCard()->getEmail();
+
+            // Only set the email address if we are creating a new customer.
+            if (! $this->getCustomerReference()) {
+                $data['email'] = $this->getCard()->getEmail();
+            }
+
+        // one of token or card is required
         } else {
-            // one of token or card is required
             $this->validate('card');
         }
 
@@ -47,11 +59,11 @@ class CreateCardRequest extends AbstractRequest
     public function getEndpoint()
     {
         if ($this->getCustomerReference()) {
-            // Create a new customer and card
-            return $this->endpoint . '/customers';
+            // Create a new card on an existing customer
+            return $this->endpoint . '/customers/' .
+                $this->getCustomerReference() . '/cards';
         }
-        // Create a new card on an existing customer
-        return $this->endpoint . '/customers/' .
-            $this->getCustomerReference() . '/cards';
+        // Create a new customer and card
+        return $this->endpoint . '/customers';
     }
 }
