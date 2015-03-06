@@ -31,7 +31,7 @@ And run composer to update your dependencies:
 
 The following gateways are provided by this package:
 
-* Stripe
+* [Stripe](https://stripe.com/)
 
 For general usage instructions, please see the main [Omnipay](https://github.com/thephpleague/omnipay)
 repository.
@@ -65,6 +65,15 @@ boolean value of true as part of a refund request.
 
 Note: making requests with Stripe Connect specific parameters can only be made using the OAuth access token you received
 as part of the authorization process. Read more on Stripe Connect [here](https://stripe.com/docs/connect).
+
+## Test Mode
+
+Stripe accounts have test-mode API keys as well as live-mode API keys. These keys can be active
+at the same time. Data created with test-mode credentials will never hit the credit card networks
+and will never cost anyone money.
+
+Unlike some gateways, there is no test mode endpoint separate to the live mode endpoint, the
+Stripe API endpoint is the same for test and for live.
 
 ## Support
 
