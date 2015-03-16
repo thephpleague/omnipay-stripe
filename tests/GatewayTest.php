@@ -45,6 +45,13 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame('10.00', $request->getAmount());
     }
 
+    public function testVoid()
+    {
+        $request = $this->gateway->void();
+
+        $this->assertInstanceOf('Omnipay\Stripe\Message\VoidRequest', $request);
+    }
+
     public function testFetchTransaction()
     {
         $request = $this->gateway->fetchTransaction(array());
