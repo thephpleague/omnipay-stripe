@@ -10,7 +10,7 @@ class RefundRequestTest extends TestCase
     {
         $this->request = new RefundRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->setTransactionReference('ch_12RgN9L7XhO9mI')
-            ->setAmount('10.00');
+            ->setAmount('10.00')->setRefundApplicationFee(true);
     }
 
     public function testEndpoint()
@@ -22,6 +22,12 @@ class RefundRequestTest extends TestCase
     {
         $data = $this->request->getData();
         $this->assertSame(1000, $data['amount']);
+    }
+
+    public function testRefundApplicationFee()
+    {
+        $data = $this->request->getData();
+        $this->assertTrue($data['refund_application_fee']);
     }
 
     public function testSendSuccess()

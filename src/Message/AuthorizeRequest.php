@@ -62,6 +62,21 @@ namespace Omnipay\Stripe\Message;
  */
 class AuthorizeRequest extends AbstractRequest
 {
+    public function getApplicationFee()
+    {
+        return $this->getParameter('applicationFee');
+    }
+
+    public function getApplicationFeeInteger()
+    {
+        return (int) round($this->getApplicationFee() * pow(10, $this->getCurrencyDecimalPlaces()));
+    }
+
+    public function setApplicationFee($value)
+    {
+        return $this->setParameter('applicationFee', $value);
+    }
+
     public function getData()
     {
         $this->validate('amount', 'currency');
@@ -72,6 +87,10 @@ class AuthorizeRequest extends AbstractRequest
         $data['description'] = $this->getDescription();
         $data['metadata'] = $this->getMetadata();
         $data['capture'] = 'false';
+
+        if ($this->getApplicationFee()) {
+            $data['application_fee'] = $this->getApplicationFeeInteger();
+        }
 
         if ($this->getCardReference()) {
             $data['customer'] = $this->getCardReference();
