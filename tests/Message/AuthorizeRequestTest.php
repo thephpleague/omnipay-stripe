@@ -18,6 +18,7 @@ class AuthorizeRequestTest extends TestCase
                 'metadata' => array(
                     'foo' => 'bar',
                 ),
+                'applicationFee' => '1.00'
             )
         );
     }
@@ -31,6 +32,7 @@ class AuthorizeRequestTest extends TestCase
         $this->assertSame('Order #42', $data['description']);
         $this->assertSame('false', $data['capture']);
         $this->assertSame(array('foo' => 'bar'), $data['metadata']);
+        $this->assertSame(100, $data['application_fee']);
     }
 
     /**

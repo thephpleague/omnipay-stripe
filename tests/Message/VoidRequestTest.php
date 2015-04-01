@@ -4,13 +4,12 @@ namespace Omnipay\Stripe\Message;
 
 use Omnipay\Tests\TestCase;
 
-class RefundRequestTest extends TestCase
+class VoidRequestTest extends TestCase
 {
     public function setUp()
     {
-        $this->request = new RefundRequest($this->getHttpClient(), $this->getHttpRequest());
-        $this->request->setTransactionReference('ch_12RgN9L7XhO9mI')
-            ->setAmount('10.00')->setRefundApplicationFee(true);
+        $this->request = new VoidRequest($this->getHttpClient(), $this->getHttpRequest());
+        $this->request->setTransactionReference('ch_12RgN9L7XhO9mI');
     }
 
     public function testEndpoint()
@@ -18,21 +17,9 @@ class RefundRequestTest extends TestCase
         $this->assertSame('https://api.stripe.com/v1/charges/ch_12RgN9L7XhO9mI/refund', $this->request->getEndpoint());
     }
 
-    public function testAmount()
-    {
-        $data = $this->request->getData();
-        $this->assertSame(1000, $data['amount']);
-    }
-
-    public function testRefundApplicationFee()
-    {
-        $data = $this->request->getData();
-        $this->assertTrue($data['refund_application_fee']);
-    }
-
     public function testSendSuccess()
     {
-        $this->setMockHttpResponse('RefundSuccess.txt');
+        $this->setMockHttpResponse('VoidSuccess.txt');
         $response = $this->request->send();
 
         $this->assertTrue($response->isSuccessful());
@@ -44,7 +31,7 @@ class RefundRequestTest extends TestCase
 
     public function testSendError()
     {
-        $this->setMockHttpResponse('RefundFailure.txt');
+        $this->setMockHttpResponse('VoidFailure.txt');
         $response = $this->request->send();
 
         $this->assertFalse($response->isSuccessful());
