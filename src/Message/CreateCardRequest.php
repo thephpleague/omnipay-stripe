@@ -21,14 +21,16 @@ class CreateCardRequest extends AbstractRequest
         $data = array();
         $data['description'] = $this->getDescription();
 
-        if ($this->getToken()) {
-            $data['card'] = $this->getToken();
+        if ($this->getSource()) {
+            $data['source'] = $this->getSource();
+        } elseif ($this->getToken()) {
+            $data['source'] = $this->getToken();
         } elseif ($this->getCard()) {
-            $data['card'] = $this->getCardData();
+            $data['source'] = $this->getCardData();
             $data['email'] = $this->getCard()->getEmail();
         } else {
             // one of token or card is required
-            $this->validate('card');
+            $this->validate('source');
         }
 
         return $data;

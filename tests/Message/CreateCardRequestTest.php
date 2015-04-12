@@ -19,7 +19,7 @@ class CreateCardRequestTest extends TestCase
 
     /**
      * @expectedException \Omnipay\Common\Exception\InvalidRequestException
-     * @expectedExceptionMessage The card parameter is required
+     * @expectedExceptionMessage The source parameter is required
      */
     public function testCard()
     {
@@ -32,7 +32,7 @@ class CreateCardRequestTest extends TestCase
         $this->request->setToken('xyz');
         $data = $this->request->getData();
 
-        $this->assertSame('xyz', $data['card']);
+        $this->assertSame('xyz', $data['source']);
     }
 
     public function testDataWithCard()
@@ -41,7 +41,7 @@ class CreateCardRequestTest extends TestCase
         $this->request->setCard($card);
         $data = $this->request->getData();
 
-        $this->assertSame($card['number'], $data['card']['number']);
+        $this->assertSame($card['number'], $data['source']['number']);
     }
 
     public function testSendSuccess()
