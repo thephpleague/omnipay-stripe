@@ -85,7 +85,7 @@ class RefundRequest extends AbstractRequest
         $data['amount'] = $this->getAmountInteger();
 
         if ($this->getRefundApplicationFee()) {
-            $data['refund_application_fee'] = true;
+            $data['refund_application_fee'] = "true";
         }
 
         return $data;

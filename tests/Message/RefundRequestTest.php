@@ -27,7 +27,7 @@ class RefundRequestTest extends TestCase
     public function testRefundApplicationFee()
     {
         $data = $this->request->getData();
-        $this->assertTrue($data['refund_application_fee']);
+        $this->assertEquals("true", $data['refund_application_fee']);
     }
 
     public function testSendSuccess()
