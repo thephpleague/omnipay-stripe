@@ -40,10 +40,11 @@ class VoidRequest extends RefundRequest
     {
         $this->validate('transactionReference');
 
+        $data = array();
         if ($this->getRefundApplicationFee()) {
             $data['refund_application_fee'] = "true";
         }
 
-        return null;
+        return $data;
     }
 }
