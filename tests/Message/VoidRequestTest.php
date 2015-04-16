@@ -9,12 +9,19 @@ class VoidRequestTest extends TestCase
     public function setUp()
     {
         $this->request = new VoidRequest($this->getHttpClient(), $this->getHttpRequest());
-        $this->request->setTransactionReference('ch_12RgN9L7XhO9mI');
+        $this->request->setTransactionReference('ch_12RgN9L7XhO9mI')
+            ->setRefundApplicationFee(true);
     }
 
     public function testEndpoint()
     {
         $this->assertSame('https://api.stripe.com/v1/charges/ch_12RgN9L7XhO9mI/refund', $this->request->getEndpoint());
+    }
+
+    public function testRefundApplicationFee()
+    {
+        $data = $this->request->getData();
+        $this->assertEquals("true", $data['refund_application_fee']);
     }
 
     public function testSendSuccess()
