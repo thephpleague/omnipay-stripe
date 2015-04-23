@@ -84,7 +84,7 @@ class AuthorizeRequest extends AbstractRequest
 
     public function setStatementDescriptor($value)
     {
-        $value = str_replace(['<', '>', '"', '\''], '', $value);
+        $value = str_replace(array('<', '>', '"', '\''), '', $value);
 
         return $this->setParameter('statementDescriptor', $value);
     }
