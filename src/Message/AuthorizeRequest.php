@@ -77,6 +77,16 @@ class AuthorizeRequest extends AbstractRequest
         return $this->setParameter('applicationFee', $value);
     }
 
+    public function getStatementDescriptor()
+    {
+        return $this->getParameter('statementDescriptor');
+    }
+
+    public function setStatementDescriptor($value)
+    {
+        return $this->setParameter('statementDescriptor', $value);
+    }
+
     public function getData()
     {
         $this->validate('amount', 'currency');
@@ -88,6 +98,9 @@ class AuthorizeRequest extends AbstractRequest
         $data['metadata'] = $this->getMetadata();
         $data['capture'] = 'false';
 
+        if ($this->getStatementDescriptor()) {
+            $data['statement_descriptor'] = $this->getStatementDescriptor();
+        }
         if ($this->getApplicationFee()) {
             $data['application_fee'] = $this->getApplicationFeeInteger();
         }
