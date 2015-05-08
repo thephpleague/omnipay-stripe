@@ -52,7 +52,7 @@ class AuthorizeRequestTest extends TestCase
         $data = $this->request->getData();
 
         $this->assertSame('abc', $data['customer']);
-        $this->assertSame('xyz', $data['card']);
+        $this->assertSame('xyz', $data['source']);
     }
 
     public function testDataWithToken()

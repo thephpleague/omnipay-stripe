@@ -73,6 +73,9 @@ class Response extends AbstractResponse
             if (! empty($this->data['default_card'])) {
                 return $this->data['default_card'];
             }
+            if (! empty($this->data['id'])) {
+                return $this->data['id'];
+            }
         }
         if (isset($this->data['object']) && 'card' === $this->data['object']) {
             if (! empty($this->data['id'])) {

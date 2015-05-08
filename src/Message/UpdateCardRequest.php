@@ -24,6 +24,9 @@ class UpdateCardRequest extends AbstractRequest
 {
     public function getData()
     {
+        $this->validate('cardReference');
+        $this->validate('customerReference');
+
         $data = array();
         $data['description'] = $this->getDescription();
 
@@ -36,9 +39,6 @@ class UpdateCardRequest extends AbstractRequest
             $data['email'] = $this->getCard()->getEmail();
         }
 
-        $this->validate('cardReference');
-        $this->validate('customerReference');
-        $data = $this->getCardData();
         return $data;
     }
 
@@ -61,32 +61,37 @@ class UpdateCardRequest extends AbstractRequest
     {
         $data = array();
         $card = $this->getCard();
-        if ($card->getExpiryMonth()) {
-            $data['exp_month'] = $card->getExpiryMonth();
-        }
-        if ($card->getExpiryYear()) {
-            $data['exp_year'] = $card->getExpiryYear();
-        }
-        if ($card->getName()) {
-            $data['name'] = $card->getName();
-        }
-        if ($card->getAddress1()) {
-            $data['address_line1'] = $card->getAddress1();
-        }
-        if ($card->getAddress2()) {
-            $data['address_line2'] = $card->getAddress2();
-        }
-        if ($card->getCity()) {
-            $data['address_city'] = $card->getCity();
-        }
-        if ($card->getPostcode()) {
-            $data['address_zip'] = $card->getPostcode();
-        }
-        if ($card->getState()) {
-            $data['address_state'] = $card->getState();
-        }
-        if ($card->getCountry()) {
-            $data['address_country'] = $card->getCountry();
+        if (! empty($card)) {
+            if ($card->getExpiryMonth()) {
+                $data['exp_month'] = $card->getExpiryMonth();
+            }
+            if ($card->getExpiryYear()) {
+                $data['exp_year'] = $card->getExpiryYear();
+            }
+            if ($card->getName()) {
+                $data['name'] = $card->getName();
+            }
+            if ($card->getNumber()) {
+                $data['number'] = $card->getNumber();
+            }
+            if ($card->getAddress1()) {
+                $data['address_line1'] = $card->getAddress1();
+            }
+            if ($card->getAddress2()) {
+                $data['address_line2'] = $card->getAddress2();
+            }
+            if ($card->getCity()) {
+                $data['address_city'] = $card->getCity();
+            }
+            if ($card->getPostcode()) {
+                $data['address_zip'] = $card->getPostcode();
+            }
+            if ($card->getState()) {
+                $data['address_state'] = $card->getState();
+            }
+            if ($card->getCountry()) {
+                $data['address_country'] = $card->getCountry();
+            }
         }
 
         return $data;

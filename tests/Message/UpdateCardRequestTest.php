@@ -32,7 +32,7 @@ class UpdateCardRequestTest extends TestCase
         $this->request->setCard($card);
         $data = $this->request->getData();
 
-        $this->assertSame($card['billingAddress1'], $data['address_line1']);
+        $this->assertSame($card['billingAddress1'], $data['source']['address_line1']);
         $this->assertSame($card['number'], $data['source']['number']);
     }
 
