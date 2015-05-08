@@ -20,13 +20,31 @@ class CreateCardRequestTest extends TestCase
         $this->assertSame('https://api.stripe.com/v1/customers/cus_1MZSEtqSghKx99/cards', $this->request->getEndpoint());
     }
 
+    /**
+     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedExceptionMessage The source parameter is required
+     */
+    public function testCard()
+    {
+        $this->request->setCard(null);
+        $this->request->getData();
+    }
+
+    public function testDataWithToken()
+    {
+        $this->request->setToken('xyz');
+        $data = $this->request->getData();
+
+        $this->assertSame('xyz', $data['source']);
+    }
+
     public function testDataWithCard()
     {
         $card = $this->getValidCard();
         $this->request->setCard($card);
         $data = $this->request->getData();
 
-        $this->assertSame($card['number'], $data['card']['number']);
+        $this->assertSame($card['number'], $data['source']['number']);
     }
 
     public function testSendSuccess()

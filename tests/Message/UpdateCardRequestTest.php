@@ -18,6 +18,14 @@ class UpdateCardRequestTest extends TestCase
         $this->assertSame('https://api.stripe.com/v1/customers/cus_1MZSEtqSghKx99/cards/card_15Wg7vIobxWFFmzdvC5fVY67', $this->request->getEndpoint());
     }
 
+    public function testDataWithToken()
+    {
+        $this->request->setToken('xyz');
+        $data = $this->request->getData();
+
+        $this->assertSame('xyz', $data['source']);
+    }
+
     public function testDataWithCard()
     {
         $card = $this->getValidCard();
@@ -25,5 +33,30 @@ class UpdateCardRequestTest extends TestCase
         $data = $this->request->getData();
 
         $this->assertSame($card['billingAddress1'], $data['address_line1']);
+        $this->assertSame($card['number'], $data['source']['number']);
+    }
+
+    public function testSendSuccess()
+    {
+        $this->setMockHttpResponse('UpdateCardSuccess.txt');
+        $response = $this->request->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
+        $this->assertNull($response->getTransactionReference());
+        $this->assertSame('cus_1MZeNih5LdKxDq', $response->getCardReference());
+        $this->assertNull($response->getMessage());
+    }
+
+    public function testSendFailure()
+    {
+        $this->setMockHttpResponse('UpdateCardFailure.txt');
+        $response = $this->request->send();
+
+        $this->assertFalse($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
+        $this->assertNull($response->getTransactionReference());
+        $this->assertNull($response->getCardReference());
+        $this->assertSame('No such customer: cus_1MZeNih5LdKxDq', $response->getMessage());
     }
 }

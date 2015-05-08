@@ -34,17 +34,17 @@ namespace Omnipay\Stripe\Message;
  * @see Omnipay\Stripe\Gateway
  * @link https://stripe.com/docs/api#create_refund
  */
-class VoidRequest extends AbstractRequest
+class VoidRequest extends RefundRequest
 {
     public function getData()
     {
         $this->validate('transactionReference');
 
-        return null;
-    }
+        $data = array();
+        if ($this->getRefundApplicationFee()) {
+            $data['refund_application_fee'] = "true";
+        }
 
-    public function getEndpoint()
-    {
-        return $this->endpoint.'/charges/'.$this->getTransactionReference().'/refund';
+        return $data;
     }
 }

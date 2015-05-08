@@ -64,29 +64,26 @@ class CreateCardRequest extends AbstractRequest
     public function getData()
     {
         $data = array();
-        
+
         // Only set the description if we are creating a new customer.
         if (! $this->getCustomerReference()) {
             $data['description'] = $this->getDescription();
         }
 
-        // If a token is passed then use the token.
-        if ($this->getToken()) {
-            $data['card'] = $this->getToken();
-
-        // If a card is passed then use the card.
+        if ($this->getSource()) {
+            $data['source'] = $this->getSource();
+        } elseif ($this->getToken()) {
+            $data['source'] = $this->getToken();
         } elseif ($this->getCard()) {
             $this->getCard()->validate();
-            $data['card'] = $this->getCardData();
-
+            $data['source'] = $this->getCardData();
             // Only set the email address if we are creating a new customer.
             if (! $this->getCustomerReference()) {
                 $data['email'] = $this->getCard()->getEmail();
             }
-
-        // one of token or card is required
         } else {
-            $this->validate('card');
+            // one of token or card is required
+            $this->validate('source');
         }
 
         return $data;
