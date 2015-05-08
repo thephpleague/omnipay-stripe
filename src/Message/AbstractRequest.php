@@ -126,6 +126,23 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
+     * @return mixed
+     */
+    public function getSource()
+    {
+        return $this->getParameter('source');
+    }
+
+    /**
+     * @param $value
+     * @return AbstractRequest provides a fluent interface.
+     */
+    public function setSource($value)
+    {
+        return $this->setParameter('source', $value);
+    }
+
+    /**
      * Get the card data.
      *
      * Because the stripe gateway uses a common format for passing
@@ -140,6 +157,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         $this->getCard()->validate();
 
         $data = array();
+        $data['object'] = 'card';
         $data['number'] = $this->getCard()->getNumber();
         $data['exp_month'] = $this->getCard()->getExpiryMonth();
         $data['exp_year'] = $this->getCard()->getExpiryYear();
