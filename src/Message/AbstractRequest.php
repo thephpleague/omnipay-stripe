@@ -185,7 +185,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         $data['number'] = $card->getNumber();
         $data['exp_month'] = $card->getExpiryMonth();
         $data['exp_year'] = $card->getExpiryYear();
-        if (! empty($this->getCard()->getCvv())) {
+        if ($this->getCard()->getCvv()) {
             $data['cvc'] = $card->getCvv();
         }
         $data['name'] = $card->getName();
