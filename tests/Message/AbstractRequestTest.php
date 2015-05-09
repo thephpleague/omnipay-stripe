@@ -2,14 +2,14 @@
 
 namespace Omnipay\Stripe\Message;
 
-use Mockery as m;
+use Mockery;
 use Omnipay\Tests\TestCase;
 
 class AbstractRequestTest extends TestCase
 {
     public function setUp()
     {
-        $this->request = m::mock('\Omnipay\Stripe\Message\AbstractRequest')->makePartial();
+        $this->request = Mockery::mock('\Omnipay\Stripe\Message\AbstractRequest')->makePartial();
         $this->request->initialize();
     }
 
@@ -23,6 +23,32 @@ class AbstractRequestTest extends TestCase
     {
         $this->assertSame($this->request, $this->request->setToken('abc123'));
         $this->assertSame('abc123', $this->request->getToken());
+    }
+
+    public function testSource()
+    {
+        $this->assertSame($this->request, $this->request->setSource('abc123'));
+        $this->assertSame('abc123', $this->request->getSource());
+    }
+
+    public function testCardData()
+    {
+        $card = $this->getValidCard();
+        $this->request->setCard($card);
+        $data = $this->request->getCardData();
+
+        $this->assertSame($card['number'], $data['number']);
+        $this->assertSame($card['cvv'], $data['cvc']);
+    }
+
+    public function testCardDataEmptyCvv()
+    {
+        $card = $this->getValidCard();
+        $card['cvv'] = '';
+        $this->request->setCard($card);
+        $data = $this->request->getCardData();
+
+        $this->assertTrue(empty($data['cvv']));
     }
 
     public function testMetadata()
