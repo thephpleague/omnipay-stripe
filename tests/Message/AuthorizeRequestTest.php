@@ -47,10 +47,12 @@ class AuthorizeRequestTest extends TestCase
 
     public function testDataWithCardReference()
     {
+        $this->request->setCustomerReference('abc');
         $this->request->setCardReference('xyz');
         $data = $this->request->getData();
 
-        $this->assertSame('xyz', $data['customer']);
+        $this->assertSame('abc', $data['customer']);
+        $this->assertSame('xyz', $data['source']);
     }
 
     public function testDataWithToken()
@@ -89,7 +91,7 @@ class AuthorizeRequestTest extends TestCase
 
         $this->assertFalse($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
-        $this->assertNull($response->getTransactionReference());
+        $this->assertSame('ch_1IUAZQWFYrPooM', $response->getTransactionReference());
         $this->assertNull($response->getCardReference());
         $this->assertSame('Your card was declined', $response->getMessage());
     }

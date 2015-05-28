@@ -36,6 +36,28 @@ class Response extends AbstractResponse
         if (isset($this->data['object']) && 'charge' === $this->data['object']) {
             return $this->data['id'];
         }
+        if (isset($this->data['error']) && isset($this->data['error']['charge'])) {
+            return $this->data['error']['charge'];
+        }
+
+        return null;
+    }
+
+    /**
+     * Get a customer reference, for createCustomer requests.
+     *
+     * @return string|null
+     */
+    public function getCustomerReference()
+    {
+        if (isset($this->data['object']) && 'customer' === $this->data['object']) {
+            return $this->data['id'];
+        }
+        if (isset($this->data['object']) && 'card' === $this->data['object']) {
+            if (! empty($this->data['customer'])) {
+                return $this->data['customer'];
+            }
+        }
 
         return null;
     }
@@ -48,7 +70,17 @@ class Response extends AbstractResponse
     public function getCardReference()
     {
         if (isset($this->data['object']) && 'customer' === $this->data['object']) {
-            return $this->data['id'];
+            if (! empty($this->data['default_card'])) {
+                return $this->data['default_card'];
+            }
+            if (! empty($this->data['id'])) {
+                return $this->data['id'];
+            }
+        }
+        if (isset($this->data['object']) && 'card' === $this->data['object']) {
+            if (! empty($this->data['id'])) {
+                return $this->data['id'];
+            }
         }
 
         return null;
