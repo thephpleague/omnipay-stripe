@@ -72,6 +72,8 @@ class CreateCardRequest extends AbstractRequest
 
         if ($this->getSource()) {
             $data['source'] = $this->getSource();
+        } elseif ($this->getCardReference()) {
+            $data['source'] = $this->getCardReference();
         } elseif ($this->getToken()) {
             $data['source'] = $this->getToken();
         } elseif ($this->getCard()) {
