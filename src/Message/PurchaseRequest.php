@@ -8,6 +8,11 @@ namespace Omnipay\Stripe\Message;
 /**
  * Stripe Purchase Request
  *
+ * To charge a credit card, you create a new charge object. If your API key
+ * is in test mode, the supplied card won't actually be charged, though
+ * everything else will occur as if in live mode. (Stripe assumes that the
+ * charge would have completed successfully). 
+ *
  * Example:
  *
  * <code>

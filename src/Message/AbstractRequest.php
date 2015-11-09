@@ -65,7 +65,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      */
     public function getCardToken()
     {
-        return $this->getParameter('token');
+        return $this->getCardReference();
     }
 
     /**
@@ -73,7 +73,30 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      */
     public function setCardToken($value)
     {
-        return $this->setParameter('token', $value);
+        return $this->setCardReference($value);
+    }
+
+    /**
+     * Get the customer reference
+     *
+     * @return string
+     */
+    public function getCustomerReference()
+    {
+        return $this->getParameter('customerReference');
+    }
+
+    /**
+     * Set the customer reference
+     *
+     * Used when calling CreateCard on an existing customer.  If this
+     * parameter is not set then a new customer is created.
+     *
+     * @return AbstractRequest provides a fluent interface.
+     */
+    public function setCustomerReference($value)
+    {
+        return $this->setParameter('customerReference', $value);
     }
 
     public function getMetadata()
@@ -126,6 +149,23 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
+     * @return mixed
+     */
+    public function getSource()
+    {
+        return $this->getParameter('source');
+    }
+
+    /**
+     * @param $value
+     * @return AbstractRequest provides a fluent interface.
+     */
+    public function setSource($value)
+    {
+        return $this->setParameter('source', $value);
+    }
+
+    /**
      * Get the card data.
      *
      * Because the stripe gateway uses a common format for passing
@@ -137,20 +177,24 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      */
     protected function getCardData()
     {
-        $this->getCard()->validate();
+        $card = $this->getCard();
+        $card->validate();
 
         $data = array();
-        $data['number'] = $this->getCard()->getNumber();
-        $data['exp_month'] = $this->getCard()->getExpiryMonth();
-        $data['exp_year'] = $this->getCard()->getExpiryYear();
-        $data['cvc'] = $this->getCard()->getCvv();
-        $data['name'] = $this->getCard()->getName();
-        $data['address_line1'] = $this->getCard()->getAddress1();
-        $data['address_line2'] = $this->getCard()->getAddress2();
-        $data['address_city'] = $this->getCard()->getCity();
-        $data['address_zip'] = $this->getCard()->getPostcode();
-        $data['address_state'] = $this->getCard()->getState();
-        $data['address_country'] = $this->getCard()->getCountry();
+        $data['object'] = 'card';
+        $data['number'] = $card->getNumber();
+        $data['exp_month'] = $card->getExpiryMonth();
+        $data['exp_year'] = $card->getExpiryYear();
+        if ($card->getCvv()) {
+            $data['cvc'] = $card->getCvv();
+        }
+        $data['name'] = $card->getName();
+        $data['address_line1'] = $card->getAddress1();
+        $data['address_line2'] = $card->getAddress2();
+        $data['address_city'] = $card->getCity();
+        $data['address_zip'] = $card->getPostcode();
+        $data['address_state'] = $card->getState();
+        $data['address_country'] = $card->getCountry();
 
         return $data;
     }

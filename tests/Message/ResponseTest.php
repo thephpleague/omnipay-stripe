@@ -25,80 +25,80 @@ class ResponseTest extends TestCase
 
         $this->assertFalse($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
-        $this->assertNull($response->getTransactionReference());
+        $this->assertSame('ch_1IUAZQWFYrPooM', $response->getTransactionReference());
         $this->assertNull($response->getCardReference());
         $this->assertSame('Your card was declined', $response->getMessage());
     }
 
-    public function testCreateCardSuccess()
+    public function testCreateCustomerSuccess()
     {
-        $httpResponse = $this->getMockHttpResponse('CreateCardSuccess.txt');
+        $httpResponse = $this->getMockHttpResponse('CreateCustomerSuccess.txt');
         $response = new Response($this->getMockRequest(), $httpResponse->json());
 
         $this->assertTrue($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
         $this->assertNull($response->getTransactionReference());
-        $this->assertSame('cus_1MZSEtqSghKx99', $response->getCardReference());
+        $this->assertSame('cus_1MZSEtqSghKx99', $response->getCustomerReference());
         $this->assertNull($response->getMessage());
     }
 
-    public function testCreateCardFailure()
+    public function testCreateCustomerFailure()
     {
-        $httpResponse = $this->getMockHttpResponse('CreateCardFailure.txt');
+        $httpResponse = $this->getMockHttpResponse('CreateCustomerFailure.txt');
         $response = new Response($this->getMockRequest(), $httpResponse->json());
 
         $this->assertFalse($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
         $this->assertNull($response->getTransactionReference());
-        $this->assertNull($response->getCardReference());
+        $this->assertNull($response->getCustomerReference());
         $this->assertSame('You must provide an integer value for \'exp_year\'.', $response->getMessage());
     }
 
-    public function testUpdateCardSuccess()
+    public function testUpdateCustomerSuccess()
     {
-        $httpResponse = $this->getMockHttpResponse('UpdateCardSuccess.txt');
+        $httpResponse = $this->getMockHttpResponse('UpdateCustomerSuccess.txt');
         $response = new Response($this->getMockRequest(), $httpResponse->json());
 
         $this->assertTrue($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
         $this->assertNull($response->getTransactionReference());
-        $this->assertSame('cus_1MZeNih5LdKxDq', $response->getCardReference());
+        $this->assertSame('cus_1MZeNih5LdKxDq', $response->getCustomerReference());
         $this->assertNull($response->getMessage());
     }
 
-    public function testUpdateCardFailure()
+    public function testUpdateCustomerFailure()
     {
-        $httpResponse = $this->getMockHttpResponse('UpdateCardFailure.txt');
+        $httpResponse = $this->getMockHttpResponse('UpdateCustomerFailure.txt');
         $response = new Response($this->getMockRequest(), $httpResponse->json());
 
         $this->assertFalse($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
         $this->assertNull($response->getTransactionReference());
-        $this->assertNull($response->getCardReference());
+        $this->assertNull($response->getCustomerReference());
         $this->assertSame('No such customer: cus_1MZeNih5LdKxDq', $response->getMessage());
     }
 
-    public function testDeleteCardSuccess()
+    public function testDeleteCustomerSuccess()
     {
-        $httpResponse = $this->getMockHttpResponse('DeleteCardSuccess.txt');
+        $httpResponse = $this->getMockHttpResponse('DeleteCustomerSuccess.txt');
         $response = new Response($this->getMockRequest(), $httpResponse->json());
 
         $this->assertTrue($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
         $this->assertNull($response->getTransactionReference());
-        $this->assertNull($response->getCardReference());
+        $this->assertNull($response->getCustomerReference());
         $this->assertNull($response->getMessage());
     }
 
-    public function testDeleteCardFailure()
+    public function testDeleteCustomerFailure()
     {
-        $httpResponse = $this->getMockHttpResponse('DeleteCardFailure.txt');
+        $httpResponse = $this->getMockHttpResponse('DeleteCustomerFailure.txt');
         $response = new Response($this->getMockRequest(), $httpResponse->json());
 
         $this->assertFalse($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
         $this->assertNull($response->getTransactionReference());
-        $this->assertNull($response->getCardReference());
+        $this->assertNull($response->getCustomerReference());
         $this->assertSame('No such customer: cus_1MZeNih5LdKxDq', $response->getMessage());
     }
 }

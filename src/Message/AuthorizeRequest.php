@@ -13,6 +13,16 @@ namespace Omnipay\Stripe\Message;
  * is transferred.  The transaction will need to be captured later
  * in order to effect payment. Uncaptured charges expire in 7 days.
  *
+ * Either a customerReference or a card is required.  If a customerReference
+ * is passed in then the cardReference must be the reference of a card
+ * assigned to the customer.  Otherwise, if you do not pass a customer ID,
+ * the card you provide must either be a token, like the ones returned by
+ * Stripe.js, or a dictionary containing a user's credit card details.
+ *
+ * IN OTHER WORDS: You cannot just pass a card reference into this request,
+ * you must also provide a customer reference if you want to use a stored
+ * card.
+ *
  * Example:
  *
  * <code>
@@ -62,16 +72,60 @@ namespace Omnipay\Stripe\Message;
  */
 class AuthorizeRequest extends AbstractRequest
 {
+    /**
+     * @return mixed
+     */
+    public function getDestination()
+    {
+        return $this->getParameter('destination');
+    }
+
+    /**
+     * @param string $value
+     * @return AbstractRequest provides a fluent interface.
+     */
+    public function setDestination($value)
+    {
+        return $this->setParameter('destination', $value);
+    }
+
+    /**
+     * @return mixedgi
+     */
+    public function getSource()
+    {
+        return $this->getParameter('source');
+    }
+
+    /**
+     * @param string $value
+     * @return AbstractRequest provides a fluent interface.
+     */
+    public function setSource($value)
+    {
+        return $this->setParameter('source', $value);
+    }
+
+    /**
+     * @return float
+     */
     public function getApplicationFee()
     {
         return $this->getParameter('applicationFee');
     }
 
+    /**
+     * @return int
+     */
     public function getApplicationFeeInteger()
     {
         return (int) round($this->getApplicationFee() * pow(10, $this->getCurrencyDecimalPlaces()));
     }
 
+    /**
+     * @param string $value
+     * @return AbstractRequest provides a fluent interface.
+     */
     public function setApplicationFee($value)
     {
         return $this->setParameter('applicationFee', $value);
@@ -94,6 +148,7 @@ class AuthorizeRequest extends AbstractRequest
         $this->validate('amount', 'currency');
 
         $data = array();
+
         $data['amount'] = $this->getAmountInteger();
         $data['currency'] = strtolower($this->getCurrency());
         $data['description'] = $this->getDescription();
@@ -103,19 +158,30 @@ class AuthorizeRequest extends AbstractRequest
         if ($this->getStatementDescriptor()) {
             $data['statement_descriptor'] = $this->getStatementDescriptor();
         }
+        if ($this->getDestination()) {
+            $data['destination'] = $this->getDestination();
+        }
+
         if ($this->getApplicationFee()) {
             $data['application_fee'] = $this->getApplicationFeeInteger();
         }
 
-        if ($this->getCardReference()) {
-            $data['customer'] = $this->getCardReference();
+        if ($this->getSource()) {
+            $data['source'] = $this->getSource();
+        } elseif ($this->getCustomerReference()) {
+            $data['customer'] = $this->getCustomerReference();
+            if ($this->getCardReference()) {
+                $data['source'] = $this->getCardReference();
+            }
+        } elseif ($this->getCardReference()) {
+            $data['source'] = $this->getCardReference();
         } elseif ($this->getToken()) {
-            $data['card'] = $this->getToken();
+            $data['source'] = $this->getToken();
         } elseif ($this->getCard()) {
-            $data['card'] = $this->getCardData();
+            $data['source'] = $this->getCardData();
         } else {
             // one of cardReference, token, or card is required
-            $this->validate('card');
+            $this->validate('source');
         }
 
         return $data;

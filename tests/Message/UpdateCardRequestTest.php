@@ -9,12 +9,13 @@ class UpdateCardRequestTest extends TestCase
     public function setUp()
     {
         $this->request = new UpdateCardRequest($this->getHttpClient(), $this->getHttpRequest());
-        $this->request->setCardReference('cus_1MZSEtqSghKx99');
+        $this->request->setCustomerReference('cus_1MZSEtqSghKx99');
+        $this->request->setCardReference('card_15Wg7vIobxWFFmzdvC5fVY67');
     }
 
     public function testEndpoint()
     {
-        $this->assertSame('https://api.stripe.com/v1/customers/cus_1MZSEtqSghKx99', $this->request->getEndpoint());
+        $this->assertSame('https://api.stripe.com/v1/customers/cus_1MZSEtqSghKx99/cards/card_15Wg7vIobxWFFmzdvC5fVY67', $this->request->getEndpoint());
     }
 
     public function testDataWithToken()
@@ -22,7 +23,7 @@ class UpdateCardRequestTest extends TestCase
         $this->request->setToken('xyz');
         $data = $this->request->getData();
 
-        $this->assertSame('xyz', $data['card']);
+        $this->assertSame('xyz', $data['source']);
     }
 
     public function testDataWithCard()
@@ -31,7 +32,8 @@ class UpdateCardRequestTest extends TestCase
         $this->request->setCard($card);
         $data = $this->request->getData();
 
-        $this->assertSame($card['number'], $data['card']['number']);
+        $this->assertSame($card['billingAddress1'], $data['source']['address_line1']);
+        $this->assertSame($card['number'], $data['source']['number']);
     }
 
     public function testSendSuccess()
