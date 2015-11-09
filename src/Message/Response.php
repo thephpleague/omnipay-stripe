@@ -101,14 +101,14 @@ class Response extends AbstractResponse
     }
 
     /**
-     * Get the card data from the response.
+     * Get the source data from the response.
      *
      * @return array|null
      */
-    public function getCard()
+    public function getSource()
     {
-        if (isset($this->data['card'])) {
-            return $this->data['card'];
+        if (isset($this->data['source'])) {
+            return $this->data['source'];
         }
 
         return null;
