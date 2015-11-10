@@ -55,6 +55,14 @@ class AuthorizeRequestTest extends TestCase
         $this->assertSame('xyz', $data['source']);
     }
 
+    public function testDataWithStatementDescriptor()
+    {
+        $this->request->setStatementDescriptor('OMNIPAY');
+        $data = $this->request->getData();
+
+        $this->assertSame('OMNIPAY', $data['statement_descriptor']);
+    }
+
     public function testDataWithToken()
     {
         $this->request->setToken('xyz');
