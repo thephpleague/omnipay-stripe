@@ -52,6 +52,9 @@ use Omnipay\Stripe\Message\RefundRequest;
  *       echo "Purchase transaction was successful!\n";
  *       $sale_id = $response->getTransactionReference();
  *       echo "Transaction reference = " . $sale_id . "\n";
+ *
+ *       $balance_transaction_id = $response->getBalanceTransactionReference();
+ *       echo "Balance Transaction reference = " . $balance_transaction_id . "\n";
  *   }
  * </code>
  *
@@ -242,6 +245,15 @@ class Gateway extends AbstractGateway
     public function fetchTransaction(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\Stripe\Message\FetchTransactionRequest', $parameters);
+    }
+
+    /**
+     * @param array $parameters
+     * @return \Omnipay\Stripe\Message\FetchBalanceTransactionRequest
+     */
+    public function fetchBalanceTransaction(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\FetchBalanceTransactionRequest', $parameters);
     }
 
     //
