@@ -23,7 +23,7 @@ class Response extends AbstractResponse
      */
     public function isSuccessful()
     {
-        return !isset($this->data['error']);
+        return ! isset( $this->data['error'] );
     }
 
     /**
@@ -33,10 +33,10 @@ class Response extends AbstractResponse
      */
     public function getTransactionReference()
     {
-        if (isset($this->data['object']) && 'charge' === $this->data['object']) {
+        if (isset( $this->data['object'] ) && 'charge' === $this->data['object']) {
             return $this->data['id'];
         }
-        if (isset($this->data['error']) && isset($this->data['error']['charge'])) {
+        if (isset( $this->data['error'] ) && isset( $this->data['error']['charge'] )) {
             return $this->data['error']['charge'];
         }
 
@@ -50,11 +50,11 @@ class Response extends AbstractResponse
      */
     public function getCustomerReference()
     {
-        if (isset($this->data['object']) && 'customer' === $this->data['object']) {
+        if (isset( $this->data['object'] ) && 'customer' === $this->data['object']) {
             return $this->data['id'];
         }
-        if (isset($this->data['object']) && 'card' === $this->data['object']) {
-            if (! empty($this->data['customer'])) {
+        if (isset( $this->data['object'] ) && 'card' === $this->data['object']) {
+            if ( ! empty( $this->data['customer'] )) {
                 return $this->data['customer'];
             }
         }
@@ -69,16 +69,16 @@ class Response extends AbstractResponse
      */
     public function getCardReference()
     {
-        if (isset($this->data['object']) && 'customer' === $this->data['object']) {
-            if (! empty($this->data['default_card'])) {
+        if (isset( $this->data['object'] ) && 'customer' === $this->data['object']) {
+            if ( ! empty( $this->data['default_card'] )) {
                 return $this->data['default_card'];
             }
-            if (! empty($this->data['id'])) {
+            if ( ! empty( $this->data['id'] )) {
                 return $this->data['id'];
             }
         }
-        if (isset($this->data['object']) && 'card' === $this->data['object']) {
-            if (! empty($this->data['id'])) {
+        if (isset( $this->data['object'] ) && 'card' === $this->data['object']) {
+            if ( ! empty( $this->data['id'] )) {
                 return $this->data['id'];
             }
         }
@@ -93,7 +93,7 @@ class Response extends AbstractResponse
      */
     public function getToken()
     {
-        if (isset($this->data['object']) && 'token' === $this->data['object']) {
+        if (isset( $this->data['object'] ) && 'token' === $this->data['object']) {
             return $this->data['id'];
         }
 
@@ -107,11 +107,25 @@ class Response extends AbstractResponse
      */
     public function getCard()
     {
-        if (isset($this->data['card'])) {
+        if (isset( $this->data['card'] )) {
             return $this->data['card'];
         }
 
         return null;
+    }
+
+    /**
+     * Get the card data from the response of purchaseRequest.
+     *
+     * @return array|null
+     */
+    public function getSource()
+    {
+        if (isset( $this->data['source'] ) && $this->data['source']['object'] == 'card') {
+            return $this->data['source'];
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -123,7 +137,7 @@ class Response extends AbstractResponse
      */
     public function getMessage()
     {
-        if (!$this->isSuccessful()) {
+        if ( ! $this->isSuccessful()) {
             return $this->data['error']['message'];
         }
 
