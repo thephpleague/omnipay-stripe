@@ -1,12 +1,12 @@
 <?php
-/**
- * Stripe Abstract Request
- */
 
+/**
+ * Stripe Abstract Request.
+ */
 namespace Omnipay\Stripe\Message;
 
 /**
- * Stripe Abstract Request
+ * Stripe Abstract Request.
  *
  * This is the parent class for all Stripe requests.
  *
@@ -29,19 +29,20 @@ namespace Omnipay\Stripe\Message;
  *
  * @see \Omnipay\Stripe\Gateway
  * @link https://stripe.com/docs/api
+ *
  * @method \Omnipay\Stripe\Message\Response send()
  */
 abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
     /**
-     * Live or Test Endpoint URL
+     * Live or Test Endpoint URL.
      *
      * @var string URL
      */
     protected $endpoint = 'https://api.stripe.com/v1';
 
     /**
-     * Get the gateway API Key
+     * Get the gateway API Key.
      *
      * @return string
      */
@@ -51,7 +52,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
-     * Set the gateway API Key
+     * Set the gateway API Key.
      *
      * @return AbstractRequest provides a fluent interface.
      */
@@ -77,7 +78,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
-     * Get the customer reference
+     * Get the customer reference.
      *
      * @return string
      */
@@ -87,7 +88,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
-     * Set the customer reference
+     * Set the customer reference.
      *
      * Used when calling CreateCard on an existing customer.  If this
      * parameter is not set then a new customer is created.
@@ -158,6 +159,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
     /**
      * @param $value
+     *
      * @return AbstractRequest provides a fluent interface.
      */
     public function setSource($value)

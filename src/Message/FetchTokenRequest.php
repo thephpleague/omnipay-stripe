@@ -1,12 +1,12 @@
 <?php
-/**
- * Stripe Fetch Token Request
- */
 
+/**
+ * Stripe Fetch Token Request.
+ */
 namespace Omnipay\Stripe\Message;
 
 /**
- * Stripe Fetch Token Request
+ * Stripe Fetch Token Request.
  *
  * Often you want to be able to charge credit cards or send payments
  * to bank accounts without having to hold sensitive card information

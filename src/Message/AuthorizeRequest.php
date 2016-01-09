@@ -1,12 +1,12 @@
 <?php
-/**
- * Stripe Authorize Request
- */
 
+/**
+ * Stripe Authorize Request.
+ */
 namespace Omnipay\Stripe\Message;
 
 /**
- * Stripe Authorize Request
+ * Stripe Authorize Request.
  *
  * An Authorize request is similar to a purchase request but the
  * charge issues an authorization (or pre-authorization), and no money
@@ -82,6 +82,7 @@ class AuthorizeRequest extends AbstractRequest
 
     /**
      * @param string $value
+     *
      * @return AbstractRequest provides a fluent interface.
      */
     public function setDestination($value)
@@ -99,6 +100,7 @@ class AuthorizeRequest extends AbstractRequest
 
     /**
      * @param string $value
+     *
      * @return AbstractRequest provides a fluent interface.
      */
     public function setSource($value)
@@ -124,6 +126,7 @@ class AuthorizeRequest extends AbstractRequest
 
     /**
      * @param string $value
+     *
      * @return AbstractRequest provides a fluent interface.
      */
     public function setApplicationFee($value)

@@ -1,12 +1,12 @@
 <?php
-/**
- * Stripe Delete Credit Card Request
- */
 
+/**
+ * Stripe Delete Credit Card Request.
+ */
 namespace Omnipay\Stripe\Message;
 
 /**
- * Stripe Delete Credit Card Request
+ * Stripe Delete Credit Card Request.
  *
  * This is normally used to delete a credit card from an existing
  * customer.
@@ -37,7 +37,7 @@ class DeleteCardRequest extends AbstractRequest
     {
         $this->validate('cardReference');
 
-        return null;
+        return;
     }
 
     public function getHttpMethod()
@@ -49,11 +49,11 @@ class DeleteCardRequest extends AbstractRequest
     {
         if ($this->getCustomerReference()) {
             // Delete a card from a customer
-            return $this->endpoint . '/customers/' .
-                $this->getCustomerReference() . '/cards/' .
+            return $this->endpoint.'/customers/'.
+                $this->getCustomerReference().'/cards/'.
                 $this->getCardReference();
         }
         // Delete the customer.  Oops?
-        return $this->endpoint.'/customers/' . $this->getCardReference();
+        return $this->endpoint.'/customers/'.$this->getCardReference();
     }
 }

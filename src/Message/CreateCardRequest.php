@@ -1,12 +1,12 @@
 <?php
-/**
- * Stripe Create Credit Card Request
- */
 
+/**
+ * Stripe Create Credit Card Request.
+ */
 namespace Omnipay\Stripe\Message;
 
 /**
- * Stripe Create Credit Card Request
+ * Stripe Create Credit Card Request.
  *
  * In the stripe system, creating a credit card requires passing
  * a customer ID.  The card is then added to the customer's account.
@@ -66,7 +66,7 @@ class CreateCardRequest extends AbstractRequest
         $data = array();
 
         // Only set the description if we are creating a new customer.
-        if (! $this->getCustomerReference()) {
+        if (!$this->getCustomerReference()) {
             $data['description'] = $this->getDescription();
         }
 
@@ -78,7 +78,7 @@ class CreateCardRequest extends AbstractRequest
             $this->getCard()->validate();
             $data['source'] = $this->getCardData();
             // Only set the email address if we are creating a new customer.
-            if (! $this->getCustomerReference()) {
+            if (!$this->getCustomerReference()) {
                 $data['email'] = $this->getCard()->getEmail();
             }
         } else {
@@ -93,10 +93,10 @@ class CreateCardRequest extends AbstractRequest
     {
         if ($this->getCustomerReference()) {
             // Create a new card on an existing customer
-            return $this->endpoint . '/customers/' .
-                $this->getCustomerReference() . '/cards';
+            return $this->endpoint.'/customers/'.
+                $this->getCustomerReference().'/cards';
         }
         // Create a new customer and card
-        return $this->endpoint . '/customers';
+        return $this->endpoint.'/customers';
     }
 }
