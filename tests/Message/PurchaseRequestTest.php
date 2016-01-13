@@ -36,6 +36,18 @@ class PurchaseRequestTest extends TestCase
         $this->assertNull($response->getMessage());
     }
 
+    public function testSendWithSourceSuccess()
+    {
+        $this->setMockHttpResponse('PurchaseWithSourceSuccess.txt');
+        $response = $this->request->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
+        $this->assertSame('ch_1IU9gcUiNASROd', $response->getTransactionReference());
+        $this->assertSame('card_15WgqxIobxWFFmzdk5V9z3g9', $response->getCardReference());
+        $this->assertNull($response->getMessage());
+    }
+
     public function testSendError()
     {
         $this->setMockHttpResponse('PurchaseFailure.txt');

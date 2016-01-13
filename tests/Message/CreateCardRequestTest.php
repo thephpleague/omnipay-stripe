@@ -38,6 +38,24 @@ class CreateCardRequestTest extends TestCase
         $this->assertSame('xyz', $data['source']);
     }
 
+    public function testDataWithCardReference()
+    {
+        $this->request->setCard(null);
+        $this->request->setCardReference('xyz');
+        $data = $this->request->getData();
+
+        $this->assertSame('xyz', $data['source']);
+    }
+
+    public function testDataWithSource()
+    {
+        $this->request->setCard(null);
+        $this->request->setSource('xyz');
+        $data = $this->request->getData();
+
+        $this->assertSame('xyz', $data['source']);
+    }
+
     public function testDataWithCard()
     {
         $card = $this->getValidCard();

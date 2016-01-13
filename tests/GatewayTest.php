@@ -89,4 +89,28 @@ class GatewayTest extends GatewayTestCase
         $this->assertInstanceOf('Omnipay\Stripe\Message\DeleteCardRequest', $request);
         $this->assertSame('cus_1MZSEtqSghKx99', $request->getCardReference());
     }
+
+    public function testCreateCustomer()
+    {
+        $request = $this->gateway->createCustomer(array('description' => 'foo@foo.com'));
+
+        $this->assertInstanceOf('Omnipay\Stripe\Message\CreateCustomerRequest', $request);
+        $this->assertSame('foo@foo.com', $request->getDescription());
+    }
+
+    public function testUpdateCustomer()
+    {
+        $request = $this->gateway->updateCustomer(array('customerReference' => 'cus_1MZSEtqSghKx99'));
+
+        $this->assertInstanceOf('Omnipay\Stripe\Message\UpdateCustomerRequest', $request);
+        $this->assertSame('cus_1MZSEtqSghKx99', $request->getCustomerReference());
+    }
+
+    public function testDeleteCustomer()
+    {
+        $request = $this->gateway->deleteCustomer(array('customerReference' => 'cus_1MZSEtqSghKx99'));
+
+        $this->assertInstanceOf('Omnipay\Stripe\Message\DeleteCustomerRequest', $request);
+        $this->assertSame('cus_1MZSEtqSghKx99', $request->getCustomerReference());
+    }
 }
