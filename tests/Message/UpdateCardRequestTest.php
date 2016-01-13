@@ -26,6 +26,14 @@ class UpdateCardRequestTest extends TestCase
         $this->assertSame('xyz', $data['source']);
     }
 
+    public function testDataWithSource()
+    {
+        $this->request->setSource('xyz');
+        $data = $this->request->getData();
+
+        $this->assertSame('xyz', $data['source']);
+    }
+
     public function testDataWithCard()
     {
         $card = $this->getValidCard();

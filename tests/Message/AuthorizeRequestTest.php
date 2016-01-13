@@ -45,6 +45,15 @@ class AuthorizeRequestTest extends TestCase
         $this->request->getData();
     }
 
+    public function testDataWithCustomerReference()
+    {
+        $this->request->setCard(null);
+        $this->request->setCustomerReference('abc');
+        $data = $this->request->getData();
+
+        $this->assertSame('abc', $data['customer']);
+    }
+
     public function testDataWithCardReference()
     {
         $this->request->setCustomerReference('abc');
@@ -63,11 +72,23 @@ class AuthorizeRequestTest extends TestCase
         $this->assertSame('OMNIPAY', $data['statement_descriptor']);
     }
 
+    public function testDataWithSourceAndDestination()
+    {
+        $this->request->setSource('abc');
+        $this->request->setDestination('xyz');
+        $data = $this->request->getData();
+
+        $this->assertSame('abc', $data['source']);
+        $this->assertSame('xyz', $data['destination']);
+    }
+
     public function testDataWithToken()
     {
+        $this->request->setCustomerReference('abc');
         $this->request->setToken('xyz');
         $data = $this->request->getData();
 
+        $this->assertSame('abc', $data['customer']);
         $this->assertSame('xyz', $data['source']);
     }
 

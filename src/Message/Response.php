@@ -102,6 +102,13 @@ class Response extends AbstractResponse
                 return $this->data['id'];
             }
         }
+        if (isset($this->data['object']) && 'charge' === $this->data['object']) {
+            if (! empty($this->data['source'])) {
+                if (! empty($this->data['source']['id'])) {
+                    return $this->data['source']['id'];
+                }
+            }
+        }
 
         return null;
     }
