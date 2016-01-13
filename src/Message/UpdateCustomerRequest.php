@@ -30,7 +30,7 @@ namespace Omnipay\Stripe\Message;
  * a result of updating the customer's card.)
  *
  * This request accepts mostly the same arguments as the customer
- * creation call. 
+ * creation call.
  *
  * @link https://stripe.com/docs/api#update_customer
  */

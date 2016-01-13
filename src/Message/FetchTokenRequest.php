@@ -18,7 +18,7 @@ namespace Omnipay\Stripe\Message;
  * You can then use a token anywhere in our API that a card or bank account
  * is accepted. Note that tokens are not meant to be stored or used more
  * than once—to store these details for use later, you should create
- * Customer or Recipient objects. 
+ * Customer or Recipient objects.
  *
  * @link https://stripe.com/docs/api#tokens
  */

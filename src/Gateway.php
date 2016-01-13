@@ -188,7 +188,7 @@ class Gateway extends AbstractGateway
      * To charge a credit card, you create a new charge object. If your API key
      * is in test mode, the supplied card won't actually be charged, though
      * everything else will occur as if in live mode. (Stripe assumes that the
-     * charge would have completed successfully). 
+     * charge would have completed successfully).
      *
      * Either a customerReference or a card is required.  If a customerReference
      * is passed in then the cardReference must be the reference of a card
@@ -354,7 +354,7 @@ class Gateway extends AbstractGateway
      * track multiple charges that are associated with the same customer.
      * The API allows you to create, delete, and update your customers.
      * You can retrieve individual customers as well as a list of all of
-     * your customers. 
+     * your customers.
      *
      * @param array $parameters
      *
@@ -384,7 +384,7 @@ class Gateway extends AbstractGateway
      * a result of updating the customer's card.)
      *
      * This request accepts mostly the same arguments as the customer
-     * creation call. 
+     * creation call.
      *
      * @param array $parameters
      *
@@ -399,7 +399,7 @@ class Gateway extends AbstractGateway
      * Delete a customer.
      *
      * Permanently deletes a customer. It cannot be undone. Also immediately
-     * cancels any active subscriptions on the customer. 
+     * cancels any active subscriptions on the customer.
      *
      * @param array $parameters
      *
@@ -434,7 +434,7 @@ class Gateway extends AbstractGateway
      * You can then use a token anywhere in our API that a card or bank account
      * is accepted. Note that tokens are not meant to be stored or used more
      * than once—to store these details for use later, you should create
-     * Customer or Recipient objects. 
+     * Customer or Recipient objects.
      *
      * @param array $parameters
      *

@@ -24,7 +24,7 @@ namespace Omnipay\Stripe\Message;
  * Once entirely refunded, a charge can't be refunded again.
  * This method will return an error when called on an
  * already-refunded charge, or when trying to refund more
- * money than is left on a charge. 
+ * money than is left on a charge.
  *
  * Example -- note this example assumes that the purchase has been successful
  * and that the transaction ID returned from the purchase is held in $sale_id.

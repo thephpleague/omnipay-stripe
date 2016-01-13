@@ -9,7 +9,7 @@ namespace Omnipay\Stripe\Message;
  * Stripe Delete Customer Request.
  *
  * Permanently deletes a customer. It cannot be undone. Also immediately
- * cancels any active subscriptions on the customer. 
+ * cancels any active subscriptions on the customer.
  *
  * @link https://stripe.com/docs/api#delete_customer
  */
