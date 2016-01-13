@@ -1,12 +1,12 @@
 <?php
-/**
- * Stripe Refund Request
- */
 
+/**
+ * Stripe Refund Request.
+ */
 namespace Omnipay\Stripe\Message;
 
 /**
- * Stripe Refund Request
+ * Stripe Refund Request.
  *
  * When you create a new refund, you must specify a
  * charge to create it on.
@@ -70,6 +70,7 @@ class RefundRequest extends AbstractRequest
      * application that created the charge.
      *
      * @param bool $value Whether the application fee should be refunded
+     *
      * @return AbstractRequest
      */
     public function setRefundApplicationFee($value)
@@ -85,7 +86,7 @@ class RefundRequest extends AbstractRequest
         $data['amount'] = $this->getAmountInteger();
 
         if ($this->getRefundApplicationFee()) {
-            $data['refund_application_fee'] = "true";
+            $data['refund_application_fee'] = 'true';
         }
 
         return $data;

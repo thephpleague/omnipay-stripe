@@ -1,12 +1,12 @@
 <?php
-/**
- * Stripe Capture Request
- */
 
+/**
+ * Stripe Capture Request.
+ */
 namespace Omnipay\Stripe\Message;
 
 /**
- * Stripe Capture Request
+ * Stripe Capture Request.
  *
  * Use this request to capture and process a previously created authorization.
  *
