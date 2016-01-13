@@ -44,6 +44,26 @@ class Response extends AbstractResponse
     }
 
     /**
+     * Get the balance transaction reference.
+     *
+     * @return string|null
+     */
+    public function getBalanceTransactionReference()
+    {
+        if (isset($this->data['object']) && 'charge' === $this->data['object']) {
+            return $this->data['balance_transaction'];
+        }
+        if (isset($this->data['object']) && 'balance_transaction' === $this->data['object']) {
+            return $this->data['id'];
+        }
+        if (isset($this->data['error']) && isset($this->data['error']['charge'])) {
+            return $this->data['error']['charge'];
+        }
+
+        return null;
+    }
+
+    /**
      * Get a customer reference, for createCustomer requests.
      *
      * @return string|null
