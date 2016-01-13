@@ -1,12 +1,12 @@
 <?php
-/**
- * Stripe Fetch Transaction Request
- */
 
+/**
+ * Stripe Fetch Transaction Request.
+ */
 namespace Omnipay\Stripe\Message;
 
 /**
- * Stripe Fetch Transaction Request
+ * Stripe Fetch Transaction Request.
  *
  * Example -- note this example assumes that the purchase has been successful
  * and that the transaction ID returned from the purchase is held in $sale_id.

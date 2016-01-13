@@ -1,12 +1,12 @@
 <?php
-/**
- * Stripe Create Customer Request
- */
 
+/**
+ * Stripe Create Customer Request.
+ */
 namespace Omnipay\Stripe\Message;
 
 /**
- * Stripe Create Customer Request
+ * Stripe Create Customer Request.
  *
  * Customer objects allow you to perform recurring charges and
  * track multiple charges that are associated with the same customer.
@@ -80,6 +80,6 @@ class CreateCustomerRequest extends AbstractRequest
 
     public function getEndpoint()
     {
-        return $this->endpoint . '/customers';
+        return $this->endpoint.'/customers';
     }
 }

@@ -16,6 +16,7 @@ class ResponseTest extends TestCase
         $this->assertSame('ch_1IU9gcUiNASROd', $response->getTransactionReference());
         $this->assertNull($response->getCardReference());
         $this->assertNull($response->getMessage());
+        $this->assertInternalType('array', $response->getSource());
     }
 
     public function testPurchaseWithSourceSuccess()
@@ -40,6 +41,7 @@ class ResponseTest extends TestCase
         $this->assertSame('ch_1IUAZQWFYrPooM', $response->getTransactionReference());
         $this->assertNull($response->getCardReference());
         $this->assertSame('Your card was declined', $response->getMessage());
+        $this->assertNull($response->getSource());
     }
 
     public function testCreateCustomerSuccess()
