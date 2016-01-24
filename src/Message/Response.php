@@ -156,6 +156,34 @@ class Response extends AbstractResponse
     }
 
     /**
+     * Get the subscription reference from the response of CreateSubscriptionRequest.
+     *
+     * @return array|null
+     */
+    public function getSubscriptionReference()
+    {
+        if (isset($this->data['object']) && $this->data['object'] == 'subscription') {
+            return $this->data['id'];
+        }
+
+        return;
+    }
+
+    /**
+     * Get the subscription plan from the response of CreateSubscriptionRequest.
+     *
+     * @return array|null
+     */
+    public function getPlan()
+    {
+        if (isset($this->data['plan'])) {
+            return $this->data['plan'];
+        }
+
+        return;
+    }
+
+    /**
      * Get the error message from the response.
      *
      * Returns null if the request was successful.

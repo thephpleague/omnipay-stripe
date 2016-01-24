@@ -444,4 +444,26 @@ class Gateway extends AbstractGateway
     {
         return $this->createRequest('\Omnipay\Stripe\Message\FetchTokenRequest', $parameters);
     }
+
+    /**
+     * Create Subscription
+     *
+     * @param array $parameters
+     * @return \Omnipay\Stripe\Message\CreateSubscriptionRequest
+     */
+    public function createSubscription(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\CreateSubscriptionRequest', $parameters);
+    }
+
+    /**
+     * Cancel Subscription
+     *
+     * @param array $parameters
+     * @return \Omnipay\Stripe\Message\CancelSubscriptionRequest
+     */
+    public function cancelSubscription(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\CancelSubscriptionRequest', $parameters);
+    }
 }
