@@ -170,6 +170,20 @@ class Response extends AbstractResponse
     }
 
     /**
+     * Get the event reference from the response of FetchEventRequest.
+     *
+     * @return array|null
+     */
+    public function getEventReference()
+    {
+        if (isset($this->data['object']) && $this->data['object'] == 'event') {
+            return $this->data['id'];
+        }
+
+        return;
+    }
+
+    /**
      * Get the subscription plan from the response of CreateSubscriptionRequest.
      *
      * @return array|null
