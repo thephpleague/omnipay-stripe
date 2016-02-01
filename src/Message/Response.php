@@ -184,6 +184,20 @@ class Response extends AbstractResponse
     }
 
     /**
+     * Get the invoice reference from the response of FetchInvoiceRequest.
+     *
+     * @return array|null
+     */
+    public function getInvoiceReference()
+    {
+        if (isset($this->data['object']) && $this->data['object'] == 'invoice') {
+            return $this->data['id'];
+        }
+
+        return;
+    }
+
+    /**
      * Get the subscription plan from the response of CreateSubscriptionRequest.
      *
      * @return array|null
