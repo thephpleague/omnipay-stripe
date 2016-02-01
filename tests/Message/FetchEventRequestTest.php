@@ -4,7 +4,7 @@ namespace Omnipay\Stripe\Message;
 
 use Omnipay\Tests\TestCase;
 
-class FetchCustomerRequestTest extends TestCase
+class FetchEventRequestTest extends TestCase
 {
     public function setUp()
     {
