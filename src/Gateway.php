@@ -84,6 +84,11 @@ use Omnipay\Common\AbstractGateway;
  */
 class Gateway extends AbstractGateway
 {
+    const BILLING_PLAN_FREQUENCY_DAY    = 'day';
+    const BILLING_PLAN_FREQUENCY_WEEK   = 'week';
+    const BILLING_PLAN_FREQUENCY_MONTH  = 'month';
+    const BILLING_PLAN_FREQUENCY_YEAR   = 'year';
+
     public function getName()
     {
         return 'Stripe';
@@ -443,6 +448,17 @@ class Gateway extends AbstractGateway
     public function fetchToken(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\Stripe\Message\FetchTokenRequest', $parameters);
+    }
+
+    /**
+     * Create Plan
+     *
+     * @param array $parameters
+     * @return \Omnipay\Stripe\Message\CreatePlanRequest
+     */
+    public function createPlan(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\CreatePlanRequest', $parameters);
     }
 
     /**

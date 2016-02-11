@@ -206,6 +206,23 @@ class Response extends AbstractResponse
     {
         if (isset($this->data['plan'])) {
             return $this->data['plan'];
+        } else if (array_key_exists('object', $this->data) && $this->data['object'] == 'plan') {
+            return $this->data;
+        }
+
+        return;
+    }
+
+    /**
+     * Get plan id
+     *
+     * @return string|null
+     */
+    public function getPlanId()
+    {
+        $plan = $this->getPlan();
+        if ($plan && array_key_exists('id', $plan)) {
+            return $plan['id'];
         }
 
         return;
