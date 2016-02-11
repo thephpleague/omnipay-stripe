@@ -23,7 +23,7 @@ class FetchEventRequest extends AbstractRequest
     }
 
     /**
-     * Set the set event reference.
+     * Set the event reference.
      *
      * @return FetchEventRequest provides a fluent interface.
      */
