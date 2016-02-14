@@ -23,21 +23,21 @@ Cache-Control: no-cache, no-store
   "plan": {
     "id": "basic",
     "object": "plan",
-    "amount": 1900,
+    "amount": 500,
     "created": 1455313398,
     "currency": "usd",
     "interval": "month",
     "interval_count": 1,
     "livemode": false,
     "metadata": {},
-    "name": "Basic Plan",
-    "statement_descriptor": "DIRECTUS BASIC",
-    "trial_period_days": 14
+    "name": "Basic",
+    "statement_descriptor": null,
+    "trial_period_days": null
   },
   "quantity": 1,
   "start": 1455491178,
-  "status": "trialing",
+  "status": "active",
   "tax_percent": null,
-  "trial_end": 1456700778,
-  "trial_start": 1455491178
+  "trial_end": null,
+  "trial_start": null
 }
