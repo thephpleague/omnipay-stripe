@@ -462,6 +462,28 @@ class Gateway extends AbstractGateway
     }
 
     /**
+     * Fetch Plan
+     *
+     * @param array $parameters
+     * @return \Omnipay\Stripe\Message\FetchPlanRequest
+     */
+    public function fetchPlan(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\FetchPlanRequest', $parameters);
+    }
+
+    /**
+     * Delete Plan
+     *
+     * @param array $parameters
+     * @return \Omnipay\Stripe\Message\DeletePlanRequest
+     */
+    public function deletePlan(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\DeletePlanRequest', $parameters);
+    }
+
+    /**
      * Create Subscription
      *
      * @param array $parameters
