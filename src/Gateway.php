@@ -473,6 +473,17 @@ class Gateway extends AbstractGateway
     }
 
     /**
+     * Update Subscription
+     *
+     * @param array $parameters
+     * @return \Omnipay\Stripe\Message\UpdateSubscriptionRequest
+     */
+    public function updateSubscription(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\UpdateSubscriptionRequest', $parameters);
+    }
+
+    /**
      * Cancel Subscription
      *
      * @param array $parameters
