@@ -206,7 +206,7 @@ class Response extends AbstractResponse
     {
         if (isset($this->data['plan'])) {
             return $this->data['plan'];
-        } else if (array_key_exists('object', $this->data) && $this->data['object'] == 'plan') {
+        } elseif (array_key_exists('object', $this->data) && $this->data['object'] == 'plan') {
             return $this->data;
         }
 
