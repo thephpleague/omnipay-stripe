@@ -20,7 +20,7 @@ class CreatePlanRequest extends AbstractRequest
      */
     public function setId($planId)
     {
-        $this->setParameter('id', $planId);
+        return $this->setParameter('id', $planId);
     }
 
     /**
@@ -40,7 +40,7 @@ class CreatePlanRequest extends AbstractRequest
      */
     public function setAmount($planAmount)
     {
-        $this->setParameter('amount', $planAmount);
+        return $this->setParameter('amount', $planAmount);
     }
 
     /**
@@ -60,7 +60,7 @@ class CreatePlanRequest extends AbstractRequest
      */
     public function setCurrency($planCurrency)
     {
-        $this->setParameter('currency', $planCurrency);
+        return $this->setParameter('currency', $planCurrency);
     }
 
     /**
@@ -80,7 +80,7 @@ class CreatePlanRequest extends AbstractRequest
      */
     public function setInterval($planInterval)
     {
-        $this->setParameter('interval', $planInterval);
+        return $this->setParameter('interval', $planInterval);
     }
 
     /**
@@ -100,7 +100,7 @@ class CreatePlanRequest extends AbstractRequest
      */
     public function setIntervalCount($planIntervalCount)
     {
-        $this->setParameter('interval_count', $planIntervalCount);
+        return $this->setParameter('interval_count', $planIntervalCount);
     }
 
     /**
@@ -120,7 +120,7 @@ class CreatePlanRequest extends AbstractRequest
      */
     public function setName($planName)
     {
-        $this->setParameter('name', $planName);
+        return $this->setParameter('name', $planName);
     }
 
     /**
@@ -140,7 +140,7 @@ class CreatePlanRequest extends AbstractRequest
      */
     public function setStatementDescriptor($planStatementDescriptor)
     {
-        $this->setParameter('statement_descriptor', $planStatementDescriptor);
+        return $this->setParameter('statement_descriptor', $planStatementDescriptor);
     }
 
     /**
@@ -160,7 +160,7 @@ class CreatePlanRequest extends AbstractRequest
      */
     public function setTrialPeriodDays($planTrialPeriodDays)
     {
-        $this->setParameter('trial_period_days', $planTrialPeriodDays);
+        return $this->setParameter('trial_period_days', $planTrialPeriodDays);
     }
 
     /**
