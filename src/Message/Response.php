@@ -229,6 +229,20 @@ class Response extends AbstractResponse
     }
 
     /**
+     * Get invoice-item reference
+     *
+     * @return string|null
+     */
+    public function getInvoiceItemReference()
+    {
+        if (isset($this->data['object']) && $this->data['object'] == 'invoiceitem') {
+            return $this->data['id'];
+        }
+
+        return;
+    }
+
+    /**
      * Get the error message from the response.
      *
      * Returns null if the request was successful.
