@@ -10,9 +10,32 @@ namespace Omnipay\Stripe\Message;
  *
  * @see Omnipay\Stripe\Gateway
  * @link https://stripe.com/docs/api#create_invoiceitem
+ *
+ * Providing the invoice-item reference will update the invoice-item
+ * @link https://stripe.com/docs/api#update_invoiceitem
  */
 class CreateInvoiceItemRequest extends AbstractRequest
 {
+    /**
+     * Get the invoice-item reference
+     *
+     * @return string
+     */
+    public function getInvoiceItemReference()
+    {
+        return $this->getParameter('invoiceItemReference');
+    }
+
+    /**
+     * Set the invoice-item reference
+     *
+     * @return CreateInvoiceItemRequest provides a fluent interface.
+     */
+    public function setInvoiceItemReference($invoiceItemReference)
+    {
+        return $this->setParameter('invoiceItemReference', $invoiceItemReference);
+    }
+
     /**
      * Get the invoice-item amount
      *
@@ -135,32 +158,38 @@ class CreateInvoiceItemRequest extends AbstractRequest
 
     public function getData()
     {
-        $this->validate('customerReference', 'amount', 'currency');
+        $data = array();
 
-        $data = array(
-            'customer' => $this->getCustomerReference(),
-            'amount' => $this->getAmount(),
-            'currency' => $this->getCurrency()
-        );
-
-        $description = $this->getDescription();
-        if ($description != null) {
-            $data['description'] = $description;
+        if ($this->getInvoiceItemReference() == null) {
+            $this->validate('customerReference', 'amount', 'currency');
         }
 
-        $discountable = $this->getDiscountable();
-        if ($discountable != null) {
-            $data['discountable'] = $discountable;
+        if ($this->getCustomerReference()) {
+            $data['customer'] = $this->getCustomerReference();
         }
 
-        $invoice = $this->getInvoiceReference();
-        if ($invoice != null) {
-            $data['invoice'] = $invoice;
+        if ($this->getAmount()) {
+            $data['amount'] = $this->getAmount();
         }
 
-        $subscription = $this->getSubscriptionReference();
-        if ($subscription != null) {
-            $data['subcription'] = $subscription;
+        if ($this->getCurrency()) {
+            $data['currency'] = $this->getCurrency();
+        }
+
+        if ($this->getDescription()) {
+            $data['description'] = $this->getDescription();
+        }
+
+        if ($this->getDiscountable() != null) {
+            $data['discountable'] = $this->getDiscountable();
+        }
+
+        if ($this->getInvoiceReference()) {
+            $data['invoice'] = $this->getInvoiceReference();
+        }
+
+        if ($this->getSubscriptionReference()) {
+            $data['subcription'] = $this->getSubscriptionReference();
         }
 
         return $data;
@@ -168,6 +197,7 @@ class CreateInvoiceItemRequest extends AbstractRequest
 
     public function getEndpoint()
     {
-        return $this->endpoint.'/invoiceitems';
+        return $this->endpoint.'/invoiceitems'
+            .($this->getInvoiceItemReference() != null ? '/'.$this->getInvoiceItemReference() : '');
     }
 }
