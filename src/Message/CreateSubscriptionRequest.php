@@ -18,7 +18,7 @@ class CreateSubscriptionRequest extends AbstractRequest
      *
      * @return string
      */
-    public function getPlanId()
+    public function getPlan()
     {
         return $this->getParameter('plan');
     }
@@ -28,7 +28,7 @@ class CreateSubscriptionRequest extends AbstractRequest
      *
      * @return CreateSubscriptionRequest provides a fluent interface.
      */
-    public function setPlanId($value)
+    public function setPlan($value)
     {
         return $this->setParameter('plan', $value);
     }
@@ -38,7 +38,7 @@ class CreateSubscriptionRequest extends AbstractRequest
         $this->validate('customerReference', 'plan');
 
         $data = array(
-            'plan' => $this->getPlanId()
+            'plan' => $this->getPlan()
         );
 
         return $data;

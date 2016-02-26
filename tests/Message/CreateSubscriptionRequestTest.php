@@ -10,7 +10,7 @@ class CreateSubscriptionRequestTest extends TestCase
     {
         $this->request = new CreateSubscriptionRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->setCustomerReference('cus_7lqqgOm33t4xSU');
-        $this->request->setPlanId('basic');
+        $this->request->setPlan('basic');
     }
 
     public function testEndpoint()
