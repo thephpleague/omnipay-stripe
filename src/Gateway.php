@@ -553,11 +553,22 @@ class Gateway extends AbstractGateway
      * Fetch Invoice
      *
      * @param array $parameters
-     * @return \Omnipay\Stripe\Message\fetchInvoiceRequest
+     * @return \Omnipay\Stripe\Message\FetchInvoiceRequest
      */
     public function fetchInvoice(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\Stripe\Message\FetchInvoiceRequest', $parameters);
+    }
+
+    /**
+     * List Invoices
+     *
+     * @param array $parameters
+     * @return \Omnipay\Stripe\Message\ListInvoicesRequest
+     */
+    public function listInvoices(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\ListInvoicesRequest', $parameters);
     }
 
     /**

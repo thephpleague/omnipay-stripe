@@ -198,6 +198,20 @@ class Response extends AbstractResponse
     }
 
     /**
+     * Get the list object from a result
+     *
+     * @return array|null
+     */
+    public function getList()
+    {
+        if (isset($this->data['object']) && $this->data['object'] == 'list') {
+            return $this->data['data'];
+        }
+
+        return;
+    }
+
+    /**
      * Get the subscription plan from the response of CreateSubscriptionRequest.
      *
      * @return array|null

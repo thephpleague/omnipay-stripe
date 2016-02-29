@@ -209,6 +209,13 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame('in_17ZPbRCryC4r2g4vIdAFxptK', $request->getInvoiceReference());
     }
 
+    public function testListInvoices()
+    {
+        $request = $this->gateway->listInvoices(array());
+
+        $this->assertInstanceOf('Omnipay\Stripe\Message\ListInvoicesRequest', $request);
+    }
+
     public function testCreateInvoiceItem()
     {
         $request = $this->gateway->createInvoiceItem(array('invoiceItemReference' => 'ii_17ZPbRCryC4r2g4vIdAFxptK'));

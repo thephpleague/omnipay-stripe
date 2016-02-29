@@ -13,6 +13,9 @@ class CreateInvoiceItemRequestTest extends TestCase
         $this->request->setAmount(1000);
         $this->request->setCurrency('usd');
         $this->request->setDescription('One-time setup fee');
+        $this->request->setInvoiceReference('in_7vX2emm98A7crY7vX2');
+        $this->request->setSubscriptionReference('sub_7vX2emm98A7crY7vX2');
+        $this->request->setDiscountable(false);
     }
 
     public function testEndpoint()

@@ -13,30 +13,8 @@ namespace Omnipay\Stripe\Message;
  */
 class ListInvoicesRequest extends AbstractRequest
 {
-    /**
-     * Get the subscription reference.
-     *
-     * @return string
-     */
-    public function getSubscriptionReference()
-    {
-        return $this->getParameter('subscriptionReference');
-    }
-
-    /**
-     * Set the set subscription reference.
-     *
-     * @return CancelSubscriptionRequest provides a fluent interface.
-     */
-    public function setSubscriptionReference($value)
-    {
-        return $this->setParameter('subscriptionReference', $value);
-    }
-
     public function getData()
     {
-        $this->validate('customerReference', 'subscriptionReference');
-
         $data = array();
 
         return $data;
@@ -44,13 +22,11 @@ class ListInvoicesRequest extends AbstractRequest
 
     public function getEndpoint()
     {
-        return $this->endpoint
-            .'/customers/'.$this->getCustomerReference()
-            .'/subscriptions/'.$this->getSubscriptionReference();
+        return $this->endpoint.'/invoices';
     }
 
     public function getHttpMethod()
     {
-        return 'DELETE';
+        return 'GET';
     }
 }

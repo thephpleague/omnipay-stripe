@@ -121,7 +121,7 @@ class CreateInvoiceItemRequest extends AbstractRequest
      *
      * @return CreateInvoiceItemRequest provides a fluent interface.
      */
-    public function setInvoiceReference($invoice)
+    public function setInvoiceReference($invoiceReference)
     {
         return $this->setParameter('invoiceReference', $invoiceReference);
     }
@@ -180,7 +180,7 @@ class CreateInvoiceItemRequest extends AbstractRequest
             $data['description'] = $this->getDescription();
         }
 
-        if ($this->getDiscountable() != null) {
+        if ($this->getDiscountable() !== null) {
             $data['discountable'] = $this->getDiscountable();
         }
 
