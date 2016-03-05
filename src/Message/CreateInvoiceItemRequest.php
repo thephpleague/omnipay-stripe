@@ -189,7 +189,7 @@ class CreateInvoiceItemRequest extends AbstractRequest
         }
 
         if ($this->getSubscriptionReference()) {
-            $data['subcription'] = $this->getSubscriptionReference();
+            $data['subscription'] = $this->getSubscriptionReference();
         }
 
         return $data;
