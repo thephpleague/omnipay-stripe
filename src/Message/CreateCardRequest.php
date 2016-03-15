@@ -20,7 +20,9 @@ namespace Omnipay\Stripe\Message;
  * response in that case will then contain both a customer token
  * and a card token, and is essentially the same as CreateCustomerRequest
  *
- * Example.  This example assumes that you have already created a
+ * ### Example
+ *
+ * This example assumes that you have already created a
  * customer, and that the customer reference is stored in $customer_id.
  * See CreateCustomerRequest for the first part of this transaction.
  *
