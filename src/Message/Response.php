@@ -40,7 +40,7 @@ class Response extends AbstractResponse
             return $this->data['error']['charge'];
         }
 
-        return;
+        return null;
     }
 
     /**
@@ -79,7 +79,7 @@ class Response extends AbstractResponse
             }
         }
 
-        return;
+        return null;
     }
 
     /**
@@ -110,7 +110,7 @@ class Response extends AbstractResponse
             }
         }
 
-        return;
+        return null;
     }
 
     /**
@@ -124,7 +124,7 @@ class Response extends AbstractResponse
             return $this->data['id'];
         }
 
-        return;
+        return null;
     }
 
     /**
@@ -138,7 +138,7 @@ class Response extends AbstractResponse
             return $this->data['card'];
         }
 
-        return;
+        return null;
     }
 
     /**
@@ -150,9 +150,9 @@ class Response extends AbstractResponse
     {
         if (isset($this->data['source']) && $this->data['source']['object'] == 'card') {
             return $this->data['source'];
-        } else {
-            return;
         }
+
+        return null;
     }
 
     /**
@@ -166,7 +166,7 @@ class Response extends AbstractResponse
             return $this->data['id'];
         }
 
-        return;
+        return null;
     }
 
     /**
@@ -180,7 +180,7 @@ class Response extends AbstractResponse
             return $this->data['id'];
         }
 
-        return;
+        return null;
     }
 
     /**
@@ -194,7 +194,7 @@ class Response extends AbstractResponse
             return $this->data['id'];
         }
 
-        return;
+        return null;
     }
 
     /**
@@ -208,7 +208,7 @@ class Response extends AbstractResponse
             return $this->data['data'];
         }
 
-        return;
+        return null;
     }
 
     /**
@@ -224,7 +224,7 @@ class Response extends AbstractResponse
             return $this->data;
         }
 
-        return;
+        return null;
     }
 
     /**
@@ -239,7 +239,7 @@ class Response extends AbstractResponse
             return $plan['id'];
         }
 
-        return;
+        return null;
     }
 
     /**
@@ -253,7 +253,7 @@ class Response extends AbstractResponse
             return $this->data['id'];
         }
 
-        return;
+        return null;
     }
 
     /**
@@ -269,6 +269,22 @@ class Response extends AbstractResponse
             return $this->data['error']['message'];
         }
 
-        return;
+        return null;
+    }
+
+    /**
+     * Get the error message from the response.
+     *
+     * Returns null if the request was successful.
+     *
+     * @return string|null
+     */
+    public function getCode()
+    {
+        if (!$this->isSuccessful()) {
+            return $this->data['error']['code'];
+        }
+
+        return null;
     }
 }
