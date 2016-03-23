@@ -105,6 +105,13 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame('foo@foo.com', $request->getDescription());
     }
 
+    public function testFetchCustomer()
+    {
+        $request = $this->gateway->fetchCustomer(array('customerReference' => 'cus_1MZSEtqSghKx99'));
+        $this->assertInstanceOf('Omnipay\Stripe\Message\FetchCustomerRequest', $request);
+        $this->assertSame('cus_1MZSEtqSghKx99', $request->getCustomerReference());
+    }
+
     public function testUpdateCustomer()
     {
         $request = $this->gateway->updateCustomer(array('customerReference' => 'cus_1MZSEtqSghKx99'));
