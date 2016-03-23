@@ -9,7 +9,7 @@ namespace Omnipay\Stripe\Message;
  * Stripe Fetch Customer Request.
  *
  *
- * @link https://stripe.com/docs/api#delete_customer
+ * @link https://stripe.com/docs/api#retrieve_customer
  */
 class FetchCustomerRequest extends AbstractRequest
 {
