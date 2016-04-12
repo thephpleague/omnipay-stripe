@@ -371,6 +371,20 @@ class Gateway extends AbstractGateway
     }
 
     /**
+     * Fetch Customer.
+     *
+     * Fetches customer by customer reference.
+     *
+     * @param array $parameters
+     *
+     * @return \Omnipay\Stripe\Message\CreateCustomerRequest
+     */
+    public function fetchCustomer(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\FetchCustomerRequest', $parameters);
+    }
+
+    /**
      * Update Customer.
      *
      * This request updates the specified customer by setting the values
