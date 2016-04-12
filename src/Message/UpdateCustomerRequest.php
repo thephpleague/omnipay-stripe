@@ -36,6 +36,27 @@ namespace Omnipay\Stripe\Message;
  */
 class UpdateCustomerRequest extends AbstractRequest
 {
+    /**
+     * Get the customer's email address.
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->getParameter('email');
+    }
+
+    /**
+     * Sets the customer's email address.
+     *
+     * @param string $value
+     * @return CreateCustomerRequest provides a fluent interface.
+     */
+    public function setEmail($value)
+    {
+        return $this->setParameter('email', $value);
+    }
+
     public function getData()
     {
         $this->validate('customerReference');
@@ -48,6 +69,12 @@ class UpdateCustomerRequest extends AbstractRequest
             $this->getCard()->validate();
             $data['card'] = $this->getCardData();
             $data['email'] = $this->getCard()->getEmail();
+        } elseif ($this->getEmail()) {
+            $data['email'] = $this->getEmail();
+        }
+
+        if ($this->getMetadata()) {
+            $data['metadata'] = $this->getMetadata();
         }
 
         return $data;
