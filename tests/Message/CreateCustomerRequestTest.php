@@ -9,12 +9,25 @@ class CreateCustomerRequestTest extends TestCase
     public function setUp()
     {
         $this->request = new CreateCustomerRequest($this->getHttpClient(), $this->getHttpRequest());
-        $this->request->setCard($this->getValidCard());
     }
 
     public function testEndpoint()
     {
         $this->assertSame('https://api.stripe.com/v1/customers', $this->request->getEndpoint());
+    }
+
+    public function testData()
+    {
+        $this->request->setEmail('customer@business.dom');
+        $this->request->setDescription('New customer');
+        $this->request->setMetadata(array('field' => 'value'));
+
+        $data = $this->request->getData();
+
+        $this->assertSame('customer@business.dom', $data['email']);
+        $this->assertSame('New customer', $data['description']);
+        $this->assertArrayHasKey('field', $data['metadata']);
+        $this->assertSame('value', $data['metadata']['field']);
     }
 
     public function testDataWithToken()

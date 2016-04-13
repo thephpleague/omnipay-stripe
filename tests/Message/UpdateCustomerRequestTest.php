@@ -17,6 +17,20 @@ class UpdateCustomerRequestTest extends TestCase
         $this->assertSame('https://api.stripe.com/v1/customers/cus_1MZSEtqSghKx99', $this->request->getEndpoint());
     }
 
+    public function testData()
+    {
+        $this->request->setEmail('customer@business.dom');
+        $this->request->setDescription('New customer');
+        $this->request->setMetadata(array('field' => 'value'));
+
+        $data = $this->request->getData();
+
+        $this->assertSame('customer@business.dom', $data['email']);
+        $this->assertSame('New customer', $data['description']);
+        $this->assertArrayHasKey('field', $data['metadata']);
+        $this->assertSame('value', $data['metadata']['field']);
+    }
+
     public function testDataWithToken()
     {
         $this->request->setToken('xyz');
