@@ -146,6 +146,25 @@ class AuthorizeRequest extends AbstractRequest
         return $this->setParameter('statementDescriptor', $value);
     }
 
+    /**
+     * @return mixed
+     */
+    public function getReceiptEmail()
+    {
+        return $this->getParameter('receipt_email');
+    }
+
+    /**
+     * @param mixed $email
+     * @return $this
+     */
+    public function setReceiptEmail($email)
+    {
+        $this->setParameter('receipt_email', $email);
+
+        return $this;
+    }
+
     public function getData()
     {
         $this->validate('amount', 'currency');
@@ -167,6 +186,10 @@ class AuthorizeRequest extends AbstractRequest
 
         if ($this->getApplicationFee()) {
             $data['application_fee'] = $this->getApplicationFeeInteger();
+        }
+
+        if ($this->getReceiptEmail()) {
+            $data['receipt_email'] = $this->getReceiptEmail();
         }
 
         if ($this->getSource()) {
