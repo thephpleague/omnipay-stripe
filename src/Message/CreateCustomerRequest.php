@@ -114,7 +114,7 @@ class CreateCustomerRequest extends AbstractRequest
         } elseif ($this->getCard()) {
             $data['card'] = $this->getCardData();
             $data['email'] = $this->getCard()->getEmail();
-        } elseif ($this->getMetadata()) {
+        } elseif ($this->getEmail()) {
             $data['email'] = $this->getEmail();
         }
 
