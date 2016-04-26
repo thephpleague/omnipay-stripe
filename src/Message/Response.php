@@ -27,6 +27,20 @@ class Response extends AbstractResponse
     }
 
     /**
+     * Get the charge reference from the response of FetchChargeRequest.
+     *
+     * @return array|null
+     */
+    public function getChargeReference()
+    {
+        if (isset($this->data['object']) && $this->data['object'] == 'charge') {
+            return $this->data['id'];
+        }
+
+        return null;
+    }
+
+    /**
      * Get the transaction reference.
      *
      * @return string|null

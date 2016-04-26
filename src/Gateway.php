@@ -250,6 +250,16 @@ class Gateway extends AbstractGateway
     /**
      * @param array $parameters
      *
+     * @return \Omnipay\Stripe\Message\FetchChargeRequest
+     */
+    public function fetchCharge(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\FetchChargeRequest', $parameters);
+    }
+
+    /**
+     * @param array $parameters
+     *
      * @return \Omnipay\Stripe\Message\FetchTransactionRequest
      */
     public function fetchTransaction(array $parameters = array())
