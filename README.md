@@ -1,4 +1,4 @@
-# Omnipay: Stripe
+1# Omnipay: Stripe
 
 **Stripe driver for the Omnipay PHP payment processing library**
 
