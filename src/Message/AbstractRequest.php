@@ -42,6 +42,13 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     protected $endpoint = 'https://api.stripe.com/v1';
 
     /**
+     * Request id
+     *
+     * @var string URL
+     */
+    protected $requestId = null;
+
+    /**
      * Get the gateway API Key.
      *
      * @return string
@@ -146,8 +153,21 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
             ->setHeader('Authorization', 'Basic '.base64_encode($this->getApiKey().':'))
             ->send();
 
+        if ($httpResponse->hasHeader('Request-Id')) {
+            $this->requestId = (string) $httpResponse->getHeader('Request-Id');
+        }
+
         return $this->response = new Response($this, $httpResponse->json());
     }
+
+    /**
+     * @return string
+     */
+    public function getRequestId()
+    {
+        return $this->requestId;
+    }
+
 
     /**
      * @return mixed
@@ -166,6 +186,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     {
         return $this->setParameter('source', $value);
     }
+
 
     /**
      * Get the card data.
