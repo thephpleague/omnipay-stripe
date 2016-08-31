@@ -64,7 +64,7 @@ class CancelSubscriptionRequest extends AbstractRequest
         $data = array();
 
         // NOTE: Boolean must be passed as string
-        // Otherwise it will be converted as numeric 1 or 2
+        // Otherwise it will be converted to numeric 0 or 1
         // Causing an error with the API
         if ($this->getAtPeriodEnd()) {
             $data['at_period_end'] = 'true';
