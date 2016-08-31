@@ -61,9 +61,14 @@ class CancelSubscriptionRequest extends AbstractRequest
     {
         $this->validate('customerReference', 'subscriptionReference');
 
-        $data = array(
-            'at_period_end' => $this->getAtPeriodEnd()
-        );
+        $data = array();
+
+        // NOTE: Boolean must be passed as string
+        // Otherwise it will be converted as numeric 1 or 2
+        // Causing an error with the API
+        if ($this->getAtPeriodEnd()) {
+            $data['at_period_end'] = 'true';
+        }
 
         return $data;
     }
