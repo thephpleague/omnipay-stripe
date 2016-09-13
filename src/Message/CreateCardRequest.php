@@ -103,4 +103,12 @@ class CreateCardRequest extends AbstractRequest
         // Create a new customer and card
         return $this->endpoint.'/customers';
     }
+
+    public function getCardData()
+    {
+        $data = parent::getCardData();
+        unset($data['email']);
+
+        return $data;
+    }
 }
