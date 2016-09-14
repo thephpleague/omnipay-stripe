@@ -89,4 +89,13 @@ class CreateCardRequestTest extends TestCase
         $this->assertNull($response->getCardReference());
         $this->assertSame('You must provide an integer value for \'exp_year\'.', $response->getMessage());
     }
+
+    public function testCardWithoutEmail()
+    {
+        $card = $this->getValidCard();
+        $this->request->setCard($card);
+        $data = $this->request->getData();
+
+        $this->assertArrayNotHasKey('email', $card);
+    }
 }
