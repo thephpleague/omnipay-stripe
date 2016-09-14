@@ -11,11 +11,16 @@ class CancelSubscriptionRequestTest extends TestCase
         $this->request = new CancelSubscriptionRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->setCustomerReference('cus_7lfqk3Om3t4xSU');
         $this->request->setSubscriptionReference('sub_7mU0FokE8GQZFW');
+        $this->request->setAtPeriodEnd(true);
     }
 
     public function testEndpoint()
     {
         $this->assertSame('https://api.stripe.com/v1/customers/cus_7lfqk3Om3t4xSU/subscriptions/sub_7mU0FokE8GQZFW', $this->request->getEndpoint());
+        $this->assertSame(true, $this->request->getAtPeriodEnd());
+
+        $data = $this->request->getData();
+        $this->assertSame('true', $data['at_period_end']);
     }
 
     public function testSendSuccess()
