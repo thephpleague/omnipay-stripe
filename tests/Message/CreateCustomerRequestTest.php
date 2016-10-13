@@ -36,7 +36,7 @@ class CreateCustomerRequestTest extends TestCase
         $data = $this->request->getData();
 
         $this->assertSame('xyz', $data['card']);
-        $this->assertNull($data['email']);
+        $this->assertFalse(isset($data['email']));
     }
 
     public function testDataWithTokenAndEmail()
