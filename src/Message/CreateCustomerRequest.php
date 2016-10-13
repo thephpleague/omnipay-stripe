@@ -111,6 +111,10 @@ class CreateCustomerRequest extends AbstractRequest
 
         if ($this->getToken()) {
             $data['card'] = $this->getToken();
+            
+            if ($this->getEmail()) {
+                $data['email'] = $this->getEmail();
+            }
         } elseif ($this->getCard()) {
             $data['card'] = $this->getCardData();
             $data['email'] = $this->getCard()->getEmail();
