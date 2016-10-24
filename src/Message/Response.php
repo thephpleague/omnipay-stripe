@@ -113,8 +113,8 @@ class Response extends AbstractResponse
     public function getCardReference()
     {
         if (isset($this->data['object']) && 'customer' === $this->data['object']) {
-            if (!empty($this->data['default_card'])) {
-                return $this->data['default_card'];
+            if (!empty($this->data['default_source'])) {
+                return $this->data['default_source'];
             }
             if (!empty($this->data['id'])) {
                 return $this->data['id'];
