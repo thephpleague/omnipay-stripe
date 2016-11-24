@@ -33,6 +33,26 @@ class CreateSubscriptionRequest extends AbstractRequest
         return $this->setParameter('plan', $value);
     }
 
+    /**
+     * Get the tax percent
+     *
+     * @return string
+     */
+    public function getTaxPercent()
+    {
+        return $this->getParameter('plan');
+    }
+
+    /**
+     * Set the plan ID
+     *
+     * @return CreateSubscriptionRequest provides a fluent interface.
+     */
+    public function setTaxPercent($value)
+    {
+        return $this->setParameter('tax_percent', $value);
+    }
+
     public function getData()
     {
         $this->validate('customerReference', 'plan');
