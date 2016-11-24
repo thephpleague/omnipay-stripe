@@ -61,8 +61,7 @@ class CreateSubscriptionRequest extends AbstractRequest
             'plan' => $this->getPlan()
         );
 
-
-        if (isset($this->parameters->has('tax_percent'))) {
+        if ($this->parameters->has('tax_percent')) {
             $data['tax_percent'] = (float)$this->getParameter('tax_percent');
         }
 
