@@ -114,13 +114,14 @@ class Response extends AbstractResponse
     {
         if (isset($this->data['object']) && 'customer' === $this->data['object']) {
             
+            if (isset($this->data['default_source']) && !empty($this->data['default_source'])) {
+                return $this->data['default_source'];
+            }
+
             if (isset($this->data['default_card']) && !empty($this->data['default_card'])) {
                 return $this->data['default_card'];
             }
-
-            if (!empty($this->data['default_source'])) {
-                return $this->data['default_source'];
-            }
+            
             if (!empty($this->data['id'])) {
                 return $this->data['id'];
             }
