@@ -48,8 +48,13 @@ After that you will have a `stripeToken` field which will be submitted to your s
 Simply pass this through to the gateway as `token`, instead of the usual `card` array:
 
 ```php
-$token = $_POST['stripeToken'];
-$response = $gateway->purchase(['amount' => '10.00', 'currency' => 'USD', 'token' => $token])->send();
+        $token = $_POST['stripeToken'];
+
+        $response = $gateway->purchase([
+            'amount' => '10.00',
+            'currency' => 'USD',
+            'token' => $token,
+        ])->send();
 ```
 
 ### Stripe Connect
