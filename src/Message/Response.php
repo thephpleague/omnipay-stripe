@@ -294,7 +294,7 @@ class Response extends AbstractResponse
      */
     public function getMessage()
     {
-        if (!$this->isSuccessful()) {
+        if (!$this->isSuccessful() && isset($this->data['error']) && isset($this->data['error']['message'])) {
             return $this->data['error']['message'];
         }
 
@@ -310,7 +310,7 @@ class Response extends AbstractResponse
      */
     public function getCode()
     {
-        if (!$this->isSuccessful()) {
+        if (!$this->isSuccessful() && isset($this->data['error']) && isset($this->data['error']['code'])) {
             return $this->data['error']['code'];
         }
 
