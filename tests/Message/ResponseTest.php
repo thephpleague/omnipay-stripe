@@ -44,6 +44,32 @@ class ResponseTest extends TestCase
         $this->assertNull($response->getSource());
     }
 
+    public function testPurchaseFailureWithoutMessage()
+    {
+        $httpResponse = $this->getMockHttpResponse('PurchaseFailureWithoutMessage.txt');
+        $response = new Response($this->getMockRequest(), $httpResponse->json());
+
+        $this->assertFalse($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
+        $this->assertSame('ch_1JEJGNWFYxAwgF', $response->getTransactionReference());
+        $this->assertNull($response->getCardReference());
+        $this->assertNull($response->getMessage());
+        $this->assertNull($response->getSource());
+    }
+
+    public function testPurchaseFailureWithoutCode()
+    {
+        $httpResponse = $this->getMockHttpResponse('PurchaseFailureWithoutCode.txt');
+        $response = new Response($this->getMockRequest(), $httpResponse->json());
+
+        $this->assertFalse($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
+        $this->assertSame('ch_1KGNWMAOUdAbbC', $response->getTransactionReference());
+        $this->assertNull($response->getCardReference());
+        $this->assertNull($response->getCode());
+        $this->assertNull($response->getSource());
+    }
+
     public function testCreateCustomerSuccess()
     {
         $httpResponse = $this->getMockHttpResponse('CreateCustomerSuccess.txt');
