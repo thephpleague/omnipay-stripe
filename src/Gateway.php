@@ -509,6 +509,17 @@ class Gateway extends AbstractGateway
     }
 
     /**
+     * List Plans
+     *
+     * @param array $parameters
+     * @return \Omnipay\Stripe\Message\ListPlansRequest
+     */
+    public function listPlans(array $parameters = array())
+    {
+        return $this->createRequest('App\Lib\Omnipay\Stripe\Message\ListPlansRequest', $parameters);
+    }
+
+    /**
      * Create Subscription
      *
      * @param array $parameters
