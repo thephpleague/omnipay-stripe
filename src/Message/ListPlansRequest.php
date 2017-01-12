@@ -13,7 +13,7 @@ namespace App\Lib\Omnipay\Stripe\Message;
  * @see Omnipay\Stripe\Gateway
  * @link https://stripe.com/docs/api/curl#list_plans
  */
-class ListPlansRequest extends \Omnipay\Stripe\Message\AbstractRequest
+class ListPlansRequest extends AbstractRequest
 {
     public function getData()
     {

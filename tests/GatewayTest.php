@@ -152,6 +152,13 @@ class GatewayTest extends GatewayTestCase
         $this->assertSame('basic', $request->getId());
     }
 
+    public function testListPlans()
+    {
+        $request = $this->gateway->listPlans(array());
+
+        $this->assertInstanceOf('Omnipay\Stripe\Message\ListPlansRequest', $request);
+    }
+
     public function testCreateSubscription()
     {
         $request = $this->gateway->createSubscription(array('plan' => 'basic'));
