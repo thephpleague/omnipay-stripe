@@ -3,7 +3,7 @@
 /**
  * Stripe List Plans Request.
  */
-namespace App\Lib\Omnipay\Stripe\Message;
+namespace Omnipay\Stripe\Message;
 
 // use Omnipay\Common\Message\AbstractRequest;
 
