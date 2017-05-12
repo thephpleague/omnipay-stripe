@@ -33,6 +33,26 @@ class CreateSubscriptionRequest extends AbstractRequest
         return $this->setParameter('plan', $value);
     }
 
+    /**
+     * Get the tax percent
+     *
+     * @return string
+     */
+    public function getTaxPercent()
+    {
+        return $this->getParameter('tax_percent');
+    }
+
+    /**
+     * Set the tax percentage
+     *
+     * @return CreateSubscriptionRequest provides a fluent interface.
+     */
+    public function setTaxPercent($value)
+    {
+        return $this->setParameter('tax_percent', $value);
+    }
+
     public function getData()
     {
         $this->validate('customerReference', 'plan');
@@ -40,6 +60,10 @@ class CreateSubscriptionRequest extends AbstractRequest
         $data = array(
             'plan' => $this->getPlan()
         );
+
+        if ($this->parameters->has('tax_percent')) {
+            $data['tax_percent'] = (float)$this->getParameter('tax_percent');
+        }
 
         return $data;
     }
