@@ -4,8 +4,11 @@ namespace Omnipay\Stripe\Message;
 
 use Omnipay\Tests\TestCase;
 
-class ListInvoicesRequestTest extends TestCase
+class ListPlansTest extends TestCase
 {
+    /** @var  ListPlansRequest */
+    protected $request;
+
     public function setUp()
     {
         $this->request = new ListPlansRequest($this->getHttpClient(), $this->getHttpRequest());
@@ -18,7 +21,7 @@ class ListInvoicesRequestTest extends TestCase
 
     public function testSendSuccess()
     {
-        $this->setMockHttpResponse('ListPlans.txt');
+        $this->setMockHttpResponse('ListPlansSuccess.txt');
         $response = $this->request->send();
 
         $this->assertTrue($response->isSuccessful());
@@ -33,6 +36,6 @@ class ListInvoicesRequestTest extends TestCase
      */
     public function testSendFailure()
     {
-        this->assertTrue(true);
+        $this->assertTrue(true);
     }
 }

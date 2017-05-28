@@ -8,10 +8,10 @@ Access-Control-Allow-Credentials: true
 Cache-Control: no-cache, no-store
 
 {
-  "object" => "list",
-  "url" => "/v1/plans",
-  "has_more" => false,
-  "data" => [
+  "object": "list",
+  "url": "/v1/plans",
+  "has_more": false,
+  "data": [
     {
       "id": "test-1",
       "object": "plan",
