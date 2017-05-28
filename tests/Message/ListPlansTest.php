@@ -18,7 +18,7 @@ class ListPlansTest extends TestCase
 
     public function testSendSuccess()
     {
-        $this->setMockHttpResponse('ListPlans.txt');
+        $this->setMockHttpResponse('ListPlansSuccess.txt');
         $response = $this->request->send();
 
         $this->assertTrue($response->isSuccessful());
