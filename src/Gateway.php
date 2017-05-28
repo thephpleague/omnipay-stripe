@@ -516,7 +516,7 @@ class Gateway extends AbstractGateway
      */
     public function listPlans(array $parameters = array())
     {
-        return $this->createRequest('App\Lib\Omnipay\Stripe\Message\ListPlansRequest', $parameters);
+        return $this->createRequest('\Omnipay\Stripe\Message\ListPlansRequest', $parameters);
     }
 
     /**
