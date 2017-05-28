@@ -4,7 +4,7 @@ namespace Omnipay\Stripe\Message;
 
 use Omnipay\Tests\TestCase;
 
-class ListInvoicesRequestTest extends TestCase
+class ListPlansTest extends TestCase
 {
     public function setUp()
     {
@@ -33,6 +33,6 @@ class ListInvoicesRequestTest extends TestCase
      */
     public function testSendFailure()
     {
-        this->assertTrue(true);
+        $this->assertTrue(true);
     }
 }
