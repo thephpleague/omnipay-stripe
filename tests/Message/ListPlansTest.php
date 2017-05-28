@@ -6,6 +6,9 @@ use Omnipay\Tests\TestCase;
 
 class ListPlansTest extends TestCase
 {
+    /** @var  ListPlansRequest */
+    protected $request;
+
     public function setUp()
     {
         $this->request = new ListPlansRequest($this->getHttpClient(), $this->getHttpRequest());
