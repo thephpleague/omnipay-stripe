@@ -227,6 +227,34 @@ class Response extends AbstractResponse
     }
 
     /**
+     * Get the transfer reference from the response of CreateTransferRequest, UpdateTransferRequest, and FetchTransferRequest.
+     *
+     * @return array|null
+     */
+    public function getTransferReference()
+    {
+        if (isset($this->data['object']) && $this->data['object'] == 'transfer') {
+            return $this->data['id'];
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the transfer reference from the response of CreateTransferReversalRequest, UpdateTransferReversalRequest, and FetchTransferReversalRequest.
+     *
+     * @return array|null
+     */
+    public function getTransferReversalReference()
+    {
+        if (isset($this->data['object']) && $this->data['object'] == 'transfer_reversal') {
+            return $this->data['id'];
+        }
+
+        return null;
+    }
+
+    /**
      * Get the list object from a result
      *
      * @return array|null
