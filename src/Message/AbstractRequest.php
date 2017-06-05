@@ -131,6 +131,26 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->setParameter('connectedStripeAccount', $value);
     }
 
+    /**
+     * Connect only
+     *
+     * @return mixed
+     */
+    public function getIdempotencyKeyHeader()
+    {
+        return $this->getParameter('idempotencyKey');
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest
+     */
+    public function setIdempotencyKeyHeader($value)
+    {
+        return $this->setParameter('idempotencyKey', $value);
+    }
+
     abstract public function getEndpoint();
 
     /**
@@ -154,6 +174,10 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
         if ($this->getConnectedStripeAccountHeader()) {
             $data['Stripe-Account'] = $this->getConnectedStripeAccountHeader();
+        }
+
+        if ($this->getIdempotencyKeyHeader()) {
+            $data['Idempotency-Key'] = $this->getIdempotencyKeyHeader();
         }
 
         return [];
