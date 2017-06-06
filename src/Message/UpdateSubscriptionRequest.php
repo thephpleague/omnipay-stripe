@@ -52,7 +52,7 @@ class UpdateSubscriptionRequest extends AbstractRequest
     {
         return $this->setPlan($value);
     }
-    
+
     /**
      * Get the subscription reference
      *
