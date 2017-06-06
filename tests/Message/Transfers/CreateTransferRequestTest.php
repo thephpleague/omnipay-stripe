@@ -8,12 +8,18 @@ use Omnipay\Tests\TestCase;
 class CreateTransferRequestTest extends TestCase
 {
     /**
-     * @var \Omnipay\Stripe\Message\Transfers\CreateTransferRequest
+     * @var CreateTransferRequest
      */
     protected $request;
 
+    /**
+     * @var string
+     */
+    protected $mockDir;
+
     public function setUp()
     {
+        $this->mockDir = __DIR__.'/../../Mock/Transfers';
         $this->request = new CreateTransferRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize(
             array(
@@ -61,7 +67,7 @@ class CreateTransferRequestTest extends TestCase
     public function testSendSuccess()
     {
         $this->setMockHttpResponse(
-            array(Response::fromMessage(file_get_contents(__DIR__.'/../../Mock/Transfers/CreateTransferRequestSuccess.txt')))
+            array(Response::fromMessage(file_get_contents($this->mockDir.'/CreateTransferRequestSuccess.txt')))
         );
         $response = $this->request->send();
 
@@ -74,7 +80,7 @@ class CreateTransferRequestTest extends TestCase
     public function testSendError()
     {
         $this->setMockHttpResponse(
-            array(Response::fromMessage(file_get_contents(__DIR__.'/../../Mock/Transfers/CreateTransferRequestFailure.txt')))
+            array(Response::fromMessage(file_get_contents($this->mockDir.'/CreateTransferRequestFailure.txt')))
         );
         $response = $this->request->send();
 

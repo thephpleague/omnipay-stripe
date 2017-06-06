@@ -8,12 +8,18 @@ use Omnipay\Tests\TestCase;
 class FetchTransferReversalRequestTest extends TestCase
 {
     /**
-     * @var \Omnipay\Stripe\Message\Transfers\FetchTransferReversalRequest
+     * @var FetchTransferReversalRequest
      */
-    private $request;
+    protected $request;
+
+    /**
+     * @var string
+     */
+    protected $mockDir;
 
     public function setUp()
     {
+        $this->mockDir = __DIR__.'/../../Mock/Transfers';
         $this->request = new FetchTransferReversalRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->setTransferReference('tr_1ARKPl2eZvKYlo2CsNTKWIOO');
         $this->request->setReversalReference('trr_1ARKQ22eZvKYlo2Cv5APdtKF');
@@ -30,7 +36,7 @@ class FetchTransferReversalRequestTest extends TestCase
     public function testSendSuccess()
     {
         $this->setMockHttpResponse(
-            array(Response::fromMessage(file_get_contents(__DIR__.'/../../Mock/Transfers/FetchTransferReversalSuccess.txt')))
+            array(Response::fromMessage(file_get_contents($this->mockDir.'/FetchTransferReversalSuccess.txt')))
         );
 
         /** @var \Omnipay\Stripe\Message\Response $response */
@@ -45,7 +51,7 @@ class FetchTransferReversalRequestTest extends TestCase
     public function testSendFailure()
     {
         $this->setMockHttpResponse(
-            array(Response::fromMessage(file_get_contents(__DIR__.'/../../Mock/Transfers/FetchTransferReversalFailure.txt')))
+            array(Response::fromMessage(file_get_contents($this->mockDir.'/FetchTransferReversalFailure.txt')))
         );
         $response = $this->request->send();
 

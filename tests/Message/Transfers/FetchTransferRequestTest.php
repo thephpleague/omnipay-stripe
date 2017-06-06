@@ -8,12 +8,18 @@ use Omnipay\Tests\TestCase;
 class FetchTransferRequestTest extends TestCase
 {
     /**
-     * @var \Omnipay\Stripe\Message\Transfers\FetchTransferRequest
+     * @var FetchTransferRequest
      */
-    private $request;
+    protected $request;
+
+    /**
+     * @var string
+     */
+    protected $mockDir;
 
     public function setUp()
     {
+        $this->mockDir = __DIR__.'/../../Mock/Transfers';
         $this->request = new FetchTransferRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->setTransferReference('tr_164xRv2eZvKYlo2CZxJZWm1E');
     }
@@ -29,7 +35,7 @@ class FetchTransferRequestTest extends TestCase
     public function testSendSuccess()
     {
         $this->setMockHttpResponse(
-            array(Response::fromMessage(file_get_contents(__DIR__.'/../../Mock/Transfers/FetchTransferSuccess.txt')))
+            array(Response::fromMessage(file_get_contents($this->mockDir.'/FetchTransferSuccess.txt')))
         );
 
         /** @var \Omnipay\Stripe\Message\Response $response */
@@ -44,7 +50,7 @@ class FetchTransferRequestTest extends TestCase
     public function testSendFailure()
     {
         $this->setMockHttpResponse(
-            array(Response::fromMessage(file_get_contents(__DIR__.'/../../Mock/Transfers/FetchTransferFailure.txt')))
+            array(Response::fromMessage(file_get_contents($this->mockDir.'/FetchTransferFailure.txt')))
         );
         $response = $this->request->send();
 
