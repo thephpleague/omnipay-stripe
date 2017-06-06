@@ -25,7 +25,7 @@ class FetchInvoiceItemRequest extends AbstractRequest
     /**
      * Set the set invoice-item reference.
      *
-     * @return FetchInvoiceItemLinesRequest provides a fluent interface.
+     * @return FetchInvoiceItemRequest provides a fluent interface.
      */
     public function setInvoiceItemReference($value)
     {
