@@ -3,12 +3,13 @@
 /**
  * Stripe Update Subscription Request.
  */
+
 namespace Omnipay\Stripe\Message;
 
 /**
  * Stripe Update Subscription Request
  *
- * @see Omnipay\Stripe\Gateway
+ * @see \Omnipay\Stripe\Gateway
  * @link https://stripe.com/docs/api#update_subscription
  */
 class UpdateSubscriptionRequest extends AbstractRequest
@@ -35,16 +36,6 @@ class UpdateSubscriptionRequest extends AbstractRequest
     }
 
     /**
-     * Set the subscription reference
-     *
-     * @return UpdateSubscriptionRequest provides a fluent interface.
-     */
-    public function setSubscriptionReference($value)
-    {
-        return $this->setParameter('subscriptionReference', $value);
-    }
-
-    /**
      * Get the subscription reference
      *
      * @return string
@@ -52,6 +43,17 @@ class UpdateSubscriptionRequest extends AbstractRequest
     public function getSubscriptionReference()
     {
         return $this->getParameter('subscriptionReference');
+    }
+
+    /**
+     * Set the subscription reference
+     *
+     * @param $value
+     * @return \Omnipay\Common\Message\AbstractRequest|UpdateSubscriptionRequest
+     */
+    public function setSubscriptionReference($value)
+    {
+        return $this->setParameter('subscriptionReference', $value);
     }
 
     public function getData()
@@ -62,12 +64,20 @@ class UpdateSubscriptionRequest extends AbstractRequest
             'plan' => $this->getPlan()
         );
 
+        if ($this->parameters->has('tax_percent')) {
+            $data['tax_percent'] = (float)$this->getParameter('tax_percent');
+        }
+
+        if ($this->getMetadata()) {
+            $data['metadata'] = $this->getMetadata();
+        }
+
         return $data;
     }
 
     public function getEndpoint()
     {
         return $this->endpoint.'/customers/'.$this->getCustomerReference()
-                .'/subscriptions/'.$this->getSubscriptionReference();
+            .'/subscriptions/'.$this->getSubscriptionReference();
     }
 }
