@@ -170,17 +170,17 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      */
     public function getHeaders()
     {
-        $data = [];
+        $headers = [];
 
         if ($this->getConnectedStripeAccountHeader()) {
-            $data['Stripe-Account'] = $this->getConnectedStripeAccountHeader();
+            $headers['Stripe-Account'] = $this->getConnectedStripeAccountHeader();
         }
 
         if ($this->getIdempotencyKeyHeader()) {
-            $data['Idempotency-Key'] = $this->getIdempotencyKeyHeader();
+            $headers['Idempotency-Key'] = $this->getIdempotencyKeyHeader();
         }
 
-        return [];
+        return $headers;
     }
 
     /**
@@ -205,7 +205,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      *
      * @return \Guzzle\Http\Message\RequestInterface
      */
-    private function createClientRequest($data, $headers = null)
+    protected function createClientRequest($data, $headers = null)
     {
         // Stripe only accepts TLS >= v1.2, so make sure Curl is told
         $config                          = $this->httpClient->getConfig();
