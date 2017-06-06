@@ -1,0 +1,53 @@
+<?php
+
+namespace Omnipay\Stripe\Message\Transfers;
+
+use Guzzle\Http\Message\Response;
+use Omnipay\Tests\TestCase;
+
+class FetchTransferReversalRequestTest extends TestCase
+{
+    /**
+     * @var \Omnipay\Stripe\Message\Transfers\FetchTransferReversalRequest
+     */
+    private $request;
+
+    public function setUp()
+    {
+        $this->request = new FetchTransferReversalRequest($this->getHttpClient(), $this->getHttpRequest());
+        $this->request->setTransferReference('tr_1ARKPl2eZvKYlo2CsNTKWIOO');
+        $this->request->setReversalReference('trr_1ARKQ22eZvKYlo2Cv5APdtKF');
+    }
+
+    public function testEndpoint()
+    {
+        $this->assertSame('https://api.stripe.com/v1/transfers/tr_1ARKPl2eZvKYlo2CsNTKWIOO/reversals/trr_1ARKQ22eZvKYlo2Cv5APdtKF', $this->request->getEndpoint());
+    }
+
+    public function testSendSuccess()
+    {
+        $this->setMockHttpResponse(
+            [Response::fromMessage(file_get_contents(__DIR__ . '/../../Mock/Transfers/FetchTransferReversalSuccess.txt'))]
+        );
+
+        /** @var \Omnipay\Stripe\Message\Response $response */
+        $response = $this->request->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertSame('trr_1ARKQ22eZvKYlo2Cv5APdtKF', $response->getTransferReversalReference());
+        $this->assertFalse($response->isRedirect());
+        $this->assertNull($response->getMessage());
+    }
+
+    public function testSendFailure()
+    {
+        $this->setMockHttpResponse(
+            [Response::fromMessage(file_get_contents(__DIR__ . '/../../Mock/Transfers/FetchTransferReversalFailure.txt'))]
+        );
+        $response = $this->request->send();
+
+        $this->assertFalse($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
+        $this->assertSame('No such transfer reversal: trr_1ARKQ22eZvKYlo2Cv5APdtKF', $response->getMessage());
+    }
+}
