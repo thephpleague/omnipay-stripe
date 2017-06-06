@@ -67,7 +67,7 @@ class CreateTransferRequest extends AuthorizeRequest
 
         $data = [
             'amount'      => $this->getAmountInteger(),
-            'currency'    => $this->getCurrency(),
+            'currency'    => strtolower($this->getCurrency()),
             'destination' => $this->getDestination(),
         ];
 
@@ -77,7 +77,7 @@ class CreateTransferRequest extends AuthorizeRequest
 
         if ($this->getTransferGroup()) {
             $data['transfer_group'] = $this->getTransferGroup();
-        } else if ($this->getSourceTransaction()) {
+        } elseif ($this->getSourceTransaction()) {
             $data['source_transaction'] = $this->getSourceTransaction();
         } else {
             throw new InvalidRequestException("The sourceTransaction or transferGroup parameter is required");
