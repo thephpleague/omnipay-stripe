@@ -65,6 +65,10 @@ class CreateSubscriptionRequest extends AbstractRequest
             $data['tax_percent'] = (float)$this->getParameter('tax_percent');
         }
 
+        if ($this->getMetadata()) {
+            $data['metadata'] = $this->getMetadata();
+        }
+
         return $data;
     }
 
