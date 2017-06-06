@@ -109,7 +109,7 @@ class ListTransferReversalsRequest extends AbstractRequest
     {
         $this->validate('transferReference');
 
-        $data = [];
+        $data = array();
 
         if ($this->getLimit()) {
             $data['limit'] = $this->getLimit();

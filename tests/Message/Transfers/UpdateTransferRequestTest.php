@@ -20,12 +20,15 @@ class UpdateTransferRequestTest extends TestCase
 
     public function testEndpoint()
     {
-        $this->assertSame('https://api.stripe.com/v1/transfers/tr_164xRv2eZvKYlo2CZxJZWm1E', $this->request->getEndpoint());
+        $this->assertSame(
+            'https://api.stripe.com/v1/transfers/tr_164xRv2eZvKYlo2CZxJZWm1E',
+            $this->request->getEndpoint()
+        );
     }
 
     public function testData()
     {
-        $this->request->setMetadata(['field' => 'value']);
+        $this->request->setMetadata(array('field' => 'value'));
 
         $data = $this->request->getData();
 
@@ -36,7 +39,7 @@ class UpdateTransferRequestTest extends TestCase
     public function testSendSuccess()
     {
         $this->setMockHttpResponse(
-            [Response::fromMessage(file_get_contents(__DIR__ . '/../../Mock/Transfers/CreateTransferRequestSuccess.txt'))]
+            array(Response::fromMessage(file_get_contents(__DIR__.'/../../Mock/Transfers/CreateTransferRequestSuccess.txt')))
         );
         /** @var \Omnipay\Stripe\Message\Response $response */
         $response = $this->request->send();
@@ -50,7 +53,7 @@ class UpdateTransferRequestTest extends TestCase
     public function testSendFailure()
     {
         $this->setMockHttpResponse(
-            [Response::fromMessage(file_get_contents(__DIR__ . '/../../Mock/Transfers/FetchTransferFailure.txt'))]
+            array(Response::fromMessage(file_get_contents(__DIR__.'/../../Mock/Transfers/FetchTransferFailure.txt')))
         );
         $response = $this->request->send();
 

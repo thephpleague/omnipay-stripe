@@ -73,7 +73,7 @@ class UpdateTransferReversalRequest extends AbstractRequest
     {
         $this->validate('reversalReference', 'transferReference');
 
-        $data = [];
+        $data = array();
 
         if ($this->getMetadata()) {
             $data['metadata'] = $this->getMetadata();

@@ -19,13 +19,16 @@ class ListTransferReversalsRequestTest extends TestCase
 
     public function testEndpoint()
     {
-        $this->assertSame('https://api.stripe.com/v1/transfers/tr_164xRv2eZvKYlo2CZxJZWm1E/reversals', $this->request->getEndpoint());
+        $this->assertSame(
+            'https://api.stripe.com/v1/transfers/tr_164xRv2eZvKYlo2CZxJZWm1E/reversals',
+            $this->request->getEndpoint()
+        );
     }
 
     public function testSendSuccess()
     {
         $this->setMockHttpResponse(
-            [Response::fromMessage(file_get_contents(__DIR__ . '/../../Mock/Transfers/ListTransferReversalsSuccess.txt'))]
+            array(Response::fromMessage(file_get_contents(__DIR__.'/../../Mock/Transfers/ListTransferReversalsSuccess.txt')))
         );
 
         /** @var \Omnipay\Stripe\Message\Response $response */
@@ -45,7 +48,7 @@ class ListTransferReversalsRequestTest extends TestCase
         $this->request->setTransferReference('NOTFOUND');
 
         $this->setMockHttpResponse(
-            [Response::fromMessage(file_get_contents(__DIR__ . '/../../Mock/Transfers/ListTransferReversalsFailure.txt'))]
+            array(Response::fromMessage(file_get_contents(__DIR__.'/../../Mock/Transfers/ListTransferReversalsFailure.txt')))
         );
         $response = $this->request->send();
 

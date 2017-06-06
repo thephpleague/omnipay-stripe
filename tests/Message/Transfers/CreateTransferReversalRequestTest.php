@@ -16,14 +16,14 @@ class CreateTransferReversalRequestTest extends TestCase
     {
         $this->request = new CreateTransferReversalRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize(
-            [
+            array(
                 'transferReference' => 'REVERSAL_ID',
-                'amount'            => '12.00',
-                'description'       => 'Reversing Order 42',
-                'metadata'          => [
+                'amount' => '12.00',
+                'description' => 'Reversing Order 42',
+                'metadata' => array(
                     'foo' => 'bar',
-                ],
-            ]
+                ),
+            )
         );
     }
 
@@ -33,13 +33,13 @@ class CreateTransferReversalRequestTest extends TestCase
 
         $this->assertSame(1200, $data['amount']);
         $this->assertSame('Reversing Order 42', $data['description']);
-        $this->assertSame(['foo' => 'bar'], $data['metadata']);
+        $this->assertSame(array('foo' => 'bar'), $data['metadata']);
     }
 
     public function testSendSuccess()
     {
         $this->setMockHttpResponse(
-            [Response::fromMessage(file_get_contents(__DIR__ . '/../../Mock/Transfers/CreateTransferReversalRequestSuccess.txt'))]
+            array(Response::fromMessage(file_get_contents(__DIR__.'/../../Mock/Transfers/CreateTransferReversalRequestSuccess.txt')))
         );
 
         /** @var \Omnipay\Stripe\Message\Response $response */
@@ -54,7 +54,7 @@ class CreateTransferReversalRequestTest extends TestCase
     public function testSendFailure()
     {
         $this->setMockHttpResponse(
-            [Response::fromMessage(file_get_contents(__DIR__ . '/../../Mock/Transfers/FetchTransferReversalFailure.txt'))]
+            array(Response::fromMessage(file_get_contents(__DIR__.'/../../Mock/Transfers/FetchTransferReversalFailure.txt')))
         );
         $response = $this->request->send();
 

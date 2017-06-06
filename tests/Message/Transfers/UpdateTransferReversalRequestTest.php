@@ -29,7 +29,7 @@ class UpdateTransferReversalRequestTest extends TestCase
 
     public function testData()
     {
-        $this->request->setMetadata(['field' => 'value']);
+        $this->request->setMetadata(array('field' => 'value'));
         $this->request->setDescription('This is a reversal becuase of that');
 
         $data = $this->request->getData();
@@ -42,7 +42,7 @@ class UpdateTransferReversalRequestTest extends TestCase
     public function testSendSuccess()
     {
         $this->setMockHttpResponse(
-            [Response::fromMessage(file_get_contents(__DIR__ . '/../../Mock/Transfers/CreateTransferReversalRequestSuccess.txt'))]
+            array(Response::fromMessage(file_get_contents(__DIR__.'/../../Mock/Transfers/CreateTransferReversalRequestSuccess.txt')))
         );
         /** @var \Omnipay\Stripe\Message\Response $response */
         $response = $this->request->send();
@@ -56,7 +56,7 @@ class UpdateTransferReversalRequestTest extends TestCase
     public function testSendFailure()
     {
         $this->setMockHttpResponse(
-            [Response::fromMessage(file_get_contents(__DIR__ . '/../../Mock/Transfers/FetchTransferReversalFailure.txt'))]
+            array(Response::fromMessage(file_get_contents(__DIR__.'/../../Mock/Transfers/FetchTransferReversalFailure.txt')))
         );
         $response = $this->request->send();
 

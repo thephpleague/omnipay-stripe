@@ -170,7 +170,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      */
     public function getHeaders()
     {
-        $headers = [];
+        $headers = array();
 
         if ($this->getConnectedStripeAccountHeader()) {
             $headers['Stripe-Account'] = $this->getConnectedStripeAccountHeader();
@@ -193,7 +193,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         $data    = $this->getData();
         $headers = array_merge(
             $this->getHeaders(),
-            ['Authorization' => 'Basic ' . base64_encode($this->getApiKey() . ':')]
+            array('Authorization' => 'Basic ' . base64_encode($this->getApiKey() . ':'))
         );
 
         return $this->sendData($data, $headers);
@@ -205,7 +205,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      *
      * @return \Guzzle\Http\Message\RequestInterface
      */
-    protected function createClientRequest($data, $headers = null)
+    protected function createClientRequest($data, array $headers = null)
     {
         // Stripe only accepts TLS >= v1.2, so make sure Curl is told
         $config                          = $this->httpClient->getConfig();
@@ -234,7 +234,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $httpRequest;
     }
 
-    public function sendData($data, $headers = [])
+    public function sendData($data, array $headers = null)
     {
         $httpRequest  = $this->createClientRequest($data, $headers);
         $httpResponse = $httpRequest->send();

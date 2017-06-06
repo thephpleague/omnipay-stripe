@@ -24,7 +24,7 @@ class ListTransfersRequestTest extends TestCase
     public function testSendSuccess()
     {
         $this->setMockHttpResponse(
-            [Response::fromMessage(file_get_contents(__DIR__ . '/../../Mock/Transfers/ListTransfersSuccess.txt'))]
+            array(Response::fromMessage(file_get_contents(__DIR__.'/../../Mock/Transfers/ListTransfersSuccess.txt')))
         );
 
         /** @var \Omnipay\Stripe\Message\Response $response */
@@ -44,7 +44,7 @@ class ListTransfersRequestTest extends TestCase
         $this->request->setTransferGroup('NOTFOUND');
 
         $this->setMockHttpResponse(
-            [Response::fromMessage(file_get_contents(__DIR__ . '/../../Mock/Transfers/ListTransfersFailure.txt'))]
+            array(Response::fromMessage(file_get_contents(__DIR__.'/../../Mock/Transfers/ListTransfersFailure.txt')))
         );
         $response = $this->request->send();
 

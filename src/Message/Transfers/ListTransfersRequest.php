@@ -124,7 +124,7 @@ class ListTransfersRequest extends AbstractRequest
      */
     public function getData()
     {
-        $data = [];
+        $data = array();
 
         if ($this->getLimit()) {
             $data['limit'] = $this->getLimit();

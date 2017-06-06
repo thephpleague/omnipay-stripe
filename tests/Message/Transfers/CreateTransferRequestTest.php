@@ -16,15 +16,15 @@ class CreateTransferRequestTest extends TestCase
     {
         $this->request = new CreateTransferRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize(
-            [
-                'amount'        => '12.00',
-                'currency'      => 'USD',
-                'destination'   => 'STRIPE_ACCOUNT_ID',
+            array(
+                'amount' => '12.00',
+                'currency' => 'USD',
+                'destination' => 'STRIPE_ACCOUNT_ID',
                 'transferGroup' => 'Order42',
-                'metadata'      => [
+                'metadata' => array(
                     'foo' => 'bar',
-                ],
-            ]
+                ),
+            )
         );
     }
 
@@ -36,7 +36,7 @@ class CreateTransferRequestTest extends TestCase
         $this->assertSame('usd', $data['currency']);
         $this->assertSame('STRIPE_ACCOUNT_ID', $data['destination']);
         $this->assertSame('Order42', $data['transfer_group']);
-        $this->assertSame(['foo' => 'bar'], $data['metadata']);
+        $this->assertSame(array('foo' => 'bar'), $data['metadata']);
     }
 
     /**
@@ -61,7 +61,7 @@ class CreateTransferRequestTest extends TestCase
     public function testSendSuccess()
     {
         $this->setMockHttpResponse(
-            [Response::fromMessage(file_get_contents(__DIR__ . '/../../Mock/Transfers/CreateTransferRequestSuccess.txt'))]
+            array(Response::fromMessage(file_get_contents(__DIR__.'/../../Mock/Transfers/CreateTransferRequestSuccess.txt')))
         );
         $response = $this->request->send();
 
@@ -74,7 +74,7 @@ class CreateTransferRequestTest extends TestCase
     public function testSendError()
     {
         $this->setMockHttpResponse(
-            [Response::fromMessage(file_get_contents(__DIR__ . '/../../Mock/Transfers/CreateTransferRequestFailure.txt'))]
+            array(Response::fromMessage(file_get_contents(__DIR__.'/../../Mock/Transfers/CreateTransferRequestFailure.txt')))
         );
         $response = $this->request->send();
 

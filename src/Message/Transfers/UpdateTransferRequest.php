@@ -56,7 +56,7 @@ class UpdateTransferRequest extends AbstractRequest
     {
         $this->validate('transferReference');
 
-        $data = [];
+        $data = array();
 
         if ($this->getMetadata()) {
             $data['metadata'] = $this->getMetadata();

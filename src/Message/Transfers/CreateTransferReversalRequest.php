@@ -59,7 +59,7 @@ class CreateTransferReversalRequest extends RefundRequest
     {
         $this->validate('transferReference');
 
-        $data = [];
+        $data = array();
 
         // If no amount is passed, then the entire transfer is reversed
         if ($this->getAmountInteger()) {

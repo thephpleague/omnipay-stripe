@@ -65,11 +65,11 @@ class CreateTransferRequest extends AuthorizeRequest
     {
         $this->validate('amount', 'currency', 'destination');
 
-        $data = [
-            'amount'      => $this->getAmountInteger(),
-            'currency'    => strtolower($this->getCurrency()),
+        $data = array(
+            'amount' => $this->getAmountInteger(),
+            'currency' => strtolower($this->getCurrency()),
             'destination' => $this->getDestination(),
-        ];
+        );
 
         if ($this->getMetadata()) {
             $data['metadata'] = $this->getMetadata();
