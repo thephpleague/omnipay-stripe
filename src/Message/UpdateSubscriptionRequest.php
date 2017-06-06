@@ -36,6 +36,24 @@ class UpdateSubscriptionRequest extends AbstractRequest
     }
 
     /**
+     * @deprecated
+     */
+    public function getPlanId()
+    {
+        return $this->getPlan();
+    }
+
+    /**
+     * @deprecated
+     * @param $value
+     * @return \Omnipay\Common\Message\AbstractRequest|UpdateSubscriptionRequest
+     */
+    public function setPlanId($value)
+    {
+        return $this->setPlan($value);
+    }
+    
+    /**
      * Get the subscription reference
      *
      * @return string
