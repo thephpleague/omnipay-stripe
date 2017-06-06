@@ -91,6 +91,6 @@ class UpdateTransferReversalRequest extends AbstractRequest
      */
     public function getEndpoint()
     {
-        return $this->endpoint.'/transfers/'.$this->getTransferReference().'/'.$this->getReversalReference();
+        return $this->endpoint.'/transfers/'.$this->getTransferReference().'/reversals/'.$this->getReversalReference();
     }
 }
