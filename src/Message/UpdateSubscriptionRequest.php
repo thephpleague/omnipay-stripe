@@ -14,21 +14,22 @@ namespace Omnipay\Stripe\Message;
 class UpdateSubscriptionRequest extends AbstractRequest
 {
     /**
-     * Get the plan ID
+     * Get the plan
      *
      * @return string
      */
-    public function getPlanId()
+    public function getPlan()
     {
         return $this->getParameter('plan');
     }
 
     /**
-     * Set the plan ID
+     * Set the plan
      *
-     * @return UpdateSubscriptionRequest provides a fluent interface.
+     * @param $value
+     * @return \Omnipay\Common\Message\AbstractRequest|UpdateSubscriptionRequest
      */
-    public function setPlanId($value)
+    public function setPlan($value)
     {
         return $this->setParameter('plan', $value);
     }
@@ -58,7 +59,7 @@ class UpdateSubscriptionRequest extends AbstractRequest
         $this->validate('customerReference', 'subscriptionReference', 'plan');
 
         $data = array(
-            'plan' => $this->getPlanId()
+            'plan' => $this->getPlan()
         );
 
         return $data;
