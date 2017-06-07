@@ -91,7 +91,7 @@ class AuthorizeRequest extends AbstractRequest
     }
 
     /**
-     * @return mixedgi
+     * @return mixed
      */
     public function getSource()
     {
@@ -106,6 +106,46 @@ class AuthorizeRequest extends AbstractRequest
     public function setSource($value)
     {
         return $this->setParameter('source', $value);
+    }
+
+    /**
+     * Connect only
+     *
+     * @return mixed
+     */
+    public function getTransferGroup()
+    {
+        return $this->getParameter('transferGroup');
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return AbstractRequest provides a fluent interface.
+     */
+    public function setTransferGroup($value)
+    {
+        return $this->setParameter('transferGroup', $value);
+    }
+
+    /**
+     * Connect only
+     *
+     * @return mixed
+     */
+    public function getOnBehalfOf()
+    {
+        return $this->getParameter('onBehalfOf');
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return AbstractRequest provides a fluent interface.
+     */
+    public function setOnBehalfOf($value)
+    {
+        return $this->setParameter('onBehalfOf', $value);
     }
 
     /**
@@ -184,8 +224,16 @@ class AuthorizeRequest extends AbstractRequest
             $data['destination'] = $this->getDestination();
         }
 
+        if ($this->getOnBehalfOf()) {
+            $data['on_behalf_of'] = $this->getOnBehalfOf();
+        }
+
         if ($this->getApplicationFee()) {
             $data['application_fee'] = $this->getApplicationFeeInteger();
+        }
+
+        if ($this->getTransferGroup()) {
+            $data['transfer_group'] = $this->getTransferGroup();
         }
 
         if ($this->getReceiptEmail()) {

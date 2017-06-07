@@ -3,7 +3,10 @@
 /**
  * Stripe Abstract Request.
  */
+
 namespace Omnipay\Stripe\Message;
+
+use Omnipay\Common\Message\ResponseInterface;
 
 /**
  * Stripe Abstract Request.
@@ -29,8 +32,6 @@ namespace Omnipay\Stripe\Message;
  *
  * @see \Omnipay\Stripe\Gateway
  * @link https://stripe.com/docs/api
- *
- * @method \Omnipay\Stripe\Message\Response send()
  */
 abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
@@ -110,6 +111,46 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->setParameter('metadata', $value);
     }
 
+    /**
+     * Connect only
+     *
+     * @return mixed
+     */
+    public function getConnectedStripeAccountHeader()
+    {
+        return $this->getParameter('connectedStripeAccount');
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest
+     */
+    public function setConnectedStripeAccountHeader($value)
+    {
+        return $this->setParameter('connectedStripeAccount', $value);
+    }
+
+    /**
+     * Connect only
+     *
+     * @return mixed
+     */
+    public function getIdempotencyKeyHeader()
+    {
+        return $this->getParameter('idempotencyKey');
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest
+     */
+    public function setIdempotencyKeyHeader($value)
+    {
+        return $this->setParameter('idempotencyKey', $value);
+    }
+
     abstract public function getEndpoint();
 
     /**
@@ -124,15 +165,55 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return 'POST';
     }
 
-    public function sendData($data)
+    /**
+     * @return array
+     */
+    public function getHeaders()
+    {
+        $headers = array();
+
+        if ($this->getConnectedStripeAccountHeader()) {
+            $headers['Stripe-Account'] = $this->getConnectedStripeAccountHeader();
+        }
+
+        if ($this->getIdempotencyKeyHeader()) {
+            $headers['Idempotency-Key'] = $this->getIdempotencyKeyHeader();
+        }
+
+        return $headers;
+    }
+
+    /**
+     * Send the request
+     *
+     * @return ResponseInterface
+     */
+    public function send()
+    {
+        $data    = $this->getData();
+        $headers = array_merge(
+            $this->getHeaders(),
+            array('Authorization' => 'Basic ' . base64_encode($this->getApiKey() . ':'))
+        );
+
+        return $this->sendData($data, $headers);
+    }
+
+    /**
+     * @param       $data
+     * @param array $headers
+     *
+     * @return \Guzzle\Http\Message\RequestInterface
+     */
+    protected function createClientRequest($data, array $headers = null)
     {
         // Stripe only accepts TLS >= v1.2, so make sure Curl is told
-        $config = $this->httpClient->getConfig();
-        $curlOptions = $config->get('curl.options');
+        $config                          = $this->httpClient->getConfig();
+        $curlOptions                     = $config->get('curl.options');
         $curlOptions[CURLOPT_SSLVERSION] = 6;
         $config->set('curl.options', $curlOptions);
         $this->httpClient->setConfig($config);
-        
+
         // don't throw exceptions for 4xx errors
         $this->httpClient->getEventDispatcher()->addListener(
             'request.error',
@@ -146,15 +227,20 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         $httpRequest = $this->httpClient->createRequest(
             $this->getHttpMethod(),
             $this->getEndpoint(),
-            null,
+            $headers,
             $data
         );
-        $httpResponse = $httpRequest
-            ->setHeader('Authorization', 'Basic '.base64_encode($this->getApiKey().':'))
-            ->send();
-        
+
+        return $httpRequest;
+    }
+
+    public function sendData($data, array $headers = null)
+    {
+        $httpRequest  = $this->createClientRequest($data, $headers);
+        $httpResponse = $httpRequest->send();
+
         $this->response = new Response($this, $httpResponse->json());
-        
+
         if ($httpResponse->hasHeader('Request-Id')) {
             $this->response->setRequestId((string) $httpResponse->getHeader('Request-Id'));
         }
@@ -179,7 +265,6 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     {
         return $this->setParameter('source', $value);
     }
-
 
     /**
      * Get the card data.

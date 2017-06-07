@@ -35,7 +35,7 @@ class Response extends AbstractResponse
 
     /**
      * Get the charge reference from the response of FetchChargeRequest.
-     * 
+     *
      * @deprecated 2.3.3:3.0.0 duplicate of \Omnipay\Stripe\Message\Response::getTransactionReference()
      * @see \Omnipay\Stripe\Message\Response::getTransactionReference()
      * @return array|null
@@ -113,7 +113,6 @@ class Response extends AbstractResponse
     public function getCardReference()
     {
         if (isset($this->data['object']) && 'customer' === $this->data['object']) {
-            
             if (isset($this->data['default_source']) && !empty($this->data['default_source'])) {
                 return $this->data['default_source'];
             }
@@ -220,6 +219,36 @@ class Response extends AbstractResponse
     public function getInvoiceReference()
     {
         if (isset($this->data['object']) && $this->data['object'] == 'invoice') {
+            return $this->data['id'];
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the transfer reference from the response of CreateTransferRequest,
+     * UpdateTransferRequest, and FetchTransferRequest.
+     *
+     * @return array|null
+     */
+    public function getTransferReference()
+    {
+        if (isset($this->data['object']) && $this->data['object'] == 'transfer') {
+            return $this->data['id'];
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the transfer reference from the response of CreateTransferReversalRequest,
+     * UpdateTransferReversalRequest, and FetchTransferReversalRequest.
+     *
+     * @return array|null
+     */
+    public function getTransferReversalReference()
+    {
+        if (isset($this->data['object']) && $this->data['object'] == 'transfer_reversal') {
             return $this->data['id'];
         }
 

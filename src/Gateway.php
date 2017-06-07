@@ -277,6 +277,101 @@ class Gateway extends AbstractGateway
         return $this->createRequest('\Omnipay\Stripe\Message\FetchBalanceTransactionRequest', $parameters);
     }
 
+
+    //
+    // Transfers
+    // @link https://stripe.com/docs/api#transfers
+    //
+
+
+    /**
+     * Transfer Request.
+     *
+     * To send funds from your Stripe account to a connected account, you create
+     * a new transfer object. Your Stripe balance must be able to cover the
+     * transfer amount, or you'll receive an "Insufficient Funds" error.
+     *
+     * @param array $parameters
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest
+     */
+    public function transfer(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\Transfers\CreateTransferRequest', $parameters);
+    }
+
+    /**
+     * @param array $parameters
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest
+     */
+    public function fetchTransfer(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\Transfers\FetchTransferRequest', $parameters);
+    }
+
+    /**
+     * @param array $parameters
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest
+     */
+    public function updateTransfer(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\Transfers\UpdateTransferRequest', $parameters);
+    }
+
+    /**
+     * List Transfers
+     *
+     * @param array $parameters
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest|\Omnipay\Stripe\Message\Transfers\ListTransfersRequest
+     */
+    public function listTransfers(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\Transfers\ListTransfersRequest', $parameters);
+    }
+
+    /**
+     * @param array $parameters
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest
+     */
+    public function reverseTransfer(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\Transfers\CreateTransferReversalRequest', $parameters);
+    }
+
+    /**
+     * @param array $parameters
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest
+     */
+    public function fetchTransferReversal(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\Transfers\FetchTransferReversalRequest', $parameters);
+    }
+
+    /**
+     * @param array $parameters
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest
+     */
+    public function updateTransferReversal(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\Transfers\UpdateTransferReversalRequest', $parameters);
+    }
+
+    /**
+     * @param array $parameters
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest
+     */
+    public function listTransferReversals(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\Transfers\ListTransferReversalsRequest', $parameters);
+    }
+
     //
     // Cards
     // @link https://stripe.com/docs/api#cards

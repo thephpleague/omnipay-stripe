@@ -19,7 +19,7 @@ class CaptureRequestTest extends TestCase
 
     public function testAmount()
     {
-        // defualt is no amount
+        // default is no amount
         $this->assertArrayNotHasKey('amount', $this->request->getData());
 
         $this->request->setAmount('10.00');
