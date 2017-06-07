@@ -3,44 +3,54 @@
 /**
  * Stripe Update Subscription Request.
  */
+
 namespace Omnipay\Stripe\Message;
 
 /**
  * Stripe Update Subscription Request
  *
- * @see Omnipay\Stripe\Gateway
+ * @see \Omnipay\Stripe\Gateway
  * @link https://stripe.com/docs/api#update_subscription
  */
 class UpdateSubscriptionRequest extends AbstractRequest
 {
     /**
-     * Get the plan ID
+     * Get the plan
      *
      * @return string
      */
-    public function getPlanId()
+    public function getPlan()
     {
         return $this->getParameter('plan');
     }
 
     /**
-     * Set the plan ID
+     * Set the plan
      *
-     * @return UpdateSubscriptionRequest provides a fluent interface.
+     * @param $value
+     * @return \Omnipay\Common\Message\AbstractRequest|UpdateSubscriptionRequest
      */
-    public function setPlanId($value)
+    public function setPlan($value)
     {
         return $this->setParameter('plan', $value);
     }
 
     /**
-     * Set the subscription reference
-     *
-     * @return UpdateSubscriptionRequest provides a fluent interface.
+     * @deprecated
      */
-    public function setSubscriptionReference($value)
+    public function getPlanId()
     {
-        return $this->setParameter('subscriptionReference', $value);
+        return $this->getPlan();
+    }
+
+    /**
+     * @deprecated
+     * @param $value
+     * @return \Omnipay\Common\Message\AbstractRequest|UpdateSubscriptionRequest
+     */
+    public function setPlanId($value)
+    {
+        return $this->setPlan($value);
     }
 
     /**
@@ -53,13 +63,32 @@ class UpdateSubscriptionRequest extends AbstractRequest
         return $this->getParameter('subscriptionReference');
     }
 
+    /**
+     * Set the subscription reference
+     *
+     * @param $value
+     * @return \Omnipay\Common\Message\AbstractRequest|UpdateSubscriptionRequest
+     */
+    public function setSubscriptionReference($value)
+    {
+        return $this->setParameter('subscriptionReference', $value);
+    }
+
     public function getData()
     {
         $this->validate('customerReference', 'subscriptionReference', 'plan');
 
         $data = array(
-            'plan' => $this->getPlanId()
+            'plan' => $this->getPlan()
         );
+
+        if ($this->parameters->has('tax_percent')) {
+            $data['tax_percent'] = (float)$this->getParameter('tax_percent');
+        }
+
+        if ($this->getMetadata()) {
+            $data['metadata'] = $this->getMetadata();
+        }
 
         return $data;
     }
@@ -67,6 +96,6 @@ class UpdateSubscriptionRequest extends AbstractRequest
     public function getEndpoint()
     {
         return $this->endpoint.'/customers/'.$this->getCustomerReference()
-                .'/subscriptions/'.$this->getSubscriptionReference();
+            .'/subscriptions/'.$this->getSubscriptionReference();
     }
 }
