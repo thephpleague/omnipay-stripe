@@ -22,7 +22,12 @@ class ListInvoicesRequest extends AbstractRequest
 
     public function getEndpoint()
     {
-        return $this->endpoint.'/invoices';
+        $endpoint = $this->endpoint.'/invoices';
+        if ($customerReference = $this->getCustomerReference()) {
+            return $endpoint . '?customer=' . $customerReference;
+        }
+
+        return $endpoint;
     }
 
     public function getHttpMethod()
