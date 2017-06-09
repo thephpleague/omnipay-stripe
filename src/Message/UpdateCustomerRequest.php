@@ -57,6 +57,27 @@ class UpdateCustomerRequest extends AbstractRequest
         return $this->setParameter('email', $value);
     }
 
+    /**
+     * Get the customer's source.
+     *
+     * @return string
+     */
+    public function getSource()
+    {
+        return $this->getParameter('source');
+    }
+    
+    /**
+     * Sets the customer's source.
+     *
+     * @param string $value
+     * @return CreateCustomerRequest provides a fluent interface.
+     */
+    public function setSource($value)
+    {
+        $this->setParameter('source', $value);
+    }
+
     public function getData()
     {
         $this->validate('customerReference');
@@ -75,6 +96,10 @@ class UpdateCustomerRequest extends AbstractRequest
 
         if ($this->getMetadata()) {
             $data['metadata'] = $this->getMetadata();
+        }
+
+        if ($this->getSource()) {
+            $data['source'] = $this->getSource();
         }
 
         return $data;
