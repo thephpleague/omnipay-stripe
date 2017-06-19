@@ -55,7 +55,7 @@ class CreateTokenRequest extends AbstractRequest
 
         if ($this->getParameter('customer')) {
             $data['customer'] = $this->getParameter('customer');
-        } else if ($this->getParameter('card')) {
+        } elseif ($this->getParameter('card')) {
             $data['card'] = $this->getParameter('card');
         } else {
             throw new InvalidRequestException("You must pass either the card or the customer");
