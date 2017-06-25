@@ -33,10 +33,12 @@ class CreateTokenRequestTest extends TestCase
         $this->assertSame('https://api.stripe.com/v1/tokens', $this->request->getEndpoint());
     }
 
+    /**
+     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
+     * @expectedExceptionMessage You must pass either the card or the customer
+     */
     public function testGetDataInvalid()
     {
-        $this->setExpectedException(InvalidRequestException::class, "You must pass either the card or the customer");
-
         $this->request->setCustomer(null);
         $this->request->setCard(null);
 
