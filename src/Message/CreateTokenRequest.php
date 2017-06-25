@@ -51,7 +51,7 @@ class CreateTokenRequest extends AbstractRequest
      */
     public function getData()
     {
-        $data = [];
+        $data = array();
 
         if ($this->getParameter('customer')) {
             $data['customer'] = $this->getParameter('customer');
