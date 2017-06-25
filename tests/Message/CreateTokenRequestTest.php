@@ -9,7 +9,6 @@
 namespace Omnipay\Stripe\Message;
 
 
-use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Tests\TestCase;
 
 class CreateTokenRequestTest extends TestCase
@@ -70,11 +69,12 @@ class CreateTokenRequestTest extends TestCase
         $this->setMockHttpResponse('CreateTokenSuccess.txt');
         $response = $this->request->send();
 
+        $data = $response->getData();
         $this->assertTrue($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
         $this->assertNull($response->getTransactionReference());
-        $this->assertSame('tok_1AWDl1JqXiFraDuL2xOKEXKy', $response->getData()['id']);
-        $this->assertSame('token', $response->getData()['object']);
+        $this->assertSame('tok_1AWDl1JqXiFraDuL2xOKEXKy', $data['id']);
+        $this->assertSame('token', $data['object']);
     }
 
 
