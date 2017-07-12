@@ -184,22 +184,6 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
-     * Send the request
-     *
-     * @return ResponseInterface
-     */
-    public function send()
-    {
-        $data    = $this->getData();
-        $headers = array_merge(
-            $this->getHeaders(),
-            array('Authorization' => 'Basic ' . base64_encode($this->getApiKey() . ':'))
-        );
-
-        return $this->sendData($data, $headers);
-    }
-
-    /**
      * @param       $data
      * @param array $headers
      *
@@ -234,8 +218,16 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $httpRequest;
     }
 
-    public function sendData($data, array $headers = null)
+    /**
+     * {@inheritdoc}
+     */
+    public function sendData($data)
     {
+        $headers = array_merge(
+            $this->getHeaders(),
+            array('Authorization' => 'Basic ' . base64_encode($this->getApiKey() . ':'))
+        );
+
         $httpRequest  = $this->createClientRequest($data, $headers);
         $httpResponse = $httpRequest->send();
 
