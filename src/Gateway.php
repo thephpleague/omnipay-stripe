@@ -6,6 +6,7 @@
 namespace Omnipay\Stripe;
 
 use Omnipay\Common\AbstractGateway;
+use Omnipay\Stripe\Message\CreateTokenRequest;
 
 /**
  * Stripe Gateway.
@@ -80,7 +81,11 @@ use Omnipay\Common\AbstractGateway;
  *
  * @see \Omnipay\Common\AbstractGateway
  * @see \Omnipay\Stripe\Message\AbstractRequest
+ *
  * @link https://stripe.com/docs/api
+ *
+ * @method \Omnipay\Common\Message\RequestInterface completeAuthorize(array $options = array())
+ * @method \Omnipay\Common\Message\RequestInterface completePurchase(array $options = array())
  */
 class Gateway extends AbstractGateway
 {
@@ -539,12 +544,22 @@ class Gateway extends AbstractGateway
     // Tokens
     // @link https://stripe.com/docs/api#tokens
     //
-    // This gateway does not currently have a CreateToken message.  In
-    // any case tokens are probably not what you are looking for because
-    // they are single use.  You probably want to create a Customer or
-    // Card reference instead.  This function is left here for further
-    // expansion.
-    //
+
+    /**
+     * Creates a single use token that wraps the details of a credit card.
+     * This token can be used in place of a credit card associative array with any API method.
+     * These tokens can only be used once: by creating a new charge object, or attaching them to a customer.
+     *
+     * This kind of token is also useful when sharing clients between one platform and a connect account.
+     * Use this request to create a new token to make a direct charge on a customer of the platform.
+     *
+     * @param array $parameters parameters to be passed in to the TokenRequest.
+     * @return CreateTokenRequest|\Omnipay\Common\Message\AbstractRequest The create token request.
+     */
+    public function createToken(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\CreateTokenRequest', $parameters);
+    }
 
     /**
      * Stripe Fetch Token Request.

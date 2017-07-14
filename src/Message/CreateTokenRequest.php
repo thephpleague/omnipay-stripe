@@ -37,10 +37,11 @@ class CreateTokenRequest extends AbstractRequest
      * <strong>Only use this if you are using Connect API</strong>
      *
      * @param string $customer The id of the customer
+     * @return \Omnipay\Common\Message\AbstractRequest|\Omnipay\Stripe\Message\CreateTokenRequest
      */
     public function setCustomer($customer)
     {
-        $this->setParameter('customer', $customer);
+        return $this->setParameter('customer', $customer);
     }
 
     /**
