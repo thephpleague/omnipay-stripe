@@ -67,35 +67,35 @@ class CreateTokenRequest extends AbstractRequest
                 'number' => $card->getNumber(),
             );
 
-            if($card->getBillingCity()) {
+            if ($card->getBillingCity()) {
                 $card_data['address_city'] = $card->getBillingCity();
             }
 
-            if($card->getBillingCountry()) {
+            if ($card->getBillingCountry()) {
                 $card_data['address_country'] = $card->getBillingCountry();
             }
 
-            if($card->getBillingAddress1()) {
+            if ($card->getBillingAddress1()) {
                 $card_data['address_line1'] = $card->getBillingAddress1();
             }
 
-            if($card->getBillingAddress2()) {
+            if ($card->getBillingAddress2()) {
                 $card_data['address_line2'] = $card->getBillingAddress2();
             }
 
-            if($card->getBillingState()) {
+            if ($card->getBillingState()) {
                 $card_data['address_state'] = $card->getBillingState();
             }
 
-            if($card->getBillingPostcode()) {
+            if ($card->getBillingPostcode()) {
                 $card_data['address_zip'] = $card->getBillingPostcode();
             }
 
-            if($card->getCvv()) {
+            if ($card->getCvv()) {
                 $card_data['cvc'] = $card->getCvv();
             }
 
-            if($card->getBillingName()) {
+            if ($card->getBillingName()) {
                 $card_data['name'] = $card->getBillingName();
             }
 
