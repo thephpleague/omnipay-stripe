@@ -5,6 +5,8 @@
  */
 namespace Omnipay\Stripe\Message;
 
+use Omnipay\Stripe\StripeItemBag;
+
 /**
  * Stripe Authorize Request.
  *
@@ -205,6 +207,30 @@ class AuthorizeRequest extends AbstractRequest
         return $this;
     }
 
+    /**
+     * A list of items in this order
+     *
+     * @return ItemBag|null A bag containing items in this order
+     */
+    public function getItems()
+    {
+        return $this->getParameter('items');
+    }
+
+    /**
+     * Set the items in this order
+     *
+     * @param array $items An array of items in this order
+     */
+    public function setItems($items)
+    {
+        if ($items && !$items instanceof ItemBag) {
+            $items = new StripeItemBag($items);
+        }
+
+        return $this->setParameter('items', $items);
+    }
+
     public function getData()
     {
         $this->validate('amount', 'currency');
@@ -216,6 +242,14 @@ class AuthorizeRequest extends AbstractRequest
         $data['description'] = $this->getDescription();
         $data['metadata'] = $this->getMetadata();
         $data['capture'] = 'false';
+
+        if ($items = $this->getItems()) {
+            $itemDescriptions = [];
+            foreach ($items as $n => $item) {
+                $itemDescriptions[] = $item->getDescription();
+            }
+            $data['description'] = implode(" + ", $itemDescriptions);
+        }
 
         if ($this->getStatementDescriptor()) {
             $data['statement_descriptor'] = $this->getStatementDescriptor();
