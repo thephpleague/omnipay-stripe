@@ -108,6 +108,7 @@ class Gateway extends AbstractGateway
     {
         return array(
             'apiKey' => '',
+            'version' => null,
         );
     }
 
@@ -149,6 +150,40 @@ class Gateway extends AbstractGateway
     public function setApiKey($value)
     {
         return $this->setParameter('apiKey', $value);
+    }
+
+    /**
+     * Get the API version.
+     *
+     * @return string|null
+     */
+    public function getVersion()
+    {
+        return $this->getParameter('version');
+    }
+
+    /**
+     * Set the API version.
+     *
+     * Your API version controls the API and webhook behavior you see (e.g.,
+     * what properties you see in responses, what parameters you’re permitted to
+     * send in requests, etc.). Stripe automatically sets your API version when
+     * you make your first request, and requests after that will automatically
+     * use the same API version unless you upgrade it in your Stripe dashboard.
+     *
+     * You can also provide a specific API version to use, which is suggested if
+     * the Stripe account's API version is not under your control.
+     *
+     * @see https://stripe.com/docs/upgrades
+     *
+     * @param string|null $value Stripe API version, or null to use the version
+     *                           set on the account.
+     *
+     * @return Gateway provides a fluent interface.
+     */
+    public function setVersion($value)
+    {
+        return $this->setParameter('version', $value);
     }
 
     /**

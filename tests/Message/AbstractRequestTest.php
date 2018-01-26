@@ -21,6 +21,12 @@ class AbstractRequestTest extends TestCase
 
     public function testCardToken()
     {
+        $this->assertSame($this->request, $this->request->setCardToken('abc123'));
+        $this->assertSame('abc123', $this->request->getCardToken());
+    }
+
+    public function testToken()
+    {
         $this->assertSame($this->request, $this->request->setToken('abc123'));
         $this->assertSame('abc123', $this->request->getToken());
     }
@@ -78,7 +84,6 @@ class AbstractRequestTest extends TestCase
         $this->assertTrue($httpRequest->hasHeader('Idempotency-Key'));
     }
 
-
     public function testConnectedStripeAccount()
     {
         $this->request->setConnectedStripeAccountHeader('ACCOUNT_ID');
@@ -98,5 +103,16 @@ class AbstractRequestTest extends TestCase
         );
 
         $this->assertTrue($httpRequest->hasHeader('Stripe-Account'));
+    }
+
+    public function testVersion()
+    {
+        $this->assertSame($this->request, $this->request->setVersion('2001-01-01'));
+        $this->assertSame('2001-01-01', $this->request->getVersion());
+
+        $headers = $this->request->getHeaders();
+
+        $this->assertArrayHasKey('Stripe-Version', $headers);
+        $this->assertSame('2001-01-01', $headers['Stripe-Version']);
     }
 }

@@ -112,6 +112,28 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
+     * Get the version.
+     *
+     * @return string
+     */
+    public function getVersion()
+    {
+        return $this->getParameter('version');
+    }
+
+    /**
+     * Set the version.
+     *
+     * @param string $value
+     *
+     * @return AbstractRequest provides a fluent interface.
+     */
+    public function setVersion($value)
+    {
+        return $this->setParameter('version', $value);
+    }
+
+    /**
      * Connect only
      *
      * @return mixed
@@ -171,6 +193,10 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     public function getHeaders()
     {
         $headers = array();
+
+        if ($this->getVersion()) {
+            $headers['Stripe-Version'] = $this->getVersion();
+        }
 
         if ($this->getConnectedStripeAccountHeader()) {
             $headers['Stripe-Account'] = $this->getConnectedStripeAccountHeader();
