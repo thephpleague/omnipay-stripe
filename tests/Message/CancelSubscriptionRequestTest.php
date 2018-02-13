@@ -6,6 +6,11 @@ use Omnipay\Tests\TestCase;
 
 class CancelSubscriptionRequestTest extends TestCase
 {
+    /**
+     * @var CancelSubscriptionRequest
+     */
+    private $request;
+
     public function setUp()
     {
         $this->request = new CancelSubscriptionRequest($this->getHttpClient(), $this->getHttpRequest());

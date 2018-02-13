@@ -71,8 +71,7 @@ class AbstractRequestTest extends TestCase
         $httpRequest = $this->getHttpClient()->createRequest(
             'GET',
             '/',
-            $headers,
-            array()
+            $headers
         );
 
         $this->assertTrue($httpRequest->hasHeader('Idempotency-Key'));
@@ -93,8 +92,7 @@ class AbstractRequestTest extends TestCase
         $httpRequest = $this->getHttpClient()->createRequest(
             'GET',
             '/',
-            $headers,
-            array()
+            $headers
         );
 
         $this->assertTrue($httpRequest->hasHeader('Stripe-Account'));

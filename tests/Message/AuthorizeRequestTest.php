@@ -6,6 +6,11 @@ use Omnipay\Tests\TestCase;
 
 class AuthorizeRequestTest extends TestCase
 {
+    /**
+     * @var AuthorizeRequest
+     */
+    private $request;
+
     public function setUp()
     {
         $this->request = new AuthorizeRequest($this->getHttpClient(), $this->getHttpRequest());

@@ -36,7 +36,7 @@ class FetchTransferReversalRequestTest extends TestCase
     public function testSendSuccess()
     {
         $this->setMockHttpResponse(
-            array(Response::fromMessage(file_get_contents($this->mockDir.'/FetchTransferReversalSuccess.txt')))
+            array(\GuzzleHttp\Psr7\parse_response(file_get_contents($this->mockDir.'/FetchTransferReversalSuccess.txt')))
         );
 
         /** @var \Omnipay\Stripe\Message\Response $response */
@@ -51,7 +51,7 @@ class FetchTransferReversalRequestTest extends TestCase
     public function testSendFailure()
     {
         $this->setMockHttpResponse(
-            array(Response::fromMessage(file_get_contents($this->mockDir.'/FetchTransferReversalFailure.txt')))
+            array(\GuzzleHttp\Psr7\parse_response(file_get_contents($this->mockDir.'/FetchTransferReversalFailure.txt')))
         );
         $response = $this->request->send();
 

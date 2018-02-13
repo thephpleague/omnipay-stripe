@@ -5,6 +5,8 @@
  */
 namespace Omnipay\Stripe\Message;
 
+use Money\Formatter\DecimalMoneyFormatter;
+
 /**
  * Stripe Authorize Request.
  *
@@ -148,20 +150,39 @@ class AuthorizeRequest extends AbstractRequest
         return $this->setParameter('onBehalfOf', $value);
     }
 
+
     /**
-     * @return float
+     * @return string
+     * @throws \Omnipay\Common\Exception\InvalidRequestException
      */
     public function getApplicationFee()
     {
-        return $this->getParameter('applicationFee');
+        $money = $this->getMoney('applicationFee');
+
+        if ($money !== null) {
+            $moneyFormatter = new DecimalMoneyFormatter($this->getCurrencies());
+
+            return $moneyFormatter->format($money);
+        }
+
+        return '';
     }
 
     /**
-     * @return int
+     * Get the payment amount as an integer.
+     *
+     * @return integer
+     * @throws \Omnipay\Common\Exception\InvalidRequestException
      */
     public function getApplicationFeeInteger()
     {
-        return (int) round($this->getApplicationFee() * pow(10, $this->getCurrencyDecimalPlaces()));
+        $money = $this->getMoney('applicationFee');
+
+        if ($money !== null) {
+            return (integer) $money->getAmount();
+        }
+
+        return 0;
     }
 
     /**
