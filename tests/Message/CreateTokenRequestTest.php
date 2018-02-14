@@ -8,7 +8,6 @@
 
 namespace Omnipay\Stripe\Message;
 
-
 use Omnipay\Tests\TestCase;
 
 class CreateTokenRequestTest extends TestCase
@@ -76,6 +75,4 @@ class CreateTokenRequestTest extends TestCase
         $this->assertSame('tok_1AWDl1JqXiFraDuL2xOKEXKy', $data['id']);
         $this->assertSame('token', $data['object']);
     }
-
-
 }
