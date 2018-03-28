@@ -26,14 +26,17 @@
         "psr-4": { "Omnipay\\Stripe\\" : "src/" }
     },
     "require": {
-        "omnipay/common": "~2.0"
+	    "php": "^7",
+        "omnipay/common": "^3"
     },
     "require-dev": {
-        "omnipay/tests": "~2.0"
+        "omnipay/tests": "^3"
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.0.x-dev"
+            "dev-master": "3.0.x-dev"
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
