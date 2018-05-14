@@ -8,7 +8,7 @@ namespace Omnipay\Stripe\Message;
 /**
  * Stripe Create Plan Request
  *
- * @see Omnipay\Stripe\Gateway
+ * @see \Omnipay\Stripe\Gateway
  * @link https://stripe.com/docs/api#create_plan
  */
 class CreatePlanRequest extends AbstractRequest

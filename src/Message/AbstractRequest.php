@@ -6,7 +6,11 @@
 
 namespace Omnipay\Stripe\Message;
 
-use Omnipay\Common\Message\ResponseInterface;
+use Money\Currency;
+use Money\Money;
+use Money\Number;
+use Money\Parser\DecimalMoneyParser;
+use Omnipay\Common\Exception\InvalidRequestException;
 
 /**
  * Stripe Abstract Request.
@@ -124,7 +128,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     /**
      * @param string $value
      *
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return AbstractRequest
      */
     public function setConnectedStripeAccountHeader($value)
     {
@@ -144,7 +148,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     /**
      * @param string $value
      *
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return AbstractRequest
      */
     public function setIdempotencyKeyHeader($value)
     {
@@ -184,62 +188,23 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
-     * @param       $data
-     * @param array $headers
-     *
-     * @return \Guzzle\Http\Message\RequestInterface
-     */
-    protected function createClientRequest($data, array $headers = null)
-    {
-        // Stripe only accepts TLS >= v1.2, so make sure Curl is told
-        $config                          = $this->httpClient->getConfig();
-        $curlOptions                     = $config->get('curl.options');
-        $curlOptions[CURLOPT_SSLVERSION] = 6;
-        $config->set('curl.options', $curlOptions);
-        $this->httpClient->setConfig($config);
-
-        // don't throw exceptions for 4xx errors
-        $this->httpClient->getEventDispatcher()->addListener(
-            'request.error',
-            function ($event) {
-                if ($event['response']->isClientError()) {
-                    $event->stopPropagation();
-                }
-            }
-        );
-
-        $httpRequest = $this->httpClient->createRequest(
-            $this->getHttpMethod(),
-            $this->getEndpoint(),
-            $headers,
-            $data
-        );
-
-        return $httpRequest;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function sendData($data)
     {
-        $headers = array_merge(
-            $this->getHeaders(),
-            array('Authorization' => 'Basic ' . base64_encode($this->getApiKey() . ':'))
-        );
+        $headers = array('Authorization' => 'Basic ' . base64_encode($this->getApiKey() . ':'));
+        $body = $data ? http_build_query($data, '', '&') : null;
+        $httpResponse = $this->httpClient->request($this->getHttpMethod(), $this->getEndpoint(), $headers, $body);
 
-        $httpRequest  = $this->createClientRequest($data, $headers);
-        $httpResponse = $httpRequest->send();
-
-        $this->response = new Response($this, $httpResponse->json());
-
-        if ($httpResponse->hasHeader('Request-Id')) {
-            $this->response->setRequestId((string) $httpResponse->getHeader('Request-Id'));
-        }
-
-        return $this->response;
+        return $this->createResponse($httpResponse->getBody()->getContents(), $httpResponse->getHeaders());
     }
 
+
+    protected function createResponse($data, $headers = [])
+    {
+        return $this->response = new Response($this, $data, $headers);
+    }
+    
     /**
      * @return mixed
      */
@@ -256,6 +221,50 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     public function setSource($value)
     {
         return $this->setParameter('source', $value);
+    }
+
+    /**
+     * @param string $parameterName
+     *
+     * @return null|Money
+     * @throws InvalidRequestException
+     */
+    public function getMoney($parameterName = 'amount')
+    {
+        $amount = $this->getParameter($parameterName);
+
+        if ($amount instanceof Money) {
+            return $amount;
+        }
+
+        if ($amount !== null) {
+            $moneyParser = new DecimalMoneyParser($this->getCurrencies());
+            $currencyCode = $this->getCurrency() ?: 'USD';
+            $currency = new Currency($currencyCode);
+
+            $number = Number::fromString($amount);
+
+            // Check for rounding that may occur if too many significant decimal digits are supplied.
+            $decimal_count = strlen($number->getFractionalPart());
+            $subunit = $this->getCurrencies()->subunitFor($currency);
+            if ($decimal_count > $subunit) {
+                throw new InvalidRequestException('Amount precision is too high for currency.');
+            }
+
+            $money = $moneyParser->parse((string) $number, $currency->getCode());
+
+            // Check for a negative amount.
+            if (!$this->negativeAmountAllowed && $money->isNegative()) {
+                throw new InvalidRequestException('A negative amount is not allowed.');
+            }
+
+            // Check for a zero amount.
+            if (!$this->zeroAmountAllowed && $money->isZero()) {
+                throw new InvalidRequestException('A zero amount is not allowed.');
+            }
+
+            return $money;
+        }
     }
 
     /**
@@ -288,7 +297,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         $data['address_zip'] = $card->getPostcode();
         $data['address_state'] = $card->getState();
         $data['address_country'] = $card->getCountry();
-        $data['email']           = $card->getEmail();
+        $data['email'] = $card->getEmail();
 
         return $data;
     }

@@ -8,7 +8,7 @@ namespace Omnipay\Stripe\Message;
 /**
  * Stripe Cancel Subscription Request.
  *
- * @see Omnipay\Stripe\Gateway
+ * @see \Omnipay\Stripe\Gateway
  * @link https://stripe.com/docs/api/#cancel_subscription
  */
 class CancelSubscriptionRequest extends AbstractRequest

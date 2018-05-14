@@ -6,6 +6,11 @@ use Omnipay\Tests\TestCase;
 
 class DeleteCardRequestTest extends TestCase
 {
+    /**
+     * @var DeleteCardRequest
+     */
+    private $request;
+
     public function setUp()
     {
         $this->request = new DeleteCardRequest($this->getHttpClient(), $this->getHttpRequest());
