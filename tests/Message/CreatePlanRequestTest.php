@@ -9,7 +9,7 @@ class CreatePlanRequestTest extends TestCase
     /**
      * @var CreatePlanRequest
      */
-    protected $request;
+    private $request;
 
     public function setUp()
     {

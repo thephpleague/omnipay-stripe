@@ -8,7 +8,7 @@ namespace Omnipay\Stripe\Message;
 /**
  * Stripe Create Invoice Item Request
  *
- * @see Omnipay\Stripe\Gateway
+ * @see \Omnipay\Stripe\Gateway
  * @link https://stripe.com/docs/api#create_invoiceitem
  *
  * Providing the invoice-item reference will update the invoice-item

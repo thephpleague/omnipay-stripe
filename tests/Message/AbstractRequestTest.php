@@ -2,6 +2,7 @@
 
 namespace Omnipay\Stripe\Message;
 
+use GuzzleHttp\Psr7\Request;
 use Mockery;
 use Omnipay\Tests\TestCase;
 
@@ -55,5 +56,46 @@ class AbstractRequestTest extends TestCase
     {
         $this->assertSame($this->request, $this->request->setMetadata(array('foo' => 'bar')));
         $this->assertSame(array('foo' => 'bar'), $this->request->getMetadata());
+    }
+
+    public function testIdempotencyKey()
+    {
+        $this->request->setIdempotencyKeyHeader('UUID');
+
+        $this->assertSame('UUID', $this->request->getIdempotencyKeyHeader());
+
+        $headers = $this->request->getHeaders();
+
+        $this->assertArrayHasKey('Idempotency-Key', $headers);
+        $this->assertSame('UUID', $headers['Idempotency-Key']);
+
+        $httpRequest = new Request(
+            'GET',
+            '/',
+            $headers
+        );
+
+        $this->assertTrue($httpRequest->hasHeader('Idempotency-Key'));
+    }
+
+
+    public function testConnectedStripeAccount()
+    {
+        $this->request->setConnectedStripeAccountHeader('ACCOUNT_ID');
+
+        $this->assertSame('ACCOUNT_ID', $this->request->getConnectedStripeAccountHeader());
+
+        $headers = $this->request->getHeaders();
+
+        $this->assertArrayHasKey('Stripe-Account', $headers);
+        $this->assertSame('ACCOUNT_ID', $headers['Stripe-Account']);
+
+        $httpRequest = new Request(
+            'GET',
+            '/',
+            $headers
+        );
+
+        $this->assertTrue($httpRequest->hasHeader('Stripe-Account'));
     }
 }

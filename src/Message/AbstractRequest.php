@@ -3,7 +3,14 @@
 /**
  * Stripe Abstract Request.
  */
+
 namespace Omnipay\Stripe\Message;
+
+use Money\Currency;
+use Money\Money;
+use Money\Number;
+use Money\Parser\DecimalMoneyParser;
+use Omnipay\Common\Exception\InvalidRequestException;
 
 /**
  * Stripe Abstract Request.
@@ -29,8 +36,6 @@ namespace Omnipay\Stripe\Message;
  *
  * @see \Omnipay\Stripe\Gateway
  * @link https://stripe.com/docs/api
- *
- * @method \Omnipay\Stripe\Message\Response send()
  */
 abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
@@ -110,6 +115,46 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->setParameter('metadata', $value);
     }
 
+    /**
+     * Connect only
+     *
+     * @return mixed
+     */
+    public function getConnectedStripeAccountHeader()
+    {
+        return $this->getParameter('connectedStripeAccount');
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return AbstractRequest
+     */
+    public function setConnectedStripeAccountHeader($value)
+    {
+        return $this->setParameter('connectedStripeAccount', $value);
+    }
+
+    /**
+     * Connect only
+     *
+     * @return mixed
+     */
+    public function getIdempotencyKeyHeader()
+    {
+        return $this->getParameter('idempotencyKey');
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return AbstractRequest
+     */
+    public function setIdempotencyKeyHeader($value)
+    {
+        return $this->setParameter('idempotencyKey', $value);
+    }
+
     abstract public function getEndpoint();
 
     /**
@@ -124,44 +169,42 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return 'POST';
     }
 
-    public function sendData($data)
+    /**
+     * @return array
+     */
+    public function getHeaders()
     {
-        // Stripe only accepts TLS >= v1.2, so make sure Curl is told
-        $config = $this->httpClient->getConfig();
-        $curlOptions = $config->get('curl.options');
-        $curlOptions[CURLOPT_SSLVERSION] = 6;
-        $config->set('curl.options', $curlOptions);
-        $this->httpClient->setConfig($config);
-        
-        // don't throw exceptions for 4xx errors
-        $this->httpClient->getEventDispatcher()->addListener(
-            'request.error',
-            function ($event) {
-                if ($event['response']->isClientError()) {
-                    $event->stopPropagation();
-                }
-            }
-        );
+        $headers = array();
 
-        $httpRequest = $this->httpClient->createRequest(
-            $this->getHttpMethod(),
-            $this->getEndpoint(),
-            null,
-            $data
-        );
-        $httpResponse = $httpRequest
-            ->setHeader('Authorization', 'Basic '.base64_encode($this->getApiKey().':'))
-            ->send();
-        
-        $this->response = new Response($this, $httpResponse->json());
-        
-        if ($httpResponse->hasHeader('Request-Id')) {
-            $this->response->setRequestId((string) $httpResponse->getHeader('Request-Id'));
+        if ($this->getConnectedStripeAccountHeader()) {
+            $headers['Stripe-Account'] = $this->getConnectedStripeAccountHeader();
         }
 
-        return $this->response;
+        if ($this->getIdempotencyKeyHeader()) {
+            $headers['Idempotency-Key'] = $this->getIdempotencyKeyHeader();
+        }
+
+        return $headers;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function sendData($data)
+    {
+        $headers = array('Authorization' => 'Basic ' . base64_encode($this->getApiKey() . ':'));
+        $body = $data ? http_build_query($data, '', '&') : null;
+        $httpResponse = $this->httpClient->request($this->getHttpMethod(), $this->getEndpoint(), $headers, $body);
+
+        return $this->createResponse($httpResponse->getBody()->getContents(), $httpResponse->getHeaders());
+    }
+
+
+    protected function createResponse($data, $headers = [])
+    {
+        return $this->response = new Response($this, $data, $headers);
+    }
+    
     /**
      * @return mixed
      */
@@ -180,6 +223,49 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->setParameter('source', $value);
     }
 
+    /**
+     * @param string $parameterName
+     *
+     * @return null|Money
+     * @throws InvalidRequestException
+     */
+    public function getMoney($parameterName = 'amount')
+    {
+        $amount = $this->getParameter($parameterName);
+
+        if ($amount instanceof Money) {
+            return $amount;
+        }
+
+        if ($amount !== null) {
+            $moneyParser = new DecimalMoneyParser($this->getCurrencies());
+            $currencyCode = $this->getCurrency() ?: 'USD';
+            $currency = new Currency($currencyCode);
+
+            $number = Number::fromString($amount);
+
+            // Check for rounding that may occur if too many significant decimal digits are supplied.
+            $decimal_count = strlen($number->getFractionalPart());
+            $subunit = $this->getCurrencies()->subunitFor($currency);
+            if ($decimal_count > $subunit) {
+                throw new InvalidRequestException('Amount precision is too high for currency.');
+            }
+
+            $money = $moneyParser->parse((string) $number, $currency->getCode());
+
+            // Check for a negative amount.
+            if (!$this->negativeAmountAllowed && $money->isNegative()) {
+                throw new InvalidRequestException('A negative amount is not allowed.');
+            }
+
+            // Check for a zero amount.
+            if (!$this->zeroAmountAllowed && $money->isZero()) {
+                throw new InvalidRequestException('A zero amount is not allowed.');
+            }
+
+            return $money;
+        }
+    }
 
     /**
      * Get the card data.
@@ -211,7 +297,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         $data['address_zip'] = $card->getPostcode();
         $data['address_state'] = $card->getState();
         $data['address_country'] = $card->getCountry();
-        $data['email']           = $card->getEmail();
+        $data['email'] = $card->getEmail();
 
         return $data;
     }
