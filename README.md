@@ -11,12 +11,11 @@ processing library for PHP. This package implements Stripe support for Omnipay.
 
 ## Installation
 
-Omnipay is installed via [Composer](http://getcomposer.org/). To install, simply require `omnipay/omnipay` and `omnipay/stripe` with Composer:
+Omnipay is installed via [Composer](http://getcomposer.org/). To install, simply require `league/omnipay` and `omnipay/stripe` with Composer:
 
 ```
-composer require omnipay/omnipay omnipay/stripe
+composer require league/omnipay omnipay/stripe
 ```
-
 
 ## Basic Usage
 
