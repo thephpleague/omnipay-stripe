@@ -26,7 +26,6 @@
         "psr-4": { "Omnipay\\Stripe\\" : "src/" }
     },
     "require": {
-	    "php": "^7.1",
         "omnipay/common": "^3"
     },
     "require-dev": {
