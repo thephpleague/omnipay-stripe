@@ -15,7 +15,30 @@ Cache-Control: no-cache, no-store
   "current_period_end": 1456351198,
   "current_period_start": 1453672798,
   "customer": "cus_7lqqgOm33t4xSU",
-  "discount": null,
+  "discount": {
+    "object": "discount",
+    "coupon": {
+      "id": "coupon",
+      "object": "coupon",
+      "amount_off": 1000,
+      "created": 1527675025,
+      "currency": "eur",
+      "duration": "forever",
+      "duration_in_months": null,
+      "livemode": null,
+      "max_redemptions": null,
+      "metadata": [],
+      "name": "coupon",
+      "percent_off": null,
+      "redeem_by": null,
+      "times_redeemed": 8,
+      "valid": true
+    },
+    "customer": "cus_7lqqgOm33t4xSU",
+    "end": null,
+    "start": 1528819844,
+    "subscription": "sub_7uNSBwlTzGjYWw"
+  },
   "ended_at": null,
   "metadata": {},
   "plan": {
