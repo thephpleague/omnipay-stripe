@@ -299,6 +299,21 @@ class Response extends AbstractResponse
     }
 
     /**
+     * Get the subscription coupon from the response of CreateSubscriptionRequest
+     * and UpdateSubscriptionRequest
+     *
+     * @return string|null
+     */
+    public function getCoupon()
+    {
+        if (isset($this->data['discount'])) {
+            return $this->data['discount']['coupon']['id'];
+        }
+
+        return null;
+    }
+
+    /**
      * Get plan id
      *
      * @return string|null
