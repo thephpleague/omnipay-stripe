@@ -54,6 +54,27 @@ class UpdateSubscriptionRequest extends AbstractRequest
     }
 
     /**
+     * Get the coupon
+     *
+     * @return string
+     */
+    public function getCoupon()
+    {
+        return $this->getParameter('coupon');
+    }
+
+    /**
+     * Set the coupon
+     *
+     * @param $value
+     * @return \Omnipay\Common\Message\AbstractRequest|UpdateSubscriptionRequest
+     */
+    public function setCoupon($value)
+    {
+        return $this->setParameter('coupon', $value);
+    }
+
+    /**
      * Get the subscription reference
      *
      * @return string
@@ -81,6 +102,10 @@ class UpdateSubscriptionRequest extends AbstractRequest
         $data = array(
             'plan' => $this->getPlan()
         );
+
+        if ($this->parameters->has('coupon')) {
+            $data['coupon'] = $this->getCoupon();
+        }
 
         if ($this->parameters->has('tax_percent')) {
             $data['tax_percent'] = (float)$this->getParameter('tax_percent');
