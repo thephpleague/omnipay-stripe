@@ -55,8 +55,24 @@ class Response extends AbstractResponse
      */
     public function getChargeReference()
     {
-        if (isset($this->data['object']) && $this->data['object'] == 'charge') {
+        if (isset($this->data['object']) && 'charge' === $this->data['object']) {
             return $this->data['id'];
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the outcome of a charge from the response
+     *
+     * @return array|null
+     */
+    public function getOutcome()
+    {
+        if (isset($this->data['object']) && 'charge' === $this->data['object']) {
+            if (isset($this->data['outcome']) && !empty($this->data['outcome'])) {
+                return $this->data['outcome'];
+            }
         }
 
         return null;
