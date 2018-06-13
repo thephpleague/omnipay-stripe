@@ -17,6 +17,8 @@ class UpdateSubscriptionRequestTest extends TestCase
         $this->request->setCustomerReference('cus_7lqqgOm33t4xSU');
         $this->request->setSubscriptionReference('sub_7uNSBwlTzGjYWw');
         $this->request->setPlan('basic');
+        $this->request->setCoupon('coupon');
+
     }
 
     public function testEndpoint()
@@ -36,6 +38,7 @@ class UpdateSubscriptionRequestTest extends TestCase
         $this->assertSame('sub_7uNSBwlTzGjYWw', $response->getSubscriptionReference());
         $this->assertNotNull($response->getPlan());
         $this->assertNull($response->getMessage());
+        $this->assertNotNull($response->getCoupon());
     }
 
 
@@ -49,6 +52,7 @@ class UpdateSubscriptionRequestTest extends TestCase
         $this->assertFalse($response->isRedirect());
         $this->assertNull($response->getSubscriptionReference());
         $this->assertNull($response->getPlan());
+        $this->assertNull($response->getCoupon());
 
         $customerReference = $this->request->getCustomerReference();
         $subscriptionReference = $this->request->getSubscriptionReference();
