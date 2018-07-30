@@ -35,7 +35,11 @@ class DeleteCardRequest extends AbstractRequest
 {
     public function getData()
     {
-        $this->validate('cardReference');
+        $this->validate('customerReference');
+        if($this->getCardReference() && $this->getCardReference()==""){
+            $this->validate('cardReference');
+        }
+
 
         return;
     }
