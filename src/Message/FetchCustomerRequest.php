@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Stripe Delete Customer Request.
+ * Stripe Fetch Customer Request.
  */
 namespace Omnipay\Stripe\Message;
 

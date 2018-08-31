@@ -496,6 +496,21 @@ class Gateway extends AbstractGateway
     }
 
     /**
+     * Attach Source
+     *
+     * Attaches source to customer.
+     *
+     * @param array $parameters
+     *
+     * @return \Omnipay\Stripe\Message\AttachSourceRequest
+     */
+    public function attachSource(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\AttachSourceRequest', $parameters);
+    }
+
+
+    /**
      * Update Customer.
      *
      * This request updates the specified customer by setting the values
