@@ -149,7 +149,9 @@ class CreatePlanRequest extends AbstractRequest
             'amount' => $this->getAmountInteger(),
             'currency' => $this->getCurrency(),
             'interval' => $this->getInterval(),
-            'name' => $this->getName()
+            'product' => array(
+                'name' => $this->getName()
+            )
         );
 
         $intervalCount = $this->getIntervalCount();
