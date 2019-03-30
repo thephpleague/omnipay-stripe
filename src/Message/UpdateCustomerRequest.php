@@ -50,11 +50,32 @@ class UpdateCustomerRequest extends AbstractRequest
      * Sets the customer's email address.
      *
      * @param string $value
-     * @return CreateCustomerRequest provides a fluent interface.
+     * @return UpdateCustomerRequest provides a fluent interface.
      */
     public function setEmail($value)
     {
         return $this->setParameter('email', $value);
+    }
+
+    /**
+     * Get the customer's shipping address.
+     *
+     * @return array
+     */
+    public function getShipping()
+    {
+        return $this->getParameter('shipping');
+    }
+
+    /**
+     * Sets the customer's shipping address.
+     *
+     * @param array $value
+     * @return UpdateCustomerRequest provides a fluent interface.
+     */
+    public function setShipping($value)
+    {
+        return $this->setParameter('shipping', $value);
     }
 
     /**
@@ -71,7 +92,7 @@ class UpdateCustomerRequest extends AbstractRequest
      * Sets the customer's source.
      *
      * @param string $value
-     * @return CreateCustomerRequest provides a fluent interface.
+     * @return UpdateCustomerRequest provides a fluent interface.
      */
     public function setSource($value)
     {
@@ -100,6 +121,10 @@ class UpdateCustomerRequest extends AbstractRequest
 
         if ($this->getSource()) {
             $data['source'] = $this->getSource();
+        }
+
+        if ($this->getShipping()) {
+            $data['shipping'] = $this->getShipping();
         }
 
         return $data;
