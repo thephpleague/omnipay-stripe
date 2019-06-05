@@ -386,8 +386,8 @@ class Response extends AbstractResponse
      */
     public function getRequestId()
     {
-        if (isset($this->headers['Request-Id'])) {
-            return $this->headers['Request-Id'][0];
+        if (isset($this->headers[strtolower('Request-Id')])) {
+            return $this->headers[strtolower('Request-Id')][0];
         }
 
         return null;
