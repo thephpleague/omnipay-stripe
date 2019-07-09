@@ -21,7 +21,8 @@ composer require league/omnipay omnipay/stripe
 
 The following gateways are provided by this package:
 
-* [Stripe](https://stripe.com/)
+* [Stripe Charge](https://stripe.com/docs/charges)
+* [Stripe Payment Intents](https://stripe.com/docs/payments/payment-intents)
 
 For general usage instructions, please see the main [Omnipay](https://github.com/thephpleague/omnipay)
 repository.
