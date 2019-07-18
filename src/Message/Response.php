@@ -125,11 +125,13 @@ class Response extends AbstractResponse
         if (isset($this->data['object']) && 'customer' === $this->data['object']) {
             return $this->data['id'];
         }
+
         if (isset($this->data['object']) && 'card' === $this->data['object']) {
             if (!empty($this->data['customer'])) {
                 return $this->data['customer'];
             }
         }
+
         if (isset($this->data['object']) && 'charge' === $this->data['object']) {
             if (!empty($this->data['customer'])) {
                 return $this->data['customer'];
@@ -159,11 +161,13 @@ class Response extends AbstractResponse
                 return $this->data['id'];
             }
         }
+
         if (isset($this->data['object']) && 'card' === $this->data['object']) {
             if (!empty($this->data['id'])) {
                 return $this->data['id'];
             }
         }
+
         if (isset($this->data['object']) && 'charge' === $this->data['object']) {
             if (! empty($this->data['source'])) {
                 if (! empty($this->data['source']['id'])) {
