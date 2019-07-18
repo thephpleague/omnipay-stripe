@@ -98,7 +98,7 @@ if ($response->isSuccessful()) {
 }
 ```
 
-4) The customer is redirected to the 3DS authentication page. Once he authenticates (or fails to do so), the customer is redirected to the URL specified earlier with `completePaymentUrl`.
+4) The customer is redirected to the 3DS authentication page. Once they authenticate (or fail to do so), the customer is redirected to the URL specified earlier with `completePaymentUrl`.
 
 5) Retrieve the `$paymentIntentReference` mentioned at the end of step (2).
 
