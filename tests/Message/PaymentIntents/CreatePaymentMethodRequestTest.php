@@ -65,6 +65,14 @@ class CreatePaymentMethodRequestTest extends TestCase
         $this->assertSame('xyz', $data['source']);
     }
 
+    public function testNoBillingDetails()
+    {
+        $this->request->setCard(null);
+        $this->request->setToken('xyz');
+
+        $this->request->getData();
+    }
+
     public function testDataWithCard()
     {
         $card = $this->getValidCard();

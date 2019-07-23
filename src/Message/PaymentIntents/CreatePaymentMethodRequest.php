@@ -69,9 +69,11 @@ class CreatePaymentMethodRequest extends AbstractRequest
             $this->validate('card');
         }
 
-        if ($billingDetails = $this->getBillingDetails()) {
+        if ($this->getCard() && $billingDetails = $this->getBillingDetails()) {
             $data['billing_details'] = $billingDetails;
         }
+
+        $data['type'] = 'card';
 
         return $data;
     }
