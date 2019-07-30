@@ -3,12 +3,13 @@
 /**
  * Stripe Create Plan Request.
  */
+
 namespace Omnipay\Stripe\Message;
 
 /**
  * Stripe Create Plan Request
  *
- * @see Omnipay\Stripe\Gateway
+ * @see \Omnipay\Stripe\Gateway
  * @link https://stripe.com/docs/api#create_plan
  */
 class CreatePlanRequest extends AbstractRequest
@@ -16,11 +17,12 @@ class CreatePlanRequest extends AbstractRequest
     /**
      * Set the plan ID
      *
-     * @return CreatePlanRequest provides a fluent interface.
+     * @param $value
+     * @return \Omnipay\Common\Message\AbstractRequest|CreatePlanRequest
      */
-    public function setId($planId)
+    public function setId($value)
     {
-        return $this->setParameter('id', $planId);
+        return $this->setParameter('id', $value);
     }
 
     /**
@@ -34,53 +36,14 @@ class CreatePlanRequest extends AbstractRequest
     }
 
     /**
-     * Set the plan amount
-     *
-     * @return CreatePlanRequest provides a fluent interface.
-     */
-    public function setAmount($planAmount)
-    {
-        return $this->setParameter('amount', $planAmount);
-    }
-
-    /**
-     * Get the plan amount
-     *
-     * @return int
-     */
-    public function getAmount()
-    {
-        return $this->getParameter('amount');
-    }
-
-    /**
-     * Set the plan currency
-     *
-     * @return CreatePlanRequest provides a fluent interface.
-     */
-    public function setCurrency($planCurrency)
-    {
-        return $this->setParameter('currency', $planCurrency);
-    }
-
-    /**
-     * Get the plan currency
-     *
-     * @return string
-     */
-    public function getCurrency()
-    {
-        return $this->getParameter('currency');
-    }
-
-    /**
      * Set the plan interval
      *
-     * @return CreatePlanRequest provides a fluent interface.
+     * @param $value
+     * @return \Omnipay\Common\Message\AbstractRequest|CreatePlanRequest
      */
-    public function setInterval($planInterval)
+    public function setInterval($value)
     {
-        return $this->setParameter('interval', $planInterval);
+        return $this->setParameter('interval', $value);
     }
 
     /**
@@ -96,11 +59,12 @@ class CreatePlanRequest extends AbstractRequest
     /**
      * Set the plan interval count
      *
-     * @return CreatePlanRequest provides a fluent interface.
+     * @param $value
+     * @return \Omnipay\Common\Message\AbstractRequest|CreatePlanRequest
      */
-    public function setIntervalCount($planIntervalCount)
+    public function setIntervalCount($value)
     {
-        return $this->setParameter('interval_count', $planIntervalCount);
+        return $this->setParameter('interval_count', $value);
     }
 
     /**
@@ -116,11 +80,12 @@ class CreatePlanRequest extends AbstractRequest
     /**
      * Set the plan name
      *
-     * @return CreatePlanRequest provides a fluent interface.
+     * @param $value
+     * @return \Omnipay\Common\Message\AbstractRequest|CreatePlanRequest
      */
-    public function setName($planName)
+    public function setName($value)
     {
-        return $this->setParameter('name', $planName);
+        return $this->setParameter('name', $value);
     }
 
     /**
@@ -136,7 +101,8 @@ class CreatePlanRequest extends AbstractRequest
     /**
      * Set the plan statement descriptor
      *
-     * @return CreatePlanRequest provides a fluent interface.
+     * @param $planStatementDescriptor
+     * @return \Omnipay\Common\Message\AbstractRequest|CreatePlanRequest
      */
     public function setStatementDescriptor($planStatementDescriptor)
     {
@@ -156,7 +122,8 @@ class CreatePlanRequest extends AbstractRequest
     /**
      * Set the plan trial period days
      *
-     * @return CreatePlanRequest provides a fluent interface.
+     * @param $planTrialPeriodDays
+     * @return \Omnipay\Common\Message\AbstractRequest|CreatePlanRequest
      */
     public function setTrialPeriodDays($planTrialPeriodDays)
     {
@@ -179,7 +146,7 @@ class CreatePlanRequest extends AbstractRequest
 
         $data = array(
             'id' => $this->getId(),
-            'amount' => $this->getAmount(),
+            'amount' => $this->getAmountInteger(),
             'currency' => $this->getCurrency(),
             'interval' => $this->getInterval(),
             'name' => $this->getName()

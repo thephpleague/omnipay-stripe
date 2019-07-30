@@ -57,7 +57,49 @@ class CreateTokenRequest extends AbstractRequest
         if ($this->getParameter('customer')) {
             $data['customer'] = $this->getParameter('customer');
         } elseif ($this->getParameter('card')) {
-            $data['card'] = $this->getParameter('card');
+            /* @var $card \OmniPay\Common\CreditCard */
+            $card = $this->getParameter('card');
+            $card->validate();
+
+            $card_data = array(
+                'exp_month' => $card->getExpiryMonth(),
+                'exp_year' => $card->getExpiryYear(),
+                'number' => $card->getNumber(),
+            );
+
+            if ($card->getBillingCity()) {
+                $card_data['address_city'] = $card->getBillingCity();
+            }
+
+            if ($card->getBillingCountry()) {
+                $card_data['address_country'] = $card->getBillingCountry();
+            }
+
+            if ($card->getBillingAddress1()) {
+                $card_data['address_line1'] = $card->getBillingAddress1();
+            }
+
+            if ($card->getBillingAddress2()) {
+                $card_data['address_line2'] = $card->getBillingAddress2();
+            }
+
+            if ($card->getBillingState()) {
+                $card_data['address_state'] = $card->getBillingState();
+            }
+
+            if ($card->getBillingPostcode()) {
+                $card_data['address_zip'] = $card->getBillingPostcode();
+            }
+
+            if ($card->getCvv()) {
+                $card_data['cvc'] = $card->getCvv();
+            }
+
+            if ($card->getBillingName()) {
+                $card_data['name'] = $card->getBillingName();
+            }
+
+            $data['card'] = $card_data;
         } else {
             throw new InvalidRequestException("You must pass either the card or the customer");
         }

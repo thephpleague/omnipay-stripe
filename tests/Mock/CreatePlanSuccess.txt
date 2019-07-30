@@ -8,9 +8,9 @@ Access-Control-Allow-Credentials: true
 Cache-Control: no-cache, no-store
 
 {
-  "id": "gold",
+  "id": "basic",
   "object": "plan",
-  "amount": 2000,
+  "amount": 1900,
   "created": 1455308594,
   "currency": "usd",
   "interval": "month",
@@ -19,5 +19,5 @@ Cache-Control: no-cache, no-store
   "metadata": {},
   "name": "Amazing Gold Plan",
   "statement_descriptor": null,
-  "trial_period_days": null
+  "trial_period_days": 3
 }

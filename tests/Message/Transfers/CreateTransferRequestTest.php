@@ -67,7 +67,7 @@ class CreateTransferRequestTest extends TestCase
     public function testSendSuccess()
     {
         $this->setMockHttpResponse(
-            array(Response::fromMessage(file_get_contents($this->mockDir.'/CreateTransferRequestSuccess.txt')))
+            array(\GuzzleHttp\Psr7\parse_response(file_get_contents($this->mockDir.'/CreateTransferRequestSuccess.txt')))
         );
         $response = $this->request->send();
 
@@ -80,7 +80,7 @@ class CreateTransferRequestTest extends TestCase
     public function testSendError()
     {
         $this->setMockHttpResponse(
-            array(Response::fromMessage(file_get_contents($this->mockDir.'/CreateTransferRequestFailure.txt')))
+            array(\GuzzleHttp\Psr7\parse_response(file_get_contents($this->mockDir.'/CreateTransferRequestFailure.txt')))
         );
         $response = $this->request->send();
 

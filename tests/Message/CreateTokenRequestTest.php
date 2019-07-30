@@ -8,7 +8,6 @@
 
 namespace Omnipay\Stripe\Message;
 
-
 use Omnipay\Tests\TestCase;
 
 class CreateTokenRequestTest extends TestCase
@@ -44,14 +43,33 @@ class CreateTokenRequestTest extends TestCase
         $this->request->getData();
     }
 
-    public function getDataWithCard()
+    public function testGetDataWithCard()
     {
         $card = $this->getValidCard();
+        $this->request->setCustomer(null);
         $this->request->setCard($card);
 
         $data = $this->request->getData();
-
         $this->assertSame($card['number'], $data['card']['number']);
+        $this->assertSame($card['expiryMonth'], $data['card']['exp_month']);
+        $this->assertSame($card['expiryYear'], $data['card']['exp_year']);
+        $this->assertSame($card['cvv'], $data['card']['cvc']);
+        $this->assertSame($card['billingAddress1'], $data['card']['address_line1']);
+        $this->assertSame($card['billingAddress2'], $data['card']['address_line2']);
+        $this->assertSame($card['billingCountry'], $data['card']['address_country']);
+        $this->assertSame($card['billingCity'], $data['card']['address_city']);
+        $this->assertSame($card['billingState'], $data['card']['address_state']);
+        $this->assertSame($card['billingPostcode'], $data['card']['address_zip']);
+        $this->assertSame($card['firstName'] . ' ' . $card['lastName'], $data['card']['name']);
+    }
+
+    public function testGetDataWithCustomer()
+    {
+        $card = $this->getValidCard();
+        $this->request->setCustomer('my_customer');
+
+        $data = $this->request->getData();
+        $this->assertSame('my_customer', $data['customer']);
     }
 
     public function testResponseFailure()
@@ -76,6 +94,4 @@ class CreateTokenRequestTest extends TestCase
         $this->assertSame('tok_1AWDl1JqXiFraDuL2xOKEXKy', $data['id']);
         $this->assertSame('token', $data['object']);
     }
-
-
 }
