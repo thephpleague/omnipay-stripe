@@ -442,7 +442,9 @@ class Response extends AbstractResponse implements RedirectResponseInterface
     protected function cardCan3DS()
     {
         if (isset($this->data['type']) && 'card' === $this->data['type']) {
-            if (isset($this->data['card']['three_d_secure']) && ('required' === $this->data['card']['three_d_secure'] || 'optional' === $this->data['card']['three_d_secure'])) {
+            if (isset($this->data['card']['three_d_secure']) &&
+                in_array($this->data['card']['three_d_secure'], ['required', 'optional', 'recommended'], true)
+            ) {
                 return true;
             }
         }
