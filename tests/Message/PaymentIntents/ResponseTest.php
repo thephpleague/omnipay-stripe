@@ -90,4 +90,19 @@ class ResponseTest extends TestCase
         $this->assertFalse($response->isRedirect());
         $this->assertNull($response->getRedirectUrl());
     }
+
+    public function testCancelled()
+    {
+        $httpResponse = $this->getMockHttpResponse('CancelPaymentIntentSuccess.txt');
+        $response = new Response($this->getMockRequest(), (string) $httpResponse->getBody());
+
+        $this->assertFalse($response->isSuccessful());
+        $this->assertTrue($response->isCancelled());
+
+        $httpResponse = $this->getMockHttpResponse('ConfirmIntentSuccess.txt');
+        $response = new Response($this->getMockRequest(), (string) $httpResponse->getBody());
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertFalse($response->isCancelled());
+    }
 }

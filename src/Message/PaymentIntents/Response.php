@@ -123,6 +123,18 @@ class Response extends BaseResponse
     /**
      * @inheritdoc
      */
+    public function isCancelled()
+    {
+        if (isset($this->data['object']) && 'payment_intent' === $this->data['object']) {
+            return $this->getStatus() === 'canceled';
+        }
+
+        return parent::isCancelled();
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function isRedirect()
     {
         if ($this->getStatus() === 'requires_action') {

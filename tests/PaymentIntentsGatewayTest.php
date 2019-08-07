@@ -64,6 +64,14 @@ class PaymentIntentsGatewayTest extends GatewayTestCase
         $this->assertSame('pi_valid_intent', $request->getPaymentIntentReference());
     }
 
+    public function testCancelPaymentIntent()
+    {
+        $request = $this->gateway->cancel(array('paymentIntentReference' => 'pi_valid_intent'));
+
+        $this->assertInstanceOf('Omnipay\Stripe\Message\PaymentIntents\CancelPaymentIntentRequest', $request);
+        $this->assertSame('pi_valid_intent', $request->getPaymentIntentReference());
+    }
+
     public function testRefund()
     {
         $request = $this->gateway->refund(array('amount' => '10.00'));
