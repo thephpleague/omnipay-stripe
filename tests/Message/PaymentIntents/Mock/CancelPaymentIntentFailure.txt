@@ -1,4 +1,4 @@
-HTTP/2 400
+HTTP/1.1 400 Bad Request
 server: nginx
 date: Wed, 07 Aug 2019 01:29:44 GMT
 content-type: application/json

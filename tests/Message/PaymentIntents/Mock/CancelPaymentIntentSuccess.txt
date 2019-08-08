@@ -1,4 +1,4 @@
-HTTP/2 200
+HTTP/1.1 200 OK
 server: nginx
 date: Wed, 07 Aug 2019 04:08:43 GMT
 content-type: application/json
