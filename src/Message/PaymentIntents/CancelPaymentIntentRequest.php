@@ -8,15 +8,17 @@ namespace Omnipay\Stripe\Message\PaymentIntents;
 /**
  * Stripe Cancel Payment Intent Request.
  *
- *  $paymentIntent = $gateway->cancelPaymentIntent(array(
- *      'paymentIntentReference' => $paymentIntentReference,
- *  ));
+ * <code>
+ *   $paymentIntent = $gateway->cancelPaymentIntent(array(
+ *       'paymentIntentReference' => $paymentIntentReference,
+ *   ));
  *
- *  $response = $paymentIntent->send();
+ *   $response = $paymentIntent->send();
  *
- *  if ($response->isCancelled()) {
- *    // All done
- *  }
+ *   if ($response->isCancelled()) {
+ *     // All done
+ *   }
+ * </code>
  *
  * @link https://stripe.com/docs/api/payment_intents/cancel
  */

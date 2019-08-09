@@ -109,6 +109,15 @@ class PaymentIntentsGatewayTest extends GatewayTestCase
         $this->assertInstanceOf('Omnipay\Stripe\Message\FetchBalanceTransactionRequest', $request);
     }
 
+    public function testFetchCard()
+    {
+        $request = $this->gateway->fetchCard(array('paymentMethod' => 'pm_1EUon32Tb35ankTnF6nuoRVE'));
+
+        $this->assertInstanceOf('Omnipay\Stripe\Message\PaymentIntents\FetchPaymentMethodRequest', $request);
+        $this->assertSame('pm_1EUon32Tb35ankTnF6nuoRVE', $request->getPaymentMethod());
+        $this->assertSame('pm_1EUon32Tb35ankTnF6nuoRVE', $request->getCardReference());
+    }
+
     public function testCreateCard()
     {
         $request = $this->gateway->createCard(array('description' => 'foo', 'token' => 'tok_real_visa'));
