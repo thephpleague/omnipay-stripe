@@ -6,6 +6,7 @@
 namespace Omnipay\Stripe\Message\PaymentIntents;
 
 use Omnipay\Stripe\Message\Response as BaseResponse;
+use Omnipay\Common\Message\RedirectResponseInterface;
 
 /**
  * Stripe Payment Intents Response.
@@ -14,7 +15,7 @@ use Omnipay\Stripe\Message\Response as BaseResponse;
  *
  * @see \Omnipay\Stripe\PaymentIntentsGateway
  */
-class Response extends BaseResponse
+class Response extends BaseResponse implements RedirectResponseInterface
 {
     /**
      * Get the status of a payment intents response.
