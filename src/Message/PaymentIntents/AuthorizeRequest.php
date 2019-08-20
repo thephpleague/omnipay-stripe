@@ -52,7 +52,7 @@ use Money\Formatter\DecimalMoneyFormatter;
  *               'billingState'          => 'QLD',
  *   ));
  *
- *   $paymentMethod = $gateway->createCard($card)->send()->getCardReference();
+ *   $paymentMethod = $gateway->createCard(['card' => $card])->send()->getCardReference();
  *
  *   // Code above can be skipped if you use Stripe.js and have a payment method reference
  *   // in the $paymentMethod variable already.
