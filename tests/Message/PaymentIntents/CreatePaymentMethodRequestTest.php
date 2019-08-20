@@ -69,7 +69,6 @@ class CreatePaymentMethodRequestTest extends TestCase
     {
         $this->request->setCard(null);
         $this->request->setToken('xyz');
-
         $this->request->getData();
     }
 

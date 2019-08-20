@@ -146,6 +146,25 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
+     *
+     * @return string
+     */
+    public function getStripeVersion()
+    {
+        return $this->getParameter('stripeVersion');
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return AbstractRequest
+     */
+    public function setStripeVersion($value)
+    {
+        return $this->setParameter('stripeVersion', $value);
+    }
+
+    /**
      * @param string $value
      *
      * @return AbstractRequest
@@ -182,6 +201,10 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
         if ($this->getIdempotencyKeyHeader()) {
             $headers['Idempotency-Key'] = $this->getIdempotencyKeyHeader();
+        }
+
+        if ($this->getStripeVersion()) {
+            $headers['Stripe-Version'] = $this->getStripeVersion();
         }
 
         return $headers;
