@@ -71,6 +71,17 @@ class PaymentIntentsGateway extends AbstractGateway
     }
 
     /**
+     * Cancel a Payment Intent.
+     *
+     * @param array $parameters
+     * @return \Omnipay\Stripe\Message\PaymentIntents\CancelPaymentIntentRequest
+     */
+    public function cancel(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\PaymentIntents\CancelPaymentIntentRequest', $parameters);
+    }
+
+    /**
      * @inheritdoc
      *
      * @return \Omnipay\Stripe\Message\PaymentIntents\PurchaseRequest
@@ -107,6 +118,14 @@ class PaymentIntentsGateway extends AbstractGateway
     // Cards
     // @link https://stripe.com/docs/api/payment_methods
     //
+
+    /**
+     * @return \Omnipay\Stripe\Message\PaymentIntents\FetchPaymentMethodRequest
+     */
+    public function fetchCard(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\PaymentIntents\FetchPaymentMethodRequest', $parameters);
+    }
 
     /**
      * @inheritdoc
