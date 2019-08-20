@@ -64,6 +64,14 @@ class PaymentIntentsGatewayTest extends GatewayTestCase
         $this->assertSame('pi_valid_intent', $request->getPaymentIntentReference());
     }
 
+    public function testCancelPaymentIntent()
+    {
+        $request = $this->gateway->cancel(array('paymentIntentReference' => 'pi_valid_intent'));
+
+        $this->assertInstanceOf('Omnipay\Stripe\Message\PaymentIntents\CancelPaymentIntentRequest', $request);
+        $this->assertSame('pi_valid_intent', $request->getPaymentIntentReference());
+    }
+
     public function testRefund()
     {
         $request = $this->gateway->refund(array('amount' => '10.00'));
@@ -99,6 +107,15 @@ class PaymentIntentsGatewayTest extends GatewayTestCase
         $request = $this->gateway->fetchBalanceTransaction(array());
 
         $this->assertInstanceOf('Omnipay\Stripe\Message\FetchBalanceTransactionRequest', $request);
+    }
+
+    public function testFetchCard()
+    {
+        $request = $this->gateway->fetchCard(array('paymentMethod' => 'pm_1EUon32Tb35ankTnF6nuoRVE'));
+
+        $this->assertInstanceOf('Omnipay\Stripe\Message\PaymentIntents\FetchPaymentMethodRequest', $request);
+        $this->assertSame('pm_1EUon32Tb35ankTnF6nuoRVE', $request->getPaymentMethod());
+        $this->assertSame('pm_1EUon32Tb35ankTnF6nuoRVE', $request->getCardReference());
     }
 
     public function testCreateCard()

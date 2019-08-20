@@ -144,4 +144,198 @@ class Gateway extends AbstractGateway
     {
         return $this->createRequest('\Omnipay\Stripe\Message\FetchTokenRequest', $parameters);
     }
+
+    /**
+     * Create Plan
+     *
+     * @param array $parameters
+     * @return \Omnipay\Stripe\Message\CreatePlanRequest
+     */
+    public function createPlan(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\CreatePlanRequest', $parameters);
+    }
+
+    /**
+     * Fetch Plan
+     *
+     * @param array $parameters
+     * @return \Omnipay\Stripe\Message\FetchPlanRequest
+     */
+    public function fetchPlan(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\FetchPlanRequest', $parameters);
+    }
+
+    /**
+     * Delete Plan
+     *
+     * @param array $parameters
+     * @return \Omnipay\Stripe\Message\DeletePlanRequest
+     */
+    public function deletePlan(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\DeletePlanRequest', $parameters);
+    }
+
+    /**
+     * List Plans
+     *
+     * @param array $parameters
+     * @return \Omnipay\Stripe\Message\ListPlansRequest
+     */
+    public function listPlans(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\ListPlansRequest', $parameters);
+    }
+
+    /**
+     * Create Subscription
+     *
+     * @param array $parameters
+     * @return \Omnipay\Stripe\Message\CreateSubscriptionRequest
+     */
+    public function createSubscription(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\CreateSubscriptionRequest', $parameters);
+    }
+
+    /**
+     * Fetch Subscription
+     *
+     * @param array $parameters
+     * @return \Omnipay\Stripe\Message\FetchSubscriptionRequest
+     */
+    public function fetchSubscription(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\FetchSubscriptionRequest', $parameters);
+    }
+
+    /**
+     * Update Subscription
+     *
+     * @param array $parameters
+     * @return \Omnipay\Stripe\Message\UpdateSubscriptionRequest
+     */
+    public function updateSubscription(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\UpdateSubscriptionRequest', $parameters);
+    }
+
+    /**
+     * Cancel Subscription
+     *
+     * @param array $parameters
+     * @return \Omnipay\Stripe\Message\CancelSubscriptionRequest
+     */
+    public function cancelSubscription(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\CancelSubscriptionRequest', $parameters);
+    }
+
+    /**
+     * Fetch Event
+     *
+     * @param array $parameters
+     * @return \Omnipay\Stripe\Message\FetchEventRequest
+     */
+    public function fetchEvent(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\FetchEventRequest', $parameters);
+    }
+
+    /**
+     * Fetch Invoice Lines
+     *
+     * @param array $parameters
+     * @return \Omnipay\Stripe\Message\FetchInvoiceLinesRequest
+     */
+    public function fetchInvoiceLines(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\FetchInvoiceLinesRequest', $parameters);
+    }
+
+    /**
+     * Fetch Invoice
+     *
+     * @param array $parameters
+     * @return \Omnipay\Stripe\Message\FetchInvoiceRequest
+     */
+    public function fetchInvoice(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\FetchInvoiceRequest', $parameters);
+    }
+
+    /**
+     * List Invoices
+     *
+     * @param array $parameters
+     * @return \Omnipay\Stripe\Message\ListInvoicesRequest
+     */
+    public function listInvoices(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\ListInvoicesRequest', $parameters);
+    }
+
+    /**
+     * Create Invoice Item
+     *
+     * @param array $parameters
+     * @return \Omnipay\Stripe\Message\CreateInvoiceItemRequest
+     */
+    public function createInvoiceItem(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\CreateInvoiceItemRequest', $parameters);
+    }
+
+    /**
+     * Fetch Invoice Item
+     *
+     * @param array $parameters
+     * @return \Omnipay\Stripe\Message\FetchInvoiceItemRequest
+     */
+    public function fetchInvoiceItem(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\FetchInvoiceItemRequest', $parameters);
+    }
+
+    /**
+     * Delete Invoice Item
+     *
+     * @param array $parameters
+     * @return \Omnipay\Stripe\Message\DeleteInvoiceItemRequest
+     */
+    public function deleteInvoiceItem(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\DeleteInvoiceItemRequest', $parameters);
+    }
+
+    /**
+     * @param array $parameters
+     * @return \Omnipay\Stripe\Message\CreateSourceRequest
+     */
+    public function createSource(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\CreateSourceRequest', $parameters);
+    }
+
+    /**
+     * @param array $parameters
+     * @return \Omnipay\Stripe\Message\CreateSourceRequest
+     */
+    public function attachSource(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\AttachSourceRequest', $parameters);
+    }
+
+    /**
+     * Create a completePurchase request.
+     *
+     * @param array $parameters
+     * @return \Omnipay\Stripe\Message\CompletePurchaseRequest
+     */
+    public function completePurchase(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\CompletePurchaseRequest', $parameters);
+    }
 }

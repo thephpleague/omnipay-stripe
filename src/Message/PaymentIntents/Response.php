@@ -6,6 +6,7 @@
 namespace Omnipay\Stripe\Message\PaymentIntents;
 
 use Omnipay\Stripe\Message\Response as BaseResponse;
+use Omnipay\Common\Message\RedirectResponseInterface;
 
 /**
  * Stripe Payment Intents Response.
@@ -14,7 +15,7 @@ use Omnipay\Stripe\Message\Response as BaseResponse;
  *
  * @see \Omnipay\Stripe\PaymentIntentsGateway
  */
-class Response extends BaseResponse
+class Response extends BaseResponse implements RedirectResponseInterface
 {
     /**
      * Get the status of a payment intents response.
@@ -118,6 +119,18 @@ class Response extends BaseResponse
         }
 
         return parent::isSuccessful();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isCancelled()
+    {
+        if (isset($this->data['object']) && 'payment_intent' === $this->data['object']) {
+            return $this->getStatus() === 'canceled';
+        }
+
+        return parent::isCancelled();
     }
 
     /**

@@ -72,7 +72,6 @@ class CreatePaymentMethodRequestTest extends TestCase
         $this->request->getData();
     }
 
-
     public function testDataWithCard()
     {
         $card = $this->getValidCard();
