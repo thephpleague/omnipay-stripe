@@ -138,7 +138,7 @@ class Response extends BaseResponse implements RedirectResponseInterface
      */
     public function isRedirect()
     {
-        if ($this->getStatus() === 'requires_action') {
+        if ($this->getStatus() === 'requires_action' || $this->getStatus() === 'requires_source_action') {
             // Currently this gateway supports only manual confirmation, so any other
             // next action types pretty much mean a failed transaction for us.
             return (!empty($this->data['next_action']) && $this->data['next_action']['type'] === 'redirect_to_url');
