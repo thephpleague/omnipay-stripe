@@ -52,9 +52,9 @@ Simply pass this through to the gateway as `token`, instead of the usual `card` 
 
 Stripe Payment Intents is the Stripe's new foundational payment API. As opposed to Charges API, Payment Intents supports [Strong Customer Authentication](https://stripe.com/docs/strong-customer-authentication). It means that during the payment process, the user _might_ be redirected to an off-site page hosted by the customer's bank for authentication purposes.
 
-This plugin's implementation uses the manual Payment Intent confirmation flow, which is pretty similar to the one the Charges API uses. It shouldn't be too hard to modify your current payment flow.
+This plugin's implementation uses the [manual Payment Intent confirmation flow](https://stripe.com/docs/payments/payment-intents/web-manual), which is pretty similar to the one the Charges API uses. It shouldn't be too hard to modify your current payment flow.
 
-1) Start by [collecting the payment method details](https://stripe.com/docs/payments/payment-intents/quickstart#collect-payment-method) from the customer. Alternatively, if the customer has provided this earlier and has saved a payment method in your system, you can re-use that.
+1) Start by [collecting the payment method details](https://stripe.com/docs/payments/payment-intents/web-manual#collect-payment-method) from the customer. Alternatively, if the customer has provided this earlier and has saved a payment method in your system, you can re-use that.
 
 2) Proceed to authorize or purchase as when using the Charges API.
 
