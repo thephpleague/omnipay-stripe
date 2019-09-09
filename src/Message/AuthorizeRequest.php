@@ -5,6 +5,7 @@
  */
 namespace Omnipay\Stripe\Message;
 
+use Omnipay\Common\ItemBag;
 use Omnipay\Stripe\StripeItemBag;
 use Money\Formatter\DecimalMoneyFormatter;
 

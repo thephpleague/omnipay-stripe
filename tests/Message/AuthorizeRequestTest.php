@@ -2,6 +2,7 @@
 
 namespace Omnipay\Stripe\Message;
 
+use Omnipay\Common\ItemBag;
 use Omnipay\Tests\TestCase;
 
 class AuthorizeRequestTest extends TestCase
@@ -129,5 +130,24 @@ class AuthorizeRequestTest extends TestCase
         $this->assertSame('ch_1IUAZQWFYrPooM', $response->getTransactionReference());
         $this->assertNull($response->getCardReference());
         $this->assertSame('Your card was declined', $response->getMessage());
+    }
+
+    public function testSetItems()
+    {
+        $items = new ItemBag([
+            [
+                'amount' => '120.00',
+                'currency' => 'USD',
+                'card' => $this->getValidCard(),
+                'description' => 'Order #42',
+                'metadata' => [
+                    'foo' => 'bar',
+                ],
+                'applicationFee' => '2.00'
+            ]
+        ]);
+
+        $this->request->setItems($items);
+        $this->assertEquals($items, $this->request->getItems());
     }
 }
