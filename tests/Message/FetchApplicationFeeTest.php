@@ -25,7 +25,6 @@ class FetchApplicationFeeTest extends TestCase
         $this->assertTrue($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
         $this->assertSame('fee_1FITlv123YJsynqe3nOIfake', $response->getApplicationFeeReference());
-        $this->assertNull($response->getCardReference());
         $this->assertNull($response->getMessage());
     }
 
@@ -36,8 +35,7 @@ class FetchApplicationFeeTest extends TestCase
 
         $this->assertFalse($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
-        $this->assertNull($response->getBalanceTransactionReference());
-        $this->assertNull($response->getCardReference());
+        $this->assertNull($response->getApplicationFeeReference());
         $this->assertSame('No such application fee: fee_1FITlv123YJsynqe3nOIfake', $response->getMessage());
     }
 }
