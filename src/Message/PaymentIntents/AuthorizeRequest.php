@@ -91,7 +91,9 @@ use Money\Formatter\DecimalMoneyFormatter;
  *
  *  // 3DS 2.0 time!
  *  if ($response->isRedirect()) {
- *      $response->redirect();
+ *       $response->redirect();
+ *  } else if ($response->isStripeSDKAction()) {
+ *       $client_secret = $response->getClientSecret();
  *  } else if ($response->isSuccessful()) {
  *       echo "Authorize transaction was successful!\n";
  *       $sale_id = $response->getTransactionReference();

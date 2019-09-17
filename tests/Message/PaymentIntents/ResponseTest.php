@@ -22,6 +22,14 @@ class ResponseTest extends TestCase
         $this->assertTrue($response->requiresConfirmation());
     }
 
+    public function testClientSecret()
+    {
+        $httpResponse = $this->getMockHttpResponse('AuthorizeSuccess.txt');
+        $response = new Response($this->getMockRequest(), (string) $httpResponse->getBody());
+
+        $this->assertEquals('pi_1Euf5UFSbr6xR4YAp9PPTxza_secret_QjDdAp77yVbiJoyJ92mXx76F7', $response->getClientSecret());
+    }
+
     public function testGetCardReference()
     {
         $httpResponse = $this->getMockHttpResponse('AuthorizeSuccess.txt');
