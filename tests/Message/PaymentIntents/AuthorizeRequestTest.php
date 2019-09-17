@@ -43,7 +43,7 @@ class AuthorizeRequestTest extends TestCase
         $this->assertSame('manual', $data['confirmation_method']);
         $this->assertSame('pm_valid_payment_method', $data['payment_method']);
         $this->assertSame(array('foo' => 'bar'), $data['metadata']);
-        $this->assertSame(100, $data['application_fee']);
+        $this->assertSame(100, $data['application_fee_amount']);
         $this->assertSame('off_session', $data['setup_future_usage']);
         $this->assertSame('false', $data['off_session']);
     }
