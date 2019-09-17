@@ -312,7 +312,7 @@ class AuthorizeRequest extends AbstractRequest
         }
 
         if ($this->getApplicationFee()) {
-            $data['application_fee'] = $this->getApplicationFeeInteger();
+            $data['application_fee_amount'] = $this->getApplicationFeeInteger();
         }
 
         if ($this->getTransferGroup()) {
