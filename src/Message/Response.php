@@ -105,6 +105,23 @@ class Response extends AbstractResponse implements RedirectResponseInterface
      *
      * @return string|null
      */
+    public function getApplicationFeeReference()
+    {
+        if (isset($this->data['object']) && 'application_fee' === $this->data['object']) {
+            return $this->data['id'];
+        }
+        if (isset($this->data['error']) && isset($this->data['error']['application_fee'])) {
+            return $this->data['error']['application_fee'];
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the balance transaction reference.
+     *
+     * @return string|null
+     */
     public function getBalanceTransactionReference()
     {
         if (isset($this->data['object']) && 'charge' === $this->data['object']) {

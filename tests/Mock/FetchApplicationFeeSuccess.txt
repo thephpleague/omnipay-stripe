@@ -1,0 +1,32 @@
+HTTP/1.1 200 OK 
+Server: nginx 
+Date: Wed, 24 Jul 2013 07:14:02 GMT 
+Content-Type: application/json;charset=utf-8 
+Content-Length: 1092 
+Connection: keep-alive 
+Access-Control-Allow-Credentials: true 
+Access-Control-Max-Age: 300 
+Cache-Control: no-cache, no-store 
+
+{
+  "id": "fee_1FITlv123YJsynqe3nOIfake",
+  "object": "application_fee",
+  "account": "acct_14901h0a0fh01293",
+  "amount": 100,
+  "amount_refunded": 0,
+  "application": "ca_Fo5xaLt123SEtSKHui0SZOgAiuVwfake",
+  "balance_transaction": "txn_1FH8W123vYJsynqeQKMWfake",
+  "charge": "ch_1FIT123rvYJsynqeQpJOFfake",
+  "created": 1568438771,
+  "currency": "usd",
+  "livemode": false,
+  "originating_transaction": null,
+  "refunded": false,
+  "refunds": {
+    "object": "list",
+    "data": [],
+    "has_more": false,
+    "total_count": 0,
+    "url": "/v1/application_fees/fee_1FITlvArvYJsynqe3nOIfake/refunds"
+  }
+}
