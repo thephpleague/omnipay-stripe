@@ -37,6 +37,10 @@ class ConfirmPaymentIntentRequest extends AbstractRequest
             $data['return_url'] = $this->getReturnUrl();
         }
 
+        if ($this->getPaymentMethod()) {
+            $data['payment_method'] = $this->getPaymentMethod();
+        }
+
         return $data;
     }
 

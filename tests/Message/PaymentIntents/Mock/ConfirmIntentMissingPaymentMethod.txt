@@ -1,0 +1,118 @@
+HTTP/1.1 400 Bad Request
+Server: nginx
+Date: Sun, 17 Oct 2019 19:51:15 GMT
+Content-Type: application/json;charset=utf-8
+Content-Length: 3674
+Connection: keep-alive
+Cache-Control: no-cache, no-store
+Access-Control-Max-Age: 300
+Access-Control-Allow-Credentials: true
+
+{
+  "error": {
+    "code": "payment_intent_unexpected_state",
+    "doc_url": "https://stripe.com/docs/error-codes/payment-intent-unexpected-state",
+    "message": "You cannot confirm this PaymentIntent because it's missing a payment method. To confirm the PaymentIntent with cus_G0fHJ1TaSxY7lF, specify a payment method attached to this customer along with the customer ID.",
+    "payment_intent": {
+      "id": "pi_1FUdwbG3M98oE4tVVQMhEldb",
+      "object": "payment_intent",
+      "amount": 7000,
+      "amount_capturable": 0,
+      "amount_received": 0,
+      "application": null,
+      "application_fee_amount": null,
+      "canceled_at": null,
+      "cancellation_reason": null,
+      "capture_method": "automatic",
+      "charges": {
+        "object": "list",
+        "data": [
+        ],
+        "has_more": false,
+        "total_count": 0,
+        "url": "/v1/charges?payment_intent=pi_1FUdwbG3M98oE4tVVQMhEldb"
+      },
+      "client_secret": "pi_1FUdwbG3M98oE4tVVQMhEldb_secret_PY30Txaeht6iqEUsWjqqQ1yY1",
+      "confirmation_method": "manual",
+      "created": 1571337809,
+      "currency": "usd",
+      "customer": "cus_G0fHJ1TaSxY7lF",
+      "description": null,
+      "invoice": null,
+      "last_payment_error": {
+        "code": "payment_intent_authentication_failure",
+        "doc_url": "https://stripe.com/docs/error-codes/payment-intent-authentication-failure",
+        "message": "The provided PaymentMethod has failed authentication. You can provide payment_method_data or a new PaymentMethod to attempt to fulfill this PaymentIntent again.",
+        "payment_method": {
+          "id": "card_1FUdwaG3M98oE4tV2O1uDpvH",
+          "object": "payment_method",
+          "billing_details": {
+            "address": {
+              "city": "New Jersey",
+              "country": "US",
+              "line1": "New Jersey Turnpike",
+              "line2": null,
+              "postal_code": "00701",
+              "state": "NJ"
+            },
+            "email": null,
+            "name": "Brad Fitz",
+            "phone": null
+          },
+          "card": {
+            "brand": "visa",
+            "checks": {
+              "address_line1_check": "pass",
+              "address_postal_code_check": "pass",
+              "cvc_check": "pass"
+            },
+            "country": "IE",
+            "exp_month": 11,
+            "exp_year": 2023,
+            "fingerprint": "Cb549Jvs1wPUfTWb",
+            "funding": "credit",
+            "generated_from": null,
+            "last4": "3220",
+            "three_d_secure_usage": {
+              "supported": true
+            },
+            "wallet": null
+          },
+          "created": 1571337808,
+          "customer": "cus_G0fHJ1TaSxY7lF",
+          "livemode": false,
+          "metadata": {
+          },
+          "type": "card"
+        },
+        "type": "invalid_request_error"
+      },
+      "livemode": false,
+      "metadata": {
+      },
+      "next_action": null,
+      "on_behalf_of": null,
+      "payment_method": null,
+      "payment_method_options": {
+        "card": {
+          "installments": null,
+          "request_three_d_secure": "automatic"
+        }
+      },
+      "payment_method_types": [
+        "card"
+      ],
+      "receipt_email": null,
+      "review": null,
+      "setup_future_usage": null,
+      "shipping": null,
+      "source": null,
+      "statement_descriptor": null,
+      "statement_descriptor_suffix": null,
+      "status": "requires_payment_method",
+      "transfer_data": null,
+      "transfer_group": null
+    },
+    "type": "invalid_request_error"
+  }
+}

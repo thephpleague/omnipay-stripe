@@ -6,6 +6,11 @@ use Omnipay\Tests\TestCase;
 
 class ConfirmPaymentIntentRequestTest extends TestCase
 {
+    /**
+     * @var ConfirmPaymentIntentRequest
+     */
+    protected $request;
+
     public function setUp()
     {
         $this->request = new ConfirmPaymentIntentRequest($this->getHttpClient(), $this->getHttpRequest());
@@ -69,4 +74,25 @@ class ConfirmPaymentIntentRequestTest extends TestCase
         $this->assertSame('pm_1Ev1LzFSbr6xR4YA0TZ8jta0', $response->getCardReference());
     }
 
+    public function testConfirm3dsRedirectMayReturnError()
+    {
+        $this->setMockHttpResponse('ConfirmIntentMissingPaymentMethod.txt');
+        $response = $this->request->send();
+
+        $this->assertFalse($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
+        $this->assertSame(
+            "You cannot confirm this PaymentIntent because it's missing a payment method. " .
+            "To confirm the PaymentIntent with cus_G0fHJ1TaSxY7lF, specify a payment method attached " .
+            "to this customer along with the customer ID.",
+            $response->getMessage()
+        );
+    }
+
+    public function testConfirm3dsWithPaymentMethod()
+    {
+        $this->request->setPaymentMethod('card_1FUdwaG3M98oE4tV2O1uDpvH');
+        $data = $this->request->getData();
+        $this->assertSame('card_1FUdwaG3M98oE4tV2O1uDpvH', $data['payment_method']);
+    }
 }
