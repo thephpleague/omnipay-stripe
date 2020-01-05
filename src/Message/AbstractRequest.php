@@ -174,6 +174,27 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->setParameter('idempotencyKey', $value);
     }
 
+    /**
+     * @return array
+     */
+    public function getExpand()
+    {
+        return $this->getParameter('expand');
+    }
+
+    /**
+     * Specifies which object relations (IDs) in the response should be expanded to include the entire object.
+     *
+     * @see https://stripe.com/docs/api/expanding_objects
+     *
+     * @param array $value
+     * @return AbstractRequest
+     */
+    public function setExpand($value)
+    {
+        return $this->setParameter('expand', $value);
+    }
+
     abstract public function getEndpoint();
 
     /**
@@ -221,17 +242,42 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         );
 
         $body = $data ? http_build_query($data, '', '&') : null;
-        $httpResponse = $this->httpClient->request($this->getHttpMethod(), $this->getEndpoint(), $headers, $body);
+        $httpResponse = $this->httpClient->request(
+            $this->getHttpMethod(),
+            $this->getExpandedEndpoint(),
+            $headers,
+            $body
+        );
 
         return $this->createResponse($httpResponse->getBody()->getContents(), $httpResponse->getHeaders());
     }
 
+    /**
+     * Appends the `expand` properties to the endpoint as a querystring.
+     *
+     * @return string
+     */
+    public function getExpandedEndpoint()
+    {
+        $endpoint = $this->getEndpoint();
+        $expand = $this->getExpand();
+        if (is_array($expand) && count($expand) > 0) {
+            $queryParams = [];
+            foreach ($expand as $key) {
+                $queryParams[] = 'expand[]=' . $key;
+            }
+            $queryString = join('&', $queryParams);
+            $endpoint .= '?' . $queryString;
+        }
+
+        return $endpoint;
+    }
 
     protected function createResponse($data, $headers = [])
     {
         return $this->response = new Response($this, $data, $headers);
     }
-    
+
     /**
      * @return mixed
      */
