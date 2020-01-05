@@ -8,6 +8,9 @@ use Omnipay\Tests\TestCase;
 
 class AbstractRequestTest extends TestCase
 {
+    /** @var Mockery\Mock|AbstractRequest */
+    private $request;
+
     public function setUp()
     {
         $this->request = Mockery::mock('\Omnipay\Stripe\Message\AbstractRequest')->makePartial();
@@ -98,7 +101,6 @@ class AbstractRequestTest extends TestCase
         $this->assertTrue($httpRequest->hasHeader('Stripe-Version'));
     }
 
-
     public function testConnectedStripeAccount()
     {
         $this->request->setConnectedStripeAccountHeader('ACCOUNT_ID');
@@ -117,5 +119,15 @@ class AbstractRequestTest extends TestCase
         );
 
         $this->assertTrue($httpRequest->hasHeader('Stripe-Account'));
+    }
+
+    public function testExpandedEndpoint()
+    {
+        $this->request->shouldReceive('getEndpoint')->andReturn('https://api.stripe.com/v1');
+        $this->request->setExpand(['foo', 'bar']);
+
+        $actual = $this->request->getExpandedEndpoint();
+
+        $this->assertEquals('https://api.stripe.com/v1?expand[]=foo&expand[]=bar', $actual);
     }
 }
