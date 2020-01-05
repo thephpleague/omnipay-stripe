@@ -107,6 +107,7 @@ abstract class AbstractGateway extends AbstractOmnipayGateway
     {
         return array(
             'apiKey' => '',
+            'stripeVersion' => null
         );
     }
 
@@ -148,6 +149,24 @@ abstract class AbstractGateway extends AbstractOmnipayGateway
     public function setApiKey($value)
     {
         return $this->setParameter('apiKey', $value);
+    }
+
+    /**
+     * @return string
+     */
+    public function getStripeVersion()
+    {
+        return $this->getParameter('stripeVersion');
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return Gateway
+     */
+    public function setStripeVersion($value)
+    {
+        return $this->setParameter('stripeVersion', $value);
     }
 
     /**
