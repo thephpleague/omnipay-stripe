@@ -357,17 +357,30 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
         $data = array();
         $data['object'] = 'card';
+
+        // If track data is present, only return data relevant to a card present charge
+        $tracks = $card->getTracks();
+        $cvv = $card->getCvv();
+        $postcode = $card->getPostcode();
+        if (!empty($postcode)) {
+            $data['address_zip'] = $postcode;
+        }
+        if (!empty($cvv)) {
+            $data['cvc'] = $cvv;
+        }
+        if (!empty($tracks)) {
+            $data['swipe_data'] = $tracks;
+            return $data;
+        }
+
+        // If we got here, it's a card not present transaction, so include everything we have
         $data['number'] = $card->getNumber();
         $data['exp_month'] = $card->getExpiryMonth();
         $data['exp_year'] = $card->getExpiryYear();
-        if ($card->getCvv()) {
-            $data['cvc'] = $card->getCvv();
-        }
         $data['name'] = $card->getName();
         $data['address_line1'] = $card->getAddress1();
         $data['address_line2'] = $card->getAddress2();
         $data['address_city'] = $card->getCity();
-        $data['address_zip'] = $card->getPostcode();
         $data['address_state'] = $card->getState();
         $data['address_country'] = $card->getCountry();
         $data['email'] = $card->getEmail();

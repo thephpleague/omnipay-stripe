@@ -2,6 +2,7 @@
 
 namespace Omnipay\Stripe\Message;
 
+use Omnipay\Common\CreditCard;
 use Omnipay\Common\ItemBag;
 use Omnipay\Tests\TestCase;
 
@@ -105,6 +106,48 @@ class AuthorizeRequestTest extends TestCase
         $data = $this->request->getData();
 
         $this->assertSame($card['number'], $data['source']['number']);
+    }
+
+    public function testDataWithTracks()
+    {
+        $cardData = $this->getValidCard();
+        $tracks = "%25B4242424242424242%5ETESTLAST%2FTESTFIRST%5E1505201425400714000000%3F";
+        $cardData['tracks'] = $tracks;
+        unset($cardData['cvv']);
+        unset($cardData['billingPostcode']);
+        $this->request->setCard(new CreditCard($cardData));
+        $data = $this->request->getData();
+
+        $this->assertSame($tracks, $data['source']['swipe_data']);
+        $this->assertCount(2, $data['source'], "Swipe data should be present. All other fields are not required");
+
+        // If there is any mismatch between the track data and the parsed data, Stripe rejects the transaction, so it's
+        // best to suppress fields that is already present in the track data.
+        $this->assertArrayNotHasKey('number', $data, 'Should not send card number for card present charge');
+        $this->assertArrayNotHasKey('exp_month', $data, 'Should not send expiry month for card present charge');
+        $this->assertArrayNotHasKey('exp_year', $data, 'Should not send expiry year for card present charge');
+        $this->assertArrayNotHasKey('name', $data, 'Should not send name for card present charge');
+
+        // Billing address is not accepted for card present transactions.
+        $this->assertArrayNotHasKey('address_line1', $data, 'Should not send billing address for card present charge');
+        $this->assertArrayNotHasKey('address_line2', $data, 'Should not send billing address for card present charge');
+        $this->assertArrayNotHasKey('address_city', $data, 'Should not send billing address for card present charge');
+        $this->assertArrayNotHasKey('address_state', $data, 'Should not send billing address for card present charge');
+
+    }
+
+    public function testDataWithTracksAndZipCVVManuallyEntered()
+    {
+        $cardData = $this->getValidCard();
+        $tracks = "%25B4242424242424242%5ETESTLAST%2FTESTFIRST%5E1505201425400714000000%3F";
+        $cardData['tracks'] = $tracks;
+        $this->request->setCard(new CreditCard($cardData));
+        $data = $this->request->getData();
+
+        $this->assertSame($tracks, $data['source']['swipe_data']);
+        $this->assertSame($cardData['cvv'], $data['source']['cvc']);
+        $this->assertSame($cardData['billingPostcode'], $data['source']['address_zip']);
+        $this->assertCount(4, $data['source'], "Swipe data, cvv and zip code should be present");
     }
 
     public function testSendSuccess()
