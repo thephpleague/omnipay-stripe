@@ -91,7 +91,9 @@ use Money\Formatter\DecimalMoneyFormatter;
  *
  *  // 3DS 2.0 time!
  *  if ($response->isRedirect()) {
- *      $response->redirect();
+ *       $response->redirect();
+ *  } else if ($response->isStripeSDKAction()) {
+ *       $client_secret = $response->getClientSecret();
  *  } else if ($response->isSuccessful()) {
  *       echo "Authorize transaction was successful!\n";
  *       $sale_id = $response->getTransactionReference();
@@ -348,8 +350,7 @@ class AuthorizeRequest extends AbstractRequest
 
         $data['confirm'] = $this->getConfirm() ? 'true' : 'false';
 
-        if ($this->getConfirm()) {
-            $this->validate('returnUrl');
+        if ($this->getConfirm() && $this->getReturnUrl()) {
             $data['return_url'] = $this->getReturnUrl();
         }
 

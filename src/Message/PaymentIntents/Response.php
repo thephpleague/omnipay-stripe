@@ -139,8 +139,6 @@ class Response extends BaseResponse implements RedirectResponseInterface
     public function isRedirect()
     {
         if ($this->getStatus() === 'requires_action' || $this->getStatus() === 'requires_source_action') {
-            // Currently this gateway supports only manual confirmation, so any other
-            // next action types pretty much mean a failed transaction for us.
             return (!empty($this->data['next_action']) && $this->data['next_action']['type'] === 'redirect_to_url');
         }
 
@@ -153,6 +151,26 @@ class Response extends BaseResponse implements RedirectResponseInterface
     public function getRedirectUrl()
     {
         return $this->isRedirect() ? $this->data['next_action']['redirect_to_url']['url'] : parent::getRedirectUrl();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isStripeSDKAction()
+    {
+        if ($this->getStatus() === 'requires_action' || $this->getStatus() === 'requires_source_action') {
+            return (!empty($this->data['next_action']) && $this->data['next_action']['type'] === 'use_stripe_sdk');
+        }
+
+        return false;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getClientSecret()
+    {
+        return isset($this->data['client_secret']) ? $this->data['client_secret'] : null;
     }
 
     /**

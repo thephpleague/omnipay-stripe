@@ -110,17 +110,13 @@ class AuthorizeRequestTest extends TestCase
     }
 
     /**
-     * Confirming a payment intent without a return url would destroy the flow for 3DS 2.0,
-     * so let's make sure that setting confirm to true and skipping return url is
-     * not permitted.
-     *
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
-     * @expectedExceptionMessage The returnUrl parameter is required
+     * Return url is only supported when confirming a payment intent.
+     * When a return url is specified, the response will provide a redirect url that supports 3DS 2.0.
      */
-    public function testReturnUrlMustBeSetWhenConfirming()
+    public function testReturnUrlWhenConfirming()
     {
-        $this->request->setReturnUrl(null);
         $data = $this->request->getData();
+        $this->assertArrayHasKey('return_url', $data);
     }
 
     /**
