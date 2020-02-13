@@ -1,45 +1,41 @@
 <?php
 
 /**
- * Stripe Authorize Request.
+ * Stripe Payment Intents Authorize Request.
  */
-namespace Omnipay\Stripe\Message;
+namespace Omnipay\Stripe\Message\PaymentIntents;
 
-use Omnipay\Common\ItemBag;
-use Omnipay\Stripe\StripeItemBag;
 use Money\Formatter\DecimalMoneyFormatter;
 
 /**
- * Stripe Authorize Request.
+ * Stripe Payment Intents Authorize Request.
  *
- * An Authorize request is similar to a purchase request but the
+ * An authorize request is similar to a purchase request but the
  * charge issues an authorization (or pre-authorization), and no money
  * is transferred.  The transaction will need to be captured later
  * in order to effect payment. Uncaptured charges expire in 7 days.
  *
- * Either a customerReference or a card is required.  If a customerReference
- * is passed in then the cardReference must be the reference of a card
- * assigned to the customer.  Otherwise, if you do not pass a customer ID,
- * the card you provide must either be a token, like the ones returned by
- * Stripe.js, or a dictionary containing a user's credit card details.
+ * A payment method is required. It can be set using the `paymentMethod`, `source`,
+ * `cardReference` or `token` parameters.
  *
- * IN OTHER WORDS: You cannot just pass a card reference into this request,
- * you must also provide a customer reference if you want to use a stored
- * card.
+ * *Important*: Please note, that this gateway is a hybrid between credit card and
+ * off-site gateway. It acts as a normal credit card gateway, unless the payment method
+ * requires 3DS authentication, in which case it also performs a redirect to an
+ * off-site authentication form.
  *
  * Example:
  *
  * <code>
  *   // Create a gateway for the Stripe Gateway
  *   // (routes to GatewayFactory::create)
- *   $gateway = Omnipay::create('Stripe');
+ *   $gateway = Omnipay::create('Stripe\PaymentIntents');
  *
  *   // Initialise the gateway
  *   $gateway->initialize(array(
  *       'apiKey' => 'MyApiKey',
  *   ));
  *
- *   // Create a credit card object
+ *   // Create a payment method using a credit card object.
  *   // This card can be used for testing.
  *   $card = new CreditCard(array(
  *               'firstName'    => 'Example',
@@ -56,26 +52,80 @@ use Money\Formatter\DecimalMoneyFormatter;
  *               'billingState'          => 'QLD',
  *   ));
  *
- *   // Do an authorize transaction on the gateway
- *   $transaction = $gateway->authorize(array(
- *       'amount'                   => '10.00',
- *       'currency'                 => 'USD',
- *       'description'              => 'This is a test authorize transaction.',
- *       'card'                     => $card,
- *   ));
- *   $response = $transaction->send();
- *   if ($response->isSuccessful()) {
+ *   $paymentMethod = $gateway->createCard(['card' => $card])->send()->getCardReference();
+ *
+ *   // Code above can be skipped if you use Stripe.js and have a payment method reference
+ *   // in the $paymentMethod variable already.
+ *
+ *   // For backwards compatibility, it's also possible to use card and source references
+ *   // as well as tokens. However, a data dictionary containing card data  cannot
+ *   // be used at this stage.
+ *
+ *   // Also note the setting of a return url. This is needed for cards that require
+ *   // the 3DS 2.0 authentication. If you do not set a return url, payment with such
+ *   // cards will fail.
+ *
+ *  // Do a purchase transaction on the gateway
+ *  $paymentIntent = $gateway->authorize(array(
+ *      'amount'                   => '10.00',
+ *      'currency'                 => 'USD',
+ *      'description'              => 'This is a test purchase transaction.',
+ *      'paymentMethod'            => $paymentMethod,
+ *      'returnUrl'                => $completePaymentUrl,
+ *      'confirm'                  => true,
+ *  ));
+ *
+ *  $paymentIntent = $paymentIntent->send();
+ *
+ *  // Alternatively, if you don't want to confirm it at one go for whatever reason, you
+ *  // can use this code block below to confirm it. Otherwise, skip it.
+ *  $paymentIntent = $gateway->confirm(array(
+ *      'returnUrl'                => $completePaymentUrl
+ *      'paymentIntentReference'   => $paymentIntent->getPaymentIntentReference(),
+ *  ));
+ *
+ *  $response = $paymentIntent->send();
+ *
+ *  // If you set the confirm to true when performing the authorize transaction,
+ *  // resume here.
+ *
+ *  // 3DS 2.0 time!
+ *  if ($response->isRedirect()) {
+ *      $response->redirect();
+ *  } else if ($response->isSuccessful()) {
  *       echo "Authorize transaction was successful!\n";
  *       $sale_id = $response->getTransactionReference();
  *       echo "Transaction reference = " . $sale_id . "\n";
  *   }
  * </code>
  *
- * @see \Omnipay\Stripe\Gateway
- * @link https://stripe.com/docs/api#charges
+ * @see \Omnipay\Stripe\PaymentIntentsGateway
+ * @see \Omnipay\Stripe\Message\PaymentIntents\CreatePaymentMethodRequest
+ * @see \Omnipay\Stripe\Message\PaymentIntents\ConfirmPaymentIntentRequest
+ * @link https://stripe.com/docs/api/payment_intents
  */
 class AuthorizeRequest extends AbstractRequest
 {
+    /**
+     * Set the confirm parameter.
+     *
+     * @param $value
+     */
+    public function setConfirm($value)
+    {
+        $this->setParameter('confirm', $value);
+    }
+
+    /**
+     * Get the confirm parameter.
+     *
+     * @return mixed
+     */
+    public function getConfirm()
+    {
+        return $this->getParameter('confirm');
+    }
+
     /**
      * @return mixed
      */
@@ -197,11 +247,19 @@ class AuthorizeRequest extends AbstractRequest
         return $this->setParameter('applicationFee', $value);
     }
 
+    /**
+     * @return mixed
+     */
     public function getStatementDescriptor()
     {
         return $this->getParameter('statementDescriptor');
     }
 
+    /**
+     * @param string $value
+     *
+     * @return AbstractRequest provides a fluent interface.
+     */
     public function setStatementDescriptor($value)
     {
         $value = str_replace(array('<', '>', '"', '\''), '', $value);
@@ -229,29 +287,8 @@ class AuthorizeRequest extends AbstractRequest
     }
 
     /**
-     * A list of items in this order
-     *
-     * @return ItemBag|null A bag containing items in this order
+     * @inheritdoc
      */
-    public function getItems()
-    {
-        return $this->getParameter('items');
-    }
-
-    /**
-     * Set the items in this order
-     *
-     * @param array $items An array of items in this order
-     */
-    public function setItems($items)
-    {
-        if ($items && !$items instanceof ItemBag) {
-            $items = new StripeItemBag($items);
-        }
-
-        return $this->setParameter('items', $items);
-    }
-
     public function getData()
     {
         $this->validate('amount', 'currency');
@@ -262,21 +299,12 @@ class AuthorizeRequest extends AbstractRequest
         $data['currency'] = strtolower($this->getCurrency());
         $data['description'] = $this->getDescription();
         $data['metadata'] = $this->getMetadata();
-        $data['capture'] = 'false';
-
-        if ($items = $this->getItems()) {
-            $itemDescriptions = [];
-            foreach ($items as $n => $item) {
-                $itemDescriptions[] = $item->getDescription();
-            }
-            $data['description'] = implode(" + ", $itemDescriptions);
-        }
 
         if ($this->getStatementDescriptor()) {
             $data['statement_descriptor'] = $this->getStatementDescriptor();
         }
         if ($this->getDestination()) {
-            $data['destination'] = $this->getDestination();
+            $data['transfer_data']['destination'] = $this->getDestination();
         }
 
         if ($this->getOnBehalfOf()) {
@@ -295,32 +323,52 @@ class AuthorizeRequest extends AbstractRequest
             $data['receipt_email'] = $this->getReceiptEmail();
         }
 
-        if ($this->getSource()) {
-            $data['source'] = $this->getSource();
+        if ($this->getPaymentMethod()) {
+            $data['payment_method'] = $this->getPaymentMethod();
+        } elseif ($this->getSource()) {
+            $data['payment_method'] = $this->getSource();
         } elseif ($this->getCardReference()) {
-            $data['source'] = $this->getCardReference();
-            if ($this->getCustomerReference()) {
-                $data['customer'] = $this->getCustomerReference();
-            }
+            $data['payment_method'] = $this->getCardReference();
         } elseif ($this->getToken()) {
-            $data['source'] = $this->getToken();
-            if ($this->getCustomerReference()) {
-                $data['customer'] = $this->getCustomerReference();
-            }
-        } elseif ($this->getCard()) {
-            $data['source'] = $this->getCardData();
-        } elseif ($this->getCustomerReference()) {
-            $data['customer'] = $this->getCustomerReference();
+            $data['payment_method_data'] = [
+                'type' => 'card',
+                'card' => ['token' => $this->getToken()],
+            ];
         } else {
             // one of cardReference, token, or card is required
-            $this->validate('source');
+            $this->validate('paymentMethod');
+        }
+
+        if ($this->getCustomerReference()) {
+            $data['customer'] = $this->getCustomerReference();
+        }
+
+        $data['confirmation_method'] = 'manual';
+        $data['capture_method'] = 'manual';
+
+        $data['confirm'] = $this->getConfirm() ? 'true' : 'false';
+
+        if ($this->getConfirm()) {
+            $this->validate('returnUrl');
+            $data['return_url'] = $this->getReturnUrl();
         }
 
         return $data;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getEndpoint()
     {
-        return $this->endpoint.'/charges';
+        return $this->endpoint.'/payment_intents';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function createResponse($data, $headers = [])
+    {
+        return $this->response = new Response($this, $data, $headers);
     }
 }

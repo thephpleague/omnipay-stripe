@@ -1,21 +1,25 @@
 <?php
 
 /**
- * Stripe Attach Source Request.
+ * AttachSourceRequest
  */
 namespace Omnipay\Stripe\Message;
 
 /**
- * Stripe Attach Source Request.
- *
+ * Class AttachSourceRequest
  *
  * @link https://stripe.com/docs/api#attach_source
+ *
+ * TODO : Add docblock
  */
 class AttachSourceRequest extends AbstractRequest
 {
+    /**
+     * @return mixed
+     */
     public function getData()
     {
-        $this->validate('customerReference');
+        $this->validate('customerReference', 'source');
         $this->validate('source');
 
         $data['source'] = $this->getSource();
@@ -23,6 +27,11 @@ class AttachSourceRequest extends AbstractRequest
         return $data;
     }
 
+    /**
+     * @inheritdoc
+     *
+     * @return string The endpoint for the create token request.
+     */
     public function getEndpoint()
     {
         return $this->endpoint . '/customers/' . $this->getCustomerReference() . '/sources';

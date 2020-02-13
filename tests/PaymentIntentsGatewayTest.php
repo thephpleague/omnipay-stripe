@@ -5,30 +5,38 @@ namespace Omnipay\Stripe;
 use Omnipay\Tests\GatewayTestCase;
 
 /**
- * @property Gateway gateway
+ * @property PaymentIntentsGateway gateway
  */
-class GatewayTest extends GatewayTestCase
+class PaymentIntentsGatewayTest extends GatewayTestCase
 {
     public function setUp()
     {
         parent::setUp();
 
-        $this->gateway = new Gateway($this->getHttpClient(), $this->getHttpRequest());
+        $this->gateway = new PaymentIntentsGateway($this->getHttpClient(), $this->getHttpRequest());
     }
 
     public function testAuthorize()
     {
         $request = $this->gateway->authorize(array('amount' => '10.00'));
 
-        $this->assertInstanceOf('Omnipay\Stripe\Message\AuthorizeRequest', $request);
+        $this->assertInstanceOf('Omnipay\Stripe\Message\PaymentIntents\AuthorizeRequest', $request);
         $this->assertSame('10.00', $request->getAmount());
+    }
+
+    public function testCompleteAuthorize()
+    {
+        $request = $this->gateway->completeAuthorize(array('paymentIntentReference' => 'pi_valid_intent'));
+
+        $this->assertInstanceOf('Omnipay\Stripe\Message\PaymentIntents\ConfirmPaymentIntentRequest', $request);
+        $this->assertSame('pi_valid_intent', $request->getPaymentIntentReference());
     }
 
     public function testCapture()
     {
         $request = $this->gateway->capture(array('amount' => '10.00'));
 
-        $this->assertInstanceOf('Omnipay\Stripe\Message\CaptureRequest', $request);
+        $this->assertInstanceOf('Omnipay\Stripe\Message\PaymentIntents\CaptureRequest', $request);
         $this->assertSame('10.00', $request->getAmount());
     }
 
@@ -36,8 +44,32 @@ class GatewayTest extends GatewayTestCase
     {
         $request = $this->gateway->purchase(array('amount' => '10.00'));
 
-        $this->assertInstanceOf('Omnipay\Stripe\Message\PurchaseRequest', $request);
+        $this->assertInstanceOf('Omnipay\Stripe\Message\PaymentIntents\PurchaseRequest', $request);
         $this->assertSame('10.00', $request->getAmount());
+    }
+
+    public function testCompletePurchase()
+    {
+        $request = $this->gateway->completePurchase(array('paymentIntentReference' => 'pi_valid_intent'));
+
+        $this->assertInstanceOf('Omnipay\Stripe\Message\PaymentIntents\ConfirmPaymentIntentRequest', $request);
+        $this->assertSame('pi_valid_intent', $request->getPaymentIntentReference());
+    }
+
+    public function testConfirmPaymentIntent()
+    {
+        $request = $this->gateway->confirm(array('paymentIntentReference' => 'pi_valid_intent'));
+
+        $this->assertInstanceOf('Omnipay\Stripe\Message\PaymentIntents\ConfirmPaymentIntentRequest', $request);
+        $this->assertSame('pi_valid_intent', $request->getPaymentIntentReference());
+    }
+
+    public function testCancelPaymentIntent()
+    {
+        $request = $this->gateway->cancel(array('paymentIntentReference' => 'pi_valid_intent'));
+
+        $this->assertInstanceOf('Omnipay\Stripe\Message\PaymentIntents\CancelPaymentIntentRequest', $request);
+        $this->assertSame('pi_valid_intent', $request->getPaymentIntentReference());
     }
 
     public function testRefund()
@@ -46,6 +78,14 @@ class GatewayTest extends GatewayTestCase
 
         $this->assertInstanceOf('Omnipay\Stripe\Message\RefundRequest', $request);
         $this->assertSame('10.00', $request->getAmount());
+    }
+
+    public function testFetchPaymentIntent()
+    {
+        $request = $this->gateway->fetchPaymentIntent(array('paymentIntentReference' => 'pi_valid_intent'));
+
+        $this->assertInstanceOf('Omnipay\Stripe\Message\PaymentIntents\FetchPaymentIntentRequest', $request);
+        $this->assertSame('pi_valid_intent', $request->getPaymentIntentReference());
     }
 
     public function testVoid()
@@ -69,44 +109,49 @@ class GatewayTest extends GatewayTestCase
         $this->assertInstanceOf('Omnipay\Stripe\Message\FetchBalanceTransactionRequest', $request);
     }
 
-    public function testFetchToken()
+    public function testFetchCard()
     {
-        $request = $this->gateway->fetchToken(array());
+        $request = $this->gateway->fetchCard(array('paymentMethod' => 'pm_1EUon32Tb35ankTnF6nuoRVE'));
 
-        $this->assertInstanceOf('Omnipay\Stripe\Message\FetchTokenRequest', $request);
-    }
-
-    public function testCreateToken()
-    {
-        $request = $this->gateway->createToken(array('customer' => 'cus_foo'));
-
-        $this->assertInstanceOf('Omnipay\Stripe\Message\CreateTokenRequest', $request);
-        $params = $request->getParameters();
-        $this->assertSame('cus_foo', $params['customer']);
+        $this->assertInstanceOf('Omnipay\Stripe\Message\PaymentIntents\FetchPaymentMethodRequest', $request);
+        $this->assertSame('pm_1EUon32Tb35ankTnF6nuoRVE', $request->getPaymentMethod());
+        $this->assertSame('pm_1EUon32Tb35ankTnF6nuoRVE', $request->getCardReference());
     }
 
     public function testCreateCard()
     {
-        $request = $this->gateway->createCard(array('description' => 'foo'));
+        $request = $this->gateway->createCard(array('description' => 'foo', 'token' => 'tok_real_visa'));
 
-        $this->assertInstanceOf('Omnipay\Stripe\Message\CreateCardRequest', $request);
+        $this->assertInstanceOf('Omnipay\Stripe\Message\PaymentIntents\CreatePaymentMethodRequest', $request);
         $this->assertSame('foo', $request->getDescription());
+        $this->assertSame('tok_real_visa', $request->getToken());
     }
 
     public function testUpdateCard()
     {
-        $request = $this->gateway->updateCard(array('cardReference' => 'cus_1MZSEtqSghKx99'));
+        $request = $this->gateway->updateCard(array('paymentMethod' => 'pm_1EUon32Tb35ankTnF6nuoRVE'));
 
-        $this->assertInstanceOf('Omnipay\Stripe\Message\UpdateCardRequest', $request);
-        $this->assertSame('cus_1MZSEtqSghKx99', $request->getCardReference());
+        $this->assertInstanceOf('Omnipay\Stripe\Message\PaymentIntents\UpdatePaymentMethodRequest', $request);
+        $this->assertSame('pm_1EUon32Tb35ankTnF6nuoRVE', $request->getPaymentMethod());
+        $this->assertSame('pm_1EUon32Tb35ankTnF6nuoRVE', $request->getCardReference());
     }
 
     public function testDeleteCard()
     {
-        $request = $this->gateway->deleteCard(array('cardReference' => 'cus_1MZSEtqSghKx99'));
+        $request = $this->gateway->deleteCard(array('paymentMethod' => 'pm_1EUon32Tb35ankTnF6nuoRVE'));
 
-        $this->assertInstanceOf('Omnipay\Stripe\Message\DeleteCardRequest', $request);
-        $this->assertSame('cus_1MZSEtqSghKx99', $request->getCardReference());
+        $this->assertInstanceOf('Omnipay\Stripe\Message\PaymentIntents\DetachPaymentMethodRequest', $request);
+        $this->assertSame('pm_1EUon32Tb35ankTnF6nuoRVE', $request->getPaymentMethod());
+        $this->assertSame('pm_1EUon32Tb35ankTnF6nuoRVE', $request->getCardReference());
+    }
+
+    public function testAttachCard()
+    {
+        $request = $this->gateway->attachCard(array('paymentMethod' => 'pm_1EUon32Tb35ankTnF6nuoRVE', 'customerReference' => 'cus_1MZSEtqSghKx99'));
+
+        $this->assertInstanceOf('Omnipay\Stripe\Message\PaymentIntents\AttachPaymentMethodRequest', $request);
+        $this->assertSame('pm_1EUon32Tb35ankTnF6nuoRVE', $request->getPaymentMethod());
+        $this->assertSame('cus_1MZSEtqSghKx99', $request->getCustomerReference());
     }
 
     public function testCreateCustomer()
