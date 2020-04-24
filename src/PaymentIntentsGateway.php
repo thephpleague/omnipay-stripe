@@ -166,4 +166,16 @@ class PaymentIntentsGateway extends AbstractGateway
     {
         return $this->createRequest('\Omnipay\Stripe\Message\PaymentIntents\DetachPaymentMethodRequest', $parameters);
     }
+
+    // Setup Intent
+
+    /**
+     * @inheritdoc
+     *
+     * @return \Omnipay\Stripe\Message\SetupIntents\CreateSetupIntentRequest
+     */
+    public function createSetupIntent(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\SetupIntents\CreateSetupIntentRequest', $parameters);
+    }
 }
