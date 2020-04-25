@@ -74,7 +74,7 @@ class Response extends BaseResponse implements ResponseInterface
     public function isSuccessful()
     {
         if (isset($this->data['object']) && 'setup_intent' === $this->data['object']) {
-            return in_array($this->getStatus(), ['succeeded', 'requires_capture']);
+            return in_array($this->getStatus(), ['succeeded', 'requires_payment_method']);
         }
 
         return parent::isSuccessful();
@@ -123,6 +123,20 @@ class Response extends BaseResponse implements ResponseInterface
     {
         if (isset($this->data['object']) && 'setup_intent' === $this->data['object']) {
             return $this->data['id'];
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the payment intent reference.
+     *
+     * @return string|null
+     */
+    public function getPaymentMethod()
+    {
+        if (isset($this->data['object']) && 'setup_intent' === $this->data['object']) {
+            return $this->data['payment_method'];
         }
 
         return null;

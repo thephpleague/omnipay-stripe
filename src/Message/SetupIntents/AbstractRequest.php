@@ -25,7 +25,7 @@ abstract class AbstractRequest extends \Omnipay\Stripe\Message\AbstractRequest
      */
     public function setSetupIntentReference($value)
     {
-        return $this->setParameter('paymentIntentReference', $value);
+        return $this->setParameter('setupIntentReference', $value);
     }
 
     /**
@@ -33,7 +33,7 @@ abstract class AbstractRequest extends \Omnipay\Stripe\Message\AbstractRequest
      */
     public function getSetupIntentReference()
     {
-        return $this->getParameter('paymentIntentReference');
+        return $this->getParameter('setupIntentReference');
     }
 
 }
