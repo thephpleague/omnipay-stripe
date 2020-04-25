@@ -35,5 +35,4 @@ abstract class AbstractRequest extends \Omnipay\Stripe\Message\AbstractRequest
     {
         return $this->getParameter('setupIntentReference');
     }
-
 }

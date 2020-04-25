@@ -3,6 +3,7 @@
 /**
  * Stripe Create Payment Method Request.
  */
+
 namespace Omnipay\Stripe\Message\SetupIntents;
 
 /**
@@ -36,7 +37,7 @@ class RetrieveSetupIntentRequest extends AbstractRequest
      */
     public function getEndpoint()
     {
-        return $this->endpoint.'/setup_intents/'.$this->getSetupIntentReference();
+        return $this->endpoint . '/setup_intents/' . $this->getSetupIntentReference();
     }
 
     public function getHttpMethod()

@@ -3,9 +3,8 @@
 /**
  * Stripe Payment Intents Gateway.
  */
-namespace Omnipay\Stripe;
 
-use Omnipay\Stripe\Message\PaymentIntents\Response;
+namespace Omnipay\Stripe;
 
 /**
  * Stripe Payment Intents Gateway.
@@ -178,6 +177,7 @@ class PaymentIntentsGateway extends AbstractGateway
     {
         return $this->createRequest('\Omnipay\Stripe\Message\SetupIntents\CreateSetupIntentRequest', $parameters);
     }
+
     /**
      * @inheritdoc
      *

@@ -3,6 +3,7 @@
 /**
  * Stripe Create Payment Method Request.
  */
+
 namespace Omnipay\Stripe\Message\SetupIntents;
 
 /**
@@ -31,14 +32,14 @@ class CreateSetupIntentRequest extends AbstractRequest
         if ($this->getCustomerReference()) {
             $data['customer'] = $this->getCustomerReference();
         }
-        if ($this->getDescription()){
+        if ($this->getDescription()) {
             $data['description'] = $this->getDescription();
         }
 
-        if ($this->getMetadata()){
+        if ($this->getMetadata()) {
             $this['metadata'] = $this->getMetadata();
         }
-        if ($this->getPaymentMethod()){
+        if ($this->getPaymentMethod()) {
             $this['payment_method'] = $this->getPaymentMethod();
         }
 
@@ -53,7 +54,7 @@ class CreateSetupIntentRequest extends AbstractRequest
      */
     public function getEndpoint()
     {
-        return $this->endpoint.'/setup_intents';
+        return $this->endpoint . '/setup_intents';
     }
 
     /**

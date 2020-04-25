@@ -3,10 +3,11 @@
 /**
  * Stripe Payment Intents Response.
  */
+
 namespace Omnipay\Stripe\Message\SetupIntents;
 
 use Omnipay\Common\Message\ResponseInterface;
-use Omnipay\Stripe\Message\Response as BaseResponse;;
+use Omnipay\Stripe\Message\Response as BaseResponse;
 
 /**
  * Stripe Payment Intents Response.
