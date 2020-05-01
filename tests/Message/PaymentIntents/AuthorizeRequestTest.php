@@ -45,7 +45,7 @@ class AuthorizeRequestTest extends TestCase
         $this->assertSame(array('foo' => 'bar'), $data['metadata']);
         $this->assertSame(100, $data['application_fee']);
         $this->assertSame('off_session', $data['setup_future_usage']);
-        $this->assertSame(true, $data['off_session']);
+        $this->assertSame('true', $data['off_session']);
     }
 
     /**

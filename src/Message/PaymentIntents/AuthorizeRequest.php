@@ -399,7 +399,7 @@ class AuthorizeRequest extends AbstractRequest
 
         $data['confirm'] = $this->getConfirm() ? 'true' : 'false';
 
-        if ($this->getReturnUrl()) {
+        if ($this->getConfirm() && !$this->getOffSession()) {
             $this->validate('returnUrl');
             $data['return_url'] = $this->getReturnUrl();
         }
