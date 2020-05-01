@@ -390,9 +390,7 @@ class AuthorizeRequest extends AbstractRequest
             $data['setup_future_usage'] = $this->getSetupFutureUsage();
         }
 
-        if ($this->getOffSession()) {
-            $data['off_session'] = $this->getOffSession() ? 'true' : 'false';
-        }
+        $data['off_session'] = $this->getOffSession() ? 'true' : 'false';
 
         $data['confirmation_method'] = 'manual';
         $data['capture_method'] = 'manual';
