@@ -26,7 +26,7 @@ class AuthorizeRequestTest extends TestCase
                 'applicationFee' => '1.00',
                 'returnUrl' => 'complete-payment',
                 'setup_future_usage' => 'off_session',
-                'off_session' => true,
+                'off_session' => false,
                 'confirm' => true,
             )
         );
@@ -45,7 +45,7 @@ class AuthorizeRequestTest extends TestCase
         $this->assertSame(array('foo' => 'bar'), $data['metadata']);
         $this->assertSame(100, $data['application_fee']);
         $this->assertSame('off_session', $data['setup_future_usage']);
-        $this->assertSame('true', $data['off_session']);
+        $this->assertSame('false', $data['off_session']);
     }
 
     /**
