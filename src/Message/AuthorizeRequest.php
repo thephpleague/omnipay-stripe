@@ -5,9 +5,11 @@
  */
 namespace Omnipay\Stripe\Message;
 
-use Omnipay\Common\ItemBag;
-use Omnipay\Stripe\StripeItemBag;
 use Money\Formatter\DecimalMoneyFormatter;
+use Omnipay\Common\Exception\InvalidRequestException;
+use Omnipay\Common\ItemBag;
+use Omnipay\Stripe\StripeItem;
+use Omnipay\Stripe\StripeItemBag;
 
 /**
  * Stripe Authorize Request.
@@ -155,7 +157,7 @@ class AuthorizeRequest extends AbstractRequest
 
     /**
      * @return string
-     * @throws \Omnipay\Common\Exception\InvalidRequestException
+     * @throws InvalidRequestException
      */
     public function getApplicationFee()
     {
@@ -174,7 +176,7 @@ class AuthorizeRequest extends AbstractRequest
      * Get the payment amount as an integer.
      *
      * @return integer
-     * @throws \Omnipay\Common\Exception\InvalidRequestException
+     * @throws InvalidRequestException
      */
     public function getApplicationFeeInteger()
     {
@@ -231,7 +233,7 @@ class AuthorizeRequest extends AbstractRequest
     /**
      * A list of items in this order
      *
-     * @return ItemBag|null A bag containing items in this order
+     * @return StripeItemBag|StripeItem[]|null A bag containing items in this order
      */
     public function getItems()
     {
@@ -242,6 +244,7 @@ class AuthorizeRequest extends AbstractRequest
      * Set the items in this order
      *
      * @param array $items An array of items in this order
+     * @return AuthorizeRequest
      */
     public function setItems($items)
     {
@@ -265,11 +268,40 @@ class AuthorizeRequest extends AbstractRequest
         $data['capture'] = 'false';
 
         if ($items = $this->getItems()) {
-            $itemDescriptions = [];
-            foreach ($items as $n => $item) {
-                $itemDescriptions[] = $item->getDescription();
+            if (empty($this->getDescription())) {
+                $itemDescriptions = [];
+                foreach ($items as $n => $item) {
+                    $itemDescriptions[] = $item->getDescription();
+                }
+                $data['description'] = implode(" + ", $itemDescriptions);
             }
-            $data['description'] = implode(" + ", $itemDescriptions);
+
+            if ($this->validateLineItemsForLevel3($items)) {
+                $lineItems = [];
+                foreach ($items as $item) {
+                    $lineItem = [
+                        'product_code' => substr($item->getName(), 0, 12),
+                        'product_description' => substr($item->getDescription(), 0, 26)
+                    ];
+                    if ($item->getPrice()) {
+                        $lineItem['unit_cost'] = $this->getAmountWithCurrencyPrecision($item->getPrice());
+                    }
+                    if ($item->getQuantity()) {
+                        $lineItem['quantity'] = $item->getQuantity();
+                    }
+                    if ($item->getTaxes()) {
+                        $lineItem['tax_amount'] = $this->getAmountWithCurrencyPrecision($item->getTaxes());
+                    }
+                    if ($item->getDiscount()) {
+                        $lineItem['discount_amount'] = $this->getAmountWithCurrencyPrecision($item->getDiscount());
+                    }
+                    $lineItems[] = $lineItem;
+                }
+                $data['level3'] = [
+                    'merchant_reference' => $this->getTransactionId(),
+                    'line_items' => $lineItems
+                ];
+            }
         }
 
         if ($this->getStatementDescriptor()) {
@@ -319,8 +351,29 @@ class AuthorizeRequest extends AbstractRequest
         return $data;
     }
 
+    private function getAmountWithCurrencyPrecision($amount)
+    {
+        return (int)round($amount * pow(10, $this->getCurrencyDecimalPlaces()));
+    }
+
+    /**
+     * For Stripe to accept Level 3 data, the sum of all the line items should equal the request's `amount`. This
+     * method validates that the summation adds up as expected.
+     *
+     * @param StripeItemBag $items
+     * @return bool
+     */
+    private function validateLineItemsForLevel3(StripeItemBag $items)
+    {
+        $actualAmount = 0;
+        foreach ($items as $item) {
+            $actualAmount += $item->getQuantity() * $item->getPrice() + $item->getTaxes() - $item->getDiscount();
+        }
+        return (string)$actualAmount == (string)$this->getAmount();
+    }
+
     public function getEndpoint()
     {
-        return $this->endpoint.'/charges';
+        return $this->endpoint . '/charges';
     }
 }

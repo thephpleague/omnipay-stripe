@@ -42,6 +42,82 @@ class AuthorizeRequestTest extends TestCase
         $this->assertSame(100, $data['application_fee']);
     }
 
+    public function testDataWithLevel3()
+    {
+        $this->request->setItems([
+            [
+                'name' => 'Cupcakes',
+                'description' => 'Yummy Cupcakes',
+                'price' => 4,
+                'quantity' => 2,
+                'taxes' => 0.4
+            ],
+            [
+                'name' => 'Donuts',
+                'description' => 'A dozen donuts',
+                'price' => 1.5,
+                'quantity' => 12,
+                'discount' => 1.8,
+                'taxes' => 0.81
+            ]
+        ]);
+        $this->request->setTransactionId('ORD42-P1');
+        $this->request->setAmount(25.41);
+
+        $data = $this->request->getData();
+
+        $this->assertSame('Order #42', $data['description']);
+        $expectedLevel3 = [
+            'merchant_reference' => 'ORD42-P1',
+            'line_items' => [
+                [
+                    'product_code' => 'Cupcakes',
+                    'product_description' => 'Yummy Cupcakes',
+                    'unit_cost' => 400,
+                    'quantity' => 2,
+                    'tax_amount' => 40,
+                ],
+                [
+                    'product_code' => 'Donuts',
+                    'product_description' => 'A dozen donuts',
+                    'unit_cost' => 150,
+                    'quantity' => 12,
+                    'discount_amount' => 180,
+                    'tax_amount' => 81,
+                ]
+            ]
+        ];
+        $this->assertEquals($expectedLevel3, $data['level3']);
+    }
+
+    public function testDataWithInvalidLevel3()
+    {
+        $this->request->setItems([
+            [
+                'name' => 'Cupcakes',
+                'description' => 'Yummy Cupcakes',
+                'price' => 4,
+                'quantity' => 2,
+                'taxes' => 0.4
+            ],
+            [
+                'name' => 'Donuts',
+                'description' => 'A dozen donuts',
+                'price' => 1.5,
+                'quantity' => 12,
+                'discount' => 1.8,
+                'taxes' => 0.8
+            ]
+        ]);
+        $this->request->setTransactionId('ORD42-P1');
+        $this->request->setAmount(25.41);
+
+        $data = $this->request->getData();
+
+        $this->assertArrayNotHasKey('level3', $data,
+            'should not include level 3 data if the line items do not add up to the amount');
+    }
+
     /**
      * @expectedException \Omnipay\Common\Exception\InvalidRequestException
      * @expectedExceptionMessage The source parameter is required
