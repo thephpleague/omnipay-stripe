@@ -6,6 +6,7 @@
 namespace Omnipay\Stripe\Message;
 
 use Omnipay\Common\Message\AbstractResponse;
+use Omnipay\Common\Message\RedirectResponseInterface;
 use Omnipay\Common\Message\RequestInterface;
 
 /**
@@ -15,7 +16,7 @@ use Omnipay\Common\Message\RequestInterface;
  *
  * @see \Omnipay\Stripe\Gateway
  */
-class Response extends AbstractResponse
+class Response extends AbstractResponse implements RedirectResponseInterface
 {
     /**
      * Request id
@@ -43,6 +44,10 @@ class Response extends AbstractResponse
      */
     public function isSuccessful()
     {
+        if ($this->isRedirect()) {
+            return false;
+        }
+
         return !isset($this->data['error']);
     }
 
@@ -100,6 +105,23 @@ class Response extends AbstractResponse
      *
      * @return string|null
      */
+    public function getApplicationFeeReference()
+    {
+        if (isset($this->data['object']) && 'application_fee' === $this->data['object']) {
+            return $this->data['id'];
+        }
+        if (isset($this->data['error']) && isset($this->data['error']['application_fee'])) {
+            return $this->data['error']['application_fee'];
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the balance transaction reference.
+     *
+     * @return string|null
+     */
     public function getBalanceTransactionReference()
     {
         if (isset($this->data['object']) && 'charge' === $this->data['object']) {
@@ -125,11 +147,13 @@ class Response extends AbstractResponse
         if (isset($this->data['object']) && 'customer' === $this->data['object']) {
             return $this->data['id'];
         }
+
         if (isset($this->data['object']) && 'card' === $this->data['object']) {
             if (!empty($this->data['customer'])) {
                 return $this->data['customer'];
             }
         }
+
         if (isset($this->data['object']) && 'charge' === $this->data['object']) {
             if (!empty($this->data['customer'])) {
                 return $this->data['customer'];
@@ -154,18 +178,24 @@ class Response extends AbstractResponse
             if (isset($this->data['default_card']) && !empty($this->data['default_card'])) {
                 return $this->data['default_card'];
             }
-            
+
             if (!empty($this->data['id'])) {
                 return $this->data['id'];
             }
         }
+
         if (isset($this->data['object']) && 'card' === $this->data['object']) {
             if (!empty($this->data['id'])) {
                 return $this->data['id'];
             }
         }
+
         if (isset($this->data['object']) && 'charge' === $this->data['object']) {
             if (! empty($this->data['source'])) {
+                if (!empty($this->data['source']['three_d_secure']['card'])) {
+                    return $this->data['source']['three_d_secure']['card'];
+                }
+
                 if (! empty($this->data['source']['id'])) {
                     return $this->data['source']['id'];
                 }
@@ -380,7 +410,7 @@ class Response extends AbstractResponse
 
         return null;
     }
-    
+
     /**
      * @return string|null
      */
@@ -388,6 +418,113 @@ class Response extends AbstractResponse
     {
         if (isset($this->headers['Request-Id'])) {
             return $this->headers['Request-Id'][0];
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the source reference
+     *
+     * @return null
+     */
+    public function getSourceReference()
+    {
+        if (isset($this->data['object']) && 'source' === $this->data['object']) {
+            return $this->data['id'];
+        }
+
+        return null;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRedirect()
+    {
+        if (isset($this->data['object']) && 'source' === $this->data['object']) {
+            if ($this->cardCan3DS() || ($this->isThreeDSecureSourcePending() && $this->getRedirectUrl() !== null)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if card requires 3DS
+     *
+     * @return bool
+     */
+    protected function cardCan3DS()
+    {
+        if (isset($this->data['type']) && 'card' === $this->data['type']) {
+            if (isset($this->data['card']['three_d_secure']) &&
+                in_array($this->data['card']['three_d_secure'], ['required', 'optional', 'recommended'], true)
+            ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if the ThreeDSecure source has status pending
+     *
+     * @return bool
+     */
+    protected function isThreeDSecureSourcePending()
+    {
+        if (isset($this->data['type']) && 'three_d_secure' === $this->data['type']) {
+            if (isset($this->data['status']) && 'pending' === $this->data['status']) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRedirectUrl()
+    {
+        if (isset($this->data['object']) && 'source' === $this->data['object'] &&
+            isset($this->data['type']) && 'three_d_secure' === $this->data['type'] &&
+            !empty($this->data['redirect']['url'])
+        ) {
+            return $this->data['redirect']['url'];
+        }
+
+        return null;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRedirectMethod()
+    {
+        return 'GET';
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRedirectData()
+    {
+        return null;
+    }
+
+    /**
+     * Get the source reference of ThreeDSecure charge
+     *
+     * @return null
+     */
+    public function getSessionId()
+    {
+        if (isset($this->data['type']) && 'three_d_secure' === $this->data['type']) {
+            return $this->getSourceReference();
         }
 
         return null;
