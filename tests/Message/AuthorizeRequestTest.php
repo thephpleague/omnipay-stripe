@@ -2,6 +2,8 @@
 
 namespace Omnipay\Stripe\Message;
 
+use Omnipay\Common\CreditCard;
+use Omnipay\Common\ItemBag;
 use Omnipay\Tests\TestCase;
 
 class AuthorizeRequestTest extends TestCase
@@ -38,6 +40,82 @@ class AuthorizeRequestTest extends TestCase
         $this->assertSame('false', $data['capture']);
         $this->assertSame(array('foo' => 'bar'), $data['metadata']);
         $this->assertSame(100, $data['application_fee']);
+    }
+
+    public function testDataWithLevel3()
+    {
+        $this->request->setItems([
+            [
+                'name' => 'Cupcakes',
+                'description' => 'Yummy Cupcakes',
+                'price' => 4,
+                'quantity' => 2,
+                'taxes' => 0.4
+            ],
+            [
+                'name' => 'Donuts',
+                'description' => 'A dozen donuts',
+                'price' => 1.5,
+                'quantity' => 12,
+                'discount' => 1.8,
+                'taxes' => 0.81
+            ]
+        ]);
+        $this->request->setTransactionId('ORD42-P1');
+        $this->request->setAmount(25.41);
+
+        $data = $this->request->getData();
+
+        $this->assertSame('Order #42', $data['description']);
+        $expectedLevel3 = [
+            'merchant_reference' => 'ORD42-P1',
+            'line_items' => [
+                [
+                    'product_code' => 'Cupcakes',
+                    'product_description' => 'Yummy Cupcakes',
+                    'unit_cost' => 400,
+                    'quantity' => 2,
+                    'tax_amount' => 40,
+                ],
+                [
+                    'product_code' => 'Donuts',
+                    'product_description' => 'A dozen donuts',
+                    'unit_cost' => 150,
+                    'quantity' => 12,
+                    'discount_amount' => 180,
+                    'tax_amount' => 81,
+                ]
+            ]
+        ];
+        $this->assertEquals($expectedLevel3, $data['level3']);
+    }
+
+    public function testDataWithInvalidLevel3()
+    {
+        $this->request->setItems([
+            [
+                'name' => 'Cupcakes',
+                'description' => 'Yummy Cupcakes',
+                'price' => 4,
+                'quantity' => 2,
+                'taxes' => 0.4
+            ],
+            [
+                'name' => 'Donuts',
+                'description' => 'A dozen donuts',
+                'price' => 1.5,
+                'quantity' => 12,
+                'discount' => 1.8,
+                'taxes' => 0.8
+            ]
+        ]);
+        $this->request->setTransactionId('ORD42-P1');
+        $this->request->setAmount(25.41);
+
+        $data = $this->request->getData();
+
+        $this->assertArrayNotHasKey('level3', $data,
+            'should not include level 3 data if the line items do not add up to the amount');
     }
 
     /**
@@ -106,6 +184,48 @@ class AuthorizeRequestTest extends TestCase
         $this->assertSame($card['number'], $data['source']['number']);
     }
 
+    public function testDataWithTracks()
+    {
+        $cardData = $this->getValidCard();
+        $tracks = "%25B4242424242424242%5ETESTLAST%2FTESTFIRST%5E1505201425400714000000%3F";
+        $cardData['tracks'] = $tracks;
+        unset($cardData['cvv']);
+        unset($cardData['billingPostcode']);
+        $this->request->setCard(new CreditCard($cardData));
+        $data = $this->request->getData();
+
+        $this->assertSame($tracks, $data['source']['swipe_data']);
+        $this->assertCount(2, $data['source'], "Swipe data should be present. All other fields are not required");
+
+        // If there is any mismatch between the track data and the parsed data, Stripe rejects the transaction, so it's
+        // best to suppress fields that is already present in the track data.
+        $this->assertArrayNotHasKey('number', $data, 'Should not send card number for card present charge');
+        $this->assertArrayNotHasKey('exp_month', $data, 'Should not send expiry month for card present charge');
+        $this->assertArrayNotHasKey('exp_year', $data, 'Should not send expiry year for card present charge');
+        $this->assertArrayNotHasKey('name', $data, 'Should not send name for card present charge');
+
+        // Billing address is not accepted for card present transactions.
+        $this->assertArrayNotHasKey('address_line1', $data, 'Should not send billing address for card present charge');
+        $this->assertArrayNotHasKey('address_line2', $data, 'Should not send billing address for card present charge');
+        $this->assertArrayNotHasKey('address_city', $data, 'Should not send billing address for card present charge');
+        $this->assertArrayNotHasKey('address_state', $data, 'Should not send billing address for card present charge');
+
+    }
+
+    public function testDataWithTracksAndZipCVVManuallyEntered()
+    {
+        $cardData = $this->getValidCard();
+        $tracks = "%25B4242424242424242%5ETESTLAST%2FTESTFIRST%5E1505201425400714000000%3F";
+        $cardData['tracks'] = $tracks;
+        $this->request->setCard(new CreditCard($cardData));
+        $data = $this->request->getData();
+
+        $this->assertSame($tracks, $data['source']['swipe_data']);
+        $this->assertSame($cardData['cvv'], $data['source']['cvc']);
+        $this->assertSame($cardData['billingPostcode'], $data['source']['address_zip']);
+        $this->assertCount(4, $data['source'], "Swipe data, cvv and zip code should be present");
+    }
+
     public function testSendSuccess()
     {
         $this->setMockHttpResponse('PurchaseSuccess.txt');
@@ -129,5 +249,24 @@ class AuthorizeRequestTest extends TestCase
         $this->assertSame('ch_1IUAZQWFYrPooM', $response->getTransactionReference());
         $this->assertNull($response->getCardReference());
         $this->assertSame('Your card was declined', $response->getMessage());
+    }
+
+    public function testSetItems()
+    {
+        $items = new ItemBag([
+            [
+                'amount' => '120.00',
+                'currency' => 'USD',
+                'card' => $this->getValidCard(),
+                'description' => 'Order #42',
+                'metadata' => [
+                    'foo' => 'bar',
+                ],
+                'applicationFee' => '2.00'
+            ]
+        ]);
+
+        $this->request->setItems($items);
+        $this->assertEquals($items, $this->request->getItems());
     }
 }

@@ -21,7 +21,8 @@ composer require league/omnipay omnipay/stripe
 
 The following gateways are provided by this package:
 
-* [Stripe](https://stripe.com/)
+* [Stripe Charge](https://stripe.com/docs/charges)
+* [Stripe Payment Intents](https://stripe.com/docs/payments/payment-intents)
 
 For general usage instructions, please see the main [Omnipay](https://github.com/thephpleague/omnipay)
 repository.
@@ -45,6 +46,75 @@ Simply pass this through to the gateway as `token`, instead of the usual `card` 
             'currency' => 'USD',
             'token' => $token,
         ])->send();
+```
+
+### Stripe Payment Intents
+
+Stripe Payment Intents is the Stripe's new foundational payment API. As opposed to Charges API, Payment Intents supports [Strong Customer Authentication](https://stripe.com/docs/strong-customer-authentication). It means that during the payment process, the user _might_ be redirected to an off-site page hosted by the customer's bank for authentication purposes.
+
+This plugin's implementation uses the manual Payment Intent confirmation flow, which is pretty similar to the one the Charges API uses. It shouldn't be too hard to modify your current payment flow.
+
+1) Start by [collecting the payment method details](https://stripe.com/docs/payments/payment-intents/quickstart#collect-payment-method) from the customer. Alternatively, if the customer has provided this earlier and has saved a payment method in your system, you can re-use that.
+
+2) Proceed to authorize or purchase as when using the Charges API.
+
+```php
+$paymentMethod = $_POST['paymentMethodId'];
+
+$response = $gateway->authorize([
+     'amount'                   => '10.00',
+     'currency'                 => 'USD',
+     'description'              => 'This is a test purchase transaction.',
+     'paymentMethod'            => $paymentMethod,
+     'returnUrl'                => $completePaymentUrl,
+     'confirm'                  => true,
+ ])->send();
+```
+
+* If you have a token, instead of a payment method, you can use that by setting the `token` parameter, instead of setting the `paymentMethod` parameter.
+* The `returnUrl` must point to where you would redirect every off-site gateway. This parameter is mandatory, if `confirm` is set to true.
+* If you don't set the `confirm` parameter to `true`, you will have to manually confirm the payment intent as shown below.
+
+```php
+$paymentIntentReference = $response->getPaymentIntentReference();
+
+$response = $gateway->confirm([
+    'paymentIntentReference' => $paymentIntentReference,
+    'returnUrl' => $completePaymentUrl,
+])->send();
+```
+
+At this point, you'll need to save a reference to the payment intent. `$_SESSION` can be used for this purpose, but a more common pattern is to have a reference to the current order encoded in the `$completePaymentUrl` URL. In this case, now would be an excellent time to save the relationship between the order and the payment intent somewhere so that you can retrieve the payment intent reference at a later point.
+
+3) Check if the payment is successful. If it is, that means the 3DS authentication was not required. This decision is up to Stripe (taking into account any custom Radar rules you have set) and the issuing bank.
+
+```php
+if ($response->isSuccessful()) {
+    // Pop open that champagne bottle, because the payment is complete.
+} else if($response->isRedirect()) {
+    $response->redirect();
+} else {
+    // The payment has failed. Use $response->getMessage() to figure out why and return to step (1).
+}
+```
+
+4) The customer is redirected to the 3DS authentication page. Once they authenticate (or fail to do so), the customer is redirected to the URL specified earlier with `completePaymentUrl`.
+
+5) Retrieve the `$paymentIntentReference` mentioned at the end of step (2).
+
+6) Now we have to confirm the payment intent, to signal Stripe that everything is under control.
+
+```php
+$response = $gateway->confirm([
+    'paymentIntentReference' => $paymentIntentReference,
+    'returnUrl' => $completePaymentUrl,
+])->send();
+
+if ($response->isSuccessful()) {
+    // All done!! Big bucks!
+} else {
+    // The response will not be successful if the 3DS authentication process failed or the card has been declined. Either way, it's back to step (1)!
+}
 ```
 
 ### Stripe Connect

@@ -6,6 +6,9 @@ use Omnipay\Tests\TestCase;
 
 class CreateCustomerRequestTest extends TestCase
 {
+    /** @var CreateCustomerRequest */
+    protected $request;
+
     public function setUp()
     {
         $this->request = new CreateCustomerRequest($this->getHttpClient(), $this->getHttpRequest());
@@ -20,7 +23,9 @@ class CreateCustomerRequestTest extends TestCase
     {
         $this->request->setEmail('customer@business.dom');
         $this->request->setDescription('New customer');
-        $this->request->setMetadata(array('field' => 'value'));
+        $this->request->setMetadata(['field' => 'value']);
+        $this->request->setPaymentMethod('payment_method_id');
+        $this->request->setName('Customer Name');
 
         $data = $this->request->getData();
 
@@ -28,6 +33,8 @@ class CreateCustomerRequestTest extends TestCase
         $this->assertSame('New customer', $data['description']);
         $this->assertArrayHasKey('field', $data['metadata']);
         $this->assertSame('value', $data['metadata']['field']);
+        $this->assertSame('payment_method_id', $data['payment_method']);
+        $this->assertSame('Customer Name', $data['name']);
     }
 
     public function testDataWithToken()
