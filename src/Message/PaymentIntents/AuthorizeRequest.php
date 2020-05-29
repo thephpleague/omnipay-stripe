@@ -128,6 +128,26 @@ class AuthorizeRequest extends AbstractRequest
     }
 
     /**
+     * Set the confirm parameter.
+     *
+     * @param $value
+     */
+    public function setOffSession($value)
+    {
+        $this->setParameter('offSession', $value);
+    }
+
+    /**
+     * Get the confirm parameter.
+     *
+     * @return mixed
+     */
+    public function getOffSession()
+    {
+        return $this->getParameter('offSession');
+    }
+
+    /**
      * @return mixed
      */
     public function getDestination()
@@ -401,6 +421,8 @@ class AuthorizeRequest extends AbstractRequest
             $this->validate('returnUrl');
             $data['return_url'] = $this->getReturnUrl();
         }
+        $data['off_session'] = $this->getOffSession() ? 'true' : 'false';
+
 
         return $data;
     }
