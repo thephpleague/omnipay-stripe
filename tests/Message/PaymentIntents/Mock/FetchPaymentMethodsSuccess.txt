@@ -1,0 +1,57 @@
+HTTP/1.1 200 OK
+Server: nginx
+Date: Fri, 29 Mar 2020 13:11:12 GMT
+Content-Type: application/json;charset=utf-8
+Connection: keep-alive
+Access-Control-Max-Age: 300
+Access-Control-Allow-Credentials: true
+Cache-Control: no-cache, no-store
+
+{
+  "object": "list",
+  "url": "/v1/payment_methods",
+  "has_more": false,
+  "data": [
+    {
+      "id": "pm_1GsOJg2eZvKYlo2CrMsVzvX8",
+      "object": "payment_method",
+      "billing_details": {
+        "address": {
+          "city": null,
+          "country": null,
+          "line1": null,
+          "line2": null,
+          "postal_code": null,
+          "state": null
+        },
+        "email": null,
+        "name": null,
+        "phone": null
+      },
+      "card": {
+        "brand": "visa",
+        "checks": {
+          "address_line1_check": null,
+          "address_postal_code_check": null,
+          "cvc_check": "pass"
+        },
+        "country": "US",
+        "exp_month": 8,
+        "exp_year": 2021,
+        "fingerprint": "Xt5EWLLDS7FJjR1c",
+        "funding": "credit",
+        "generated_from": null,
+        "last4": "4242",
+        "three_d_secure_usage": {
+          "supported": true
+        },
+        "wallet": null
+      },
+      "created": 1591773944,
+      "customer": null,
+      "livemode": false,
+      "metadata": {},
+      "type": "card"
+    }
+  ]
+}
