@@ -262,6 +262,20 @@ class Response extends AbstractResponse implements RedirectResponseInterface
     }
 
     /**
+     * Get the subscription schedule reference from the response of FetchSubscriptionSchedulesRequest.
+     *
+     * @return array|null
+     */
+    public function getSubscriptionSchedulesReference()
+    {
+        if (isset($this->data['object']) && $this->data['object'] == 'subscription_schedule') {
+            return $this->data['id'];
+        }
+
+        return null;
+    }
+
+    /**
      * Get the event reference from the response of FetchEventRequest.
      *
      * @return array|null

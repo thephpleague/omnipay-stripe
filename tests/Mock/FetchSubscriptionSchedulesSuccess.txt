@@ -1,0 +1,68 @@
+HTTP/1.1 200 OK
+Server: nginx
+Date: Mon, 26 Jun 2020 13:41:33 GMT
+Content-Type: application/json
+Content-Length: 784
+Connection: keep-alive
+Cache-Control: no-cache, no-store
+
+{
+  "id": "sub_sched_1GagVZKscivsTrcFhfMufnWP",
+  "object": "subscription_schedule",
+  "canceled_at": null,
+  "completed_at": null,
+  "created": 1593158960,
+  "current_phase": null,
+  "customer": "cus_7lqqgOm33t4xSU",
+  "default_settings": {
+    "billing_thresholds": null,
+    "collection_method": "charge_automatically",
+    "default_payment_method": null,
+    "default_source": null,
+    "invoice_settings": null,
+    "transfer_data": null
+  },
+  "end_behavior": "release",
+  "livemode": false,
+  "metadata": {
+  },
+  "phases": [
+    {
+      "add_invoice_items": [
+
+      ],
+      "application_fee_percent": null,
+      "billing_thresholds": null,
+      "collection_method": null,
+      "coupon": null,
+      "default_payment_method": null,
+      "default_tax_rates": [
+
+      ],
+      "end_date": 1596960367,
+      "invoice_settings": null,
+      "plans": [
+        {
+          "billing_thresholds": null,
+          "plan": "plan_GXzqnSohdy458I",
+          "price": "plan_GXzqnSohdy458I",
+          "quantity": 1,
+          "tax_rates": [
+
+          ]
+        }
+      ],
+      "prorate": true,
+      "proration_behavior": "create_prorations",
+      "start_date": 1595750767,
+      "tax_percent": null,
+      "transfer_data": null,
+      "trial_end": null
+    }
+  ],
+  "released_at": null,
+  "released_subscription": null,
+  "renewal_interval": null,
+  "status": "not_started",
+  "subscription": null
+}
