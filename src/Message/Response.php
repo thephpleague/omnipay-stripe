@@ -543,4 +543,36 @@ class Response extends AbstractResponse implements RedirectResponseInterface
 
         return null;
     }
+
+    /**
+     * Get the coupon plan from the response of CreateCouponRequest.
+     *
+     * @return array|null
+     */
+    public function getCoupon()
+    {
+        if (isset($this->data['coupon'])) {
+            return $this->data['coupon'];
+        } elseif (array_key_exists('object', $this->data) && $this->data['object'] == 'coupon') {
+            return $this->data;
+        }
+
+        return null;
+    }
+
+    /**
+     * Get coupon id
+     *
+     * @return string|null
+     */
+    public function getCouponId()
+    {
+        $coupon = $this->getCoupon();
+
+        if ($coupon && array_key_exists('id', $coupon)) {
+            return $coupon['id'];
+        }
+
+        return null;
+    }
 }

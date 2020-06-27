@@ -1,0 +1,50 @@
+HTTP/1.1 200 OK
+Server: nginx
+Date: Sat, 27 Jun 2020 18:28:24 GMT
+Content-Type: application/json
+Content-Length: 6247
+Connection: keep-alive
+Access-Control-Allow-Credentials: true
+Cache-Control: no-cache, no-store
+
+{
+  "object": "list",
+  "data": [
+    {
+      "id": "50_OFF",
+      "object": "coupon",
+      "amount_off": null,
+      "created": 1593259732,
+      "currency": null,
+      "duration": "repeating",
+      "duration_in_months": 3,
+      "livemode": false,
+      "max_redemptions": 10,
+      "metadata": {},
+      "name": "50% foo",
+      "percent_off": 50.0,
+      "redeem_by": 1606460031,
+      "times_redeemed": 0,
+      "valid": true
+    },
+    {
+      "id": "50_OFF_2",
+      "object": "coupon",
+      "amount_off": null,
+      "created": 1593245806,
+      "currency": null,
+      "duration": "repeating",
+      "duration_in_months": 3,
+      "livemode": false,
+      "max_redemptions": 10,
+      "metadata": {},
+      "name": "50% off",
+      "percent_off": 50.0,
+      "redeem_by": 1606460031,
+      "times_redeemed": 0,
+      "valid": true
+    }
+  ],
+  "has_more": true,
+  "url": "/v1/coupons"
+}
