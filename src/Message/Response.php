@@ -244,6 +244,10 @@ class Response extends AbstractResponse implements RedirectResponseInterface
             return $this->data['source'];
         }
 
+        if (isset($this->data['object']) && 'source' === $this->data['object']) {
+            return $this->data;
+        }
+
         return null;
     }
 
@@ -374,6 +378,20 @@ class Response extends AbstractResponse implements RedirectResponseInterface
 
         if ($plan && array_key_exists('id', $plan)) {
             return $plan['id'];
+        }
+
+        return null;
+    }
+
+    /**
+     * Get plan id
+     *
+     * @return string|null
+     */
+    public function getSourceId()
+    {
+        if (isset($this->data['object']) && 'source' === $this->data['object']) {
+            return $this->data['id'];
         }
 
         return null;
