@@ -321,11 +321,29 @@ class Gateway extends AbstractGateway
 
     /**
      * @param array $parameters
-     * @return \Omnipay\Stripe\Message\CreateSourceRequest
+     * @return \Omnipay\Stripe\Message\AttachSourceRequest
      */
     public function attachSource(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\Stripe\Message\AttachSourceRequest', $parameters);
+    }
+
+    /**
+     * @param array $parameters
+     * @return \Omnipay\Stripe\Message\FetchSourceRequest
+     */
+    public function detachSource(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\DetachSourceRequest', $parameters);
+    }
+
+    /**
+     * @param array $parameters
+     * @return \Omnipay\Stripe\Message\FetchSourceRequest
+     */
+    public function fetchSource(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\FetchSourceRequest', $parameters);
     }
 
     /**

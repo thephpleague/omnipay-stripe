@@ -1,0 +1,50 @@
+HTTP/1.1 200 OK
+Server: nginx
+Date: Sat, 27 Jun 2020 21:12:02 GMT
+Content-Type: application/json
+Content-Length: 943
+Connection: keep-alive
+Access-Control-Allow-Credentials: true
+Cache-Control: no-cache, no-store
+
+{
+   "id":"src_1GyjQZK1civsTrrUGHtiV3AN",
+   "object":"source",
+   "amount":null,
+   "card":{
+      "exp_month":6,
+      "exp_year":2021,
+      "last4":"4242",
+      "country":"US",
+      "brand":"Visa",
+      "funding":"credit",
+      "fingerprint":"f1JoQaLEG7ovd7N4",
+      "three_d_secure":"optional",
+      "name":null,
+      "address_line1_check":null,
+      "address_zip_check":null,
+      "cvc_check":null,
+      "tokenization_method":null,
+      "dynamic_last4":null
+   },
+   "client_secret":"src_client_secret_kO8e38RMu0NedTxDoTkOJbTc",
+   "created":1593285063,
+   "currency":null,
+   "flow":"none",
+   "livemode":false,
+   "metadata":{},
+   "owner":{
+      "address":null,
+      "email":null,
+      "name":null,
+      "phone":null,
+      "verified_address":null,
+      "verified_email":null,
+      "verified_name":null,
+      "verified_phone":null
+   },
+   "statement_descriptor":null,
+   "status":"chargeable",
+   "type":"card",
+   "usage":"reusable"
+}
