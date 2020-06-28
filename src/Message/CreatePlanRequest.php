@@ -78,6 +78,52 @@ class CreatePlanRequest extends AbstractRequest
     }
 
     /**
+     * Set the plan name
+     * @deprecated use setNickname() instead
+     *
+     * @param $value
+     * @return \Omnipay\Common\Message\AbstractRequest|CreatePlanRequest
+     */
+    public function setName($value)
+    {
+        return $this->setNickname($value);
+    }
+
+    /**
+     * Get the plan name
+     * @deprecated use getNickname() instead
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->getNickname();
+    }
+
+    /**
+     * Set the plan statement descriptor
+     * @deprecated Not used anymore
+     *
+     * @param $planStatementDescriptor
+     * @return \Omnipay\Common\Message\AbstractRequest|CreatePlanRequest
+     */
+    public function setStatementDescriptor($planStatementDescriptor)
+    {
+        return $this->setParameter('statement_descriptor', $planStatementDescriptor);
+    }
+
+    /**
+     * Get the plan statement descriptor
+     * @deprecated Not used anymore
+     *
+     * @return string
+     */
+    public function getStatementDescriptor()
+    {
+        return $this->getParameter('statement_descriptor');
+    }
+
+    /**
      * Set the plan product
      *
      * @param $value
