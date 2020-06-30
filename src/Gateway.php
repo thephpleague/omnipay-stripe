@@ -234,6 +234,17 @@ class Gateway extends AbstractGateway
     }
 
     /**
+     * Fetch Schedule Subscription
+     *
+     * @param array $parameters
+     * @return \Omnipay\Stripe\Message\FetchSubscriptionSchedulesRequest
+     */
+    public function fetchSubscriptionSchedules(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\FetchSubscriptionSchedulesRequest', $parameters);
+    }
+
+    /**
      * Fetch Event
      *
      * @param array $parameters
