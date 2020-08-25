@@ -328,6 +328,55 @@ class AuthorizeRequest extends AbstractRequest
     {
         return $this->getParameter('off_session');
     }
+    
+    /**
+     * Set the capture method, accepts automatic or manual
+     *
+     * @param string $value
+     *
+     * @return AbstractRequest provides a fluent interface.
+     */
+    public function setCaptureMethod($value)
+    {
+        if($value == null) {
+            $value = 'automatic';
+        }
+
+        return $this->setParameter('capture_method', $value);
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getCaptureMethod()
+    {
+        return $this->getParameter('capture_method');
+    }
+
+    /**
+     * Set the confirmation method, accepts automatic or manual
+     *
+     * @param string $value
+     *
+     * @return AbstractRequest provides a fluent interface.
+     */
+    public function setConfirmationMethod($value)
+    {
+        if($value == null) {
+            $value = 'automatic';
+        }
+        return $this->setParameter('confirmation_method', $value);
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getConfirmationMethod()
+    {
+        return $this->getParameter('confirmation_method');
+    }
 
     /**
      * @inheritdoc
@@ -377,9 +426,6 @@ class AuthorizeRequest extends AbstractRequest
                 'type' => 'card',
                 'card' => ['token' => $this->getToken()],
             ];
-        } else {
-            // one of cardReference, token, or card is required
-            $this->validate('paymentMethod');
         }
 
         if ($this->getCustomerReference()) {
@@ -392,8 +438,8 @@ class AuthorizeRequest extends AbstractRequest
 
         $data['off_session'] = $this->getOffSession() ? 'true' : 'false';
 
-        $data['confirmation_method'] = 'manual';
-        $data['capture_method'] = 'manual';
+        $data['confirmation_method'] = $this->getConfirmationMethod();
+        $data['capture_method'] = $this->getCaptureMethod();
 
         $data['confirm'] = $this->getConfirm() ? 'true' : 'false';
 
