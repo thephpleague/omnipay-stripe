@@ -338,9 +338,7 @@ class AuthorizeRequest extends AbstractRequest
      */
     public function setCaptureMethod($value)
     {
-        if ($value == null) {
-            $value = 'automatic';
-        }
+        $value = ($value === null) ? 'automatic' : $value;
 
         return $this->setParameter('capture_method', $value);
     }
@@ -365,9 +363,7 @@ class AuthorizeRequest extends AbstractRequest
      */
     public function setConfirmationMethod($value)
     {
-        if ($value == null) {
-            $value = 'automatic';
-        }
+        $value = ($value === null) ? 'automatic' : $value;
         
         return $this->setParameter('confirmation_method', $value);
     }

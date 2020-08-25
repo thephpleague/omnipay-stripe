@@ -23,7 +23,9 @@ class PurchaseRequestTest extends TestCase
                 'metadata' => array(
                     'foo' => 'bar',
                 ),
-                'applicationFee' => '1.00'
+                'applicationFee' => '1.00',
+                'capture_method' => null,
+                'confirmation_method' => null
             )
         );
     }
@@ -36,7 +38,7 @@ class PurchaseRequestTest extends TestCase
         $this->assertSame('usd', $data['currency']);
         $this->assertSame('Order #42', $data['description']);
         $this->assertSame('automatic', $data['capture_method']);
-        $this->assertSame('manual', $data['confirmation_method']);
+        $this->assertSame('automatic', $data['confirmation_method']);
         $this->assertSame('pm_valid_payment_method', $data['payment_method']);
         $this->assertSame(array('foo' => 'bar'), $data['metadata']);
         $this->assertSame(100, $data['application_fee']);
