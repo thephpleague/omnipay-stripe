@@ -14,14 +14,13 @@ class UpdateSubscriptionRequestTest extends TestCase
     public function setUp()
     {
         $this->request = new UpdateSubscriptionRequest($this->getHttpClient(), $this->getHttpRequest());
-        $this->request->setCustomerReference('cus_7lqqgOm33t4xSU');
         $this->request->setSubscriptionReference('sub_7uNSBwlTzGjYWw');
         $this->request->setPlan('basic');
     }
 
     public function testEndpoint()
     {
-        $endpoint = 'https://api.stripe.com/v1/customers/cus_7lqqgOm33t4xSU/subscriptions/sub_7uNSBwlTzGjYWw';
+        $endpoint = 'https://api.stripe.com/v1/subscriptions/sub_7uNSBwlTzGjYWw';
         $this->assertSame($endpoint, $this->request->getEndpoint());
     }
 
@@ -50,12 +49,10 @@ class UpdateSubscriptionRequestTest extends TestCase
         $this->assertNull($response->getSubscriptionReference());
         $this->assertNull($response->getPlan());
 
-        $customerReference = $this->request->getCustomerReference();
         $subscriptionReference = $this->request->getSubscriptionReference();
 
         $message = sprintf(
-            'Customer %s does not have a subscription with ID %s',
-            $customerReference,
+            "No such subscription: '%s'",
             $subscriptionReference
         );
         $this->assertSame($message, $response->getMessage());

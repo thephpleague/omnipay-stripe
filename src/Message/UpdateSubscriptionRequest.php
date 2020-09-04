@@ -10,7 +10,7 @@ namespace Omnipay\Stripe\Message;
  * Stripe Update Subscription Request
  *
  * @see \Omnipay\Stripe\Gateway
- * @link https://stripe.com/docs/api#update_subscription
+ * @link https://stripe.com/docs/api/subscriptions/update
  */
 class UpdateSubscriptionRequest extends AbstractRequest
 {
@@ -74,9 +74,22 @@ class UpdateSubscriptionRequest extends AbstractRequest
         return $this->setParameter('subscriptionReference', $value);
     }
 
+    /**
+     * @return bool
+     */
+    public function getCancelAtPeriodEnd()
+    {
+        return $this->getParameter('cancel_at_period_end');
+    }
+
+    public function setCancelAtPeriodEnd($value)
+    {
+        return $this->setParameter('cancel_at_period_end', $value);
+    }
+
     public function getData()
     {
-        $this->validate('customerReference', 'subscriptionReference', 'plan');
+        $this->validate('subscriptionReference', 'plan');
 
         $data = array(
             'plan' => $this->getPlan()
@@ -84,6 +97,10 @@ class UpdateSubscriptionRequest extends AbstractRequest
 
         if ($this->parameters->has('tax_percent')) {
             $data['tax_percent'] = (float)$this->getParameter('tax_percent');
+        }
+
+        if ($this->parameters->has('cancel_at_period_end')) {
+            $data['cancel_at_period_end'] = $this->getCancelAtPeriodEnd() ? 'true' : 'false';
         }
 
         if ($this->getMetadata()) {
@@ -95,7 +112,9 @@ class UpdateSubscriptionRequest extends AbstractRequest
 
     public function getEndpoint()
     {
-        return $this->endpoint.'/customers/'.$this->getCustomerReference()
-            .'/subscriptions/'.$this->getSubscriptionReference();
+        return $this->getCustomerReference() ?
+            $this->endpoint.'/customers/'.$this->getCustomerReference()
+                .'/subscriptions/'.$this->getSubscriptionReference() :
+            $this->endpoint.'/subscriptions/'.$this->getSubscriptionReference();
     }
 }
