@@ -174,6 +174,27 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->setParameter('idempotencyKey', $value);
     }
 
+    /**
+     * @return array
+     */
+    public function getExpand()
+    {
+        return $this->getParameter('expand');
+    }
+
+    /**
+     * Specifies which object relations (IDs) in the response should be expanded to include the entire object.
+     *
+     * @see https://stripe.com/docs/api/expanding_objects
+     *
+     * @param array $value
+     * @return AbstractRequest
+     */
+    public function setExpand($value)
+    {
+        return $this->setParameter('expand', $value);
+    }
+
     abstract public function getEndpoint();
 
     /**
@@ -221,17 +242,42 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         );
 
         $body = $data ? http_build_query($data, '', '&') : null;
-        $httpResponse = $this->httpClient->request($this->getHttpMethod(), $this->getEndpoint(), $headers, $body);
+        $httpResponse = $this->httpClient->request(
+            $this->getHttpMethod(),
+            $this->getExpandedEndpoint(),
+            $headers,
+            $body
+        );
 
         return $this->createResponse($httpResponse->getBody()->getContents(), $httpResponse->getHeaders());
     }
 
+    /**
+     * Appends the `expand` properties to the endpoint as a querystring.
+     *
+     * @return string
+     */
+    public function getExpandedEndpoint()
+    {
+        $endpoint = $this->getEndpoint();
+        $expand = $this->getExpand();
+        if (is_array($expand) && count($expand) > 0) {
+            $queryParams = [];
+            foreach ($expand as $key) {
+                $queryParams[] = 'expand[]=' . $key;
+            }
+            $queryString = join('&', $queryParams);
+            $endpoint .= '?' . $queryString;
+        }
+
+        return $endpoint;
+    }
 
     protected function createResponse($data, $headers = [])
     {
         return $this->response = new Response($this, $data, $headers);
     }
-    
+
     /**
      * @return mixed
      */
@@ -311,17 +357,30 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
         $data = array();
         $data['object'] = 'card';
+
+        // If track data is present, only return data relevant to a card present charge
+        $tracks = $card->getTracks();
+        $cvv = $card->getCvv();
+        $postcode = $card->getPostcode();
+        if (!empty($postcode)) {
+            $data['address_zip'] = $postcode;
+        }
+        if (!empty($cvv)) {
+            $data['cvc'] = $cvv;
+        }
+        if (!empty($tracks)) {
+            $data['swipe_data'] = $tracks;
+            return $data;
+        }
+
+        // If we got here, it's a card not present transaction, so include everything we have
         $data['number'] = $card->getNumber();
         $data['exp_month'] = $card->getExpiryMonth();
         $data['exp_year'] = $card->getExpiryYear();
-        if ($card->getCvv()) {
-            $data['cvc'] = $card->getCvv();
-        }
         $data['name'] = $card->getName();
         $data['address_line1'] = $card->getAddress1();
         $data['address_line2'] = $card->getAddress2();
         $data['address_city'] = $card->getCity();
-        $data['address_zip'] = $card->getPostcode();
         $data['address_state'] = $card->getState();
         $data['address_country'] = $card->getCountry();
         $data['email'] = $card->getEmail();

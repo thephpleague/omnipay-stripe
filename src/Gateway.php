@@ -234,6 +234,17 @@ class Gateway extends AbstractGateway
     }
 
     /**
+     * Fetch Schedule Subscription
+     *
+     * @param array $parameters
+     * @return \Omnipay\Stripe\Message\FetchSubscriptionSchedulesRequest
+     */
+    public function fetchSubscriptionSchedules(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\FetchSubscriptionSchedulesRequest', $parameters);
+    }
+
+    /**
      * Fetch Event
      *
      * @param array $parameters
@@ -321,11 +332,29 @@ class Gateway extends AbstractGateway
 
     /**
      * @param array $parameters
-     * @return \Omnipay\Stripe\Message\CreateSourceRequest
+     * @return \Omnipay\Stripe\Message\AttachSourceRequest
      */
     public function attachSource(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\Stripe\Message\AttachSourceRequest', $parameters);
+    }
+
+    /**
+     * @param array $parameters
+     * @return \Omnipay\Stripe\Message\FetchSourceRequest
+     */
+    public function detachSource(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\DetachSourceRequest', $parameters);
+    }
+
+    /**
+     * @param array $parameters
+     * @return \Omnipay\Stripe\Message\FetchSourceRequest
+     */
+    public function fetchSource(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\FetchSourceRequest', $parameters);
     }
 
     /**
@@ -337,5 +366,55 @@ class Gateway extends AbstractGateway
     public function completePurchase(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\Stripe\Message\CompletePurchaseRequest', $parameters);
+    }
+
+    /**
+     * @param array $parameters
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest
+     */
+    public function createCoupon(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\CreateCouponRequest', $parameters);
+    }
+
+    /**
+     * @param array $parameters
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest
+     */
+    public function fetchCoupon(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\FetchCouponRequest', $parameters);
+    }
+
+    /**
+     * @param array $parameters
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest
+     */
+    public function deleteCoupon(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\DeleteCouponRequest', $parameters);
+    }
+
+    /**
+     * @param array $parameters
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest
+     */
+    public function updateCoupon(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\UpdateCouponRequest', $parameters);
+    }
+
+    /**
+     * @param array $parameters
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest
+     */
+    public function listCoupons(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\ListCouponsRequest', $parameters);
     }
 }

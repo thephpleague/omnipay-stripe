@@ -9,7 +9,7 @@ use Omnipay\Common\Exception\InvalidRequestException;
 /**
  * Class CreateSourceRequest
  *
- * TODO : Add docblock
+ * @link https://stripe.com/docs/api/sources/create
  */
 class CreateSourceRequest extends AbstractRequest
 {

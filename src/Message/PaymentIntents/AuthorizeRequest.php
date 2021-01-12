@@ -110,10 +110,11 @@ class AuthorizeRequest extends AbstractRequest
      * Set the confirm parameter.
      *
      * @param $value
+     * @return AbstractRequest provides a fluent interface.
      */
     public function setConfirm($value)
     {
-        $this->setParameter('confirm', $value);
+        return $this->setParameter('confirm', $value);
     }
 
     /**
@@ -287,6 +288,48 @@ class AuthorizeRequest extends AbstractRequest
     }
 
     /**
+     * Set the setup_future_usage parameter.
+     *
+     * @param $value
+     * @return AbstractRequest provides a fluent interface.
+     */
+    public function setSetupFutureUsage($value)
+    {
+        return $this->setParameter('setup_future_usage', $value);
+    }
+
+    /**
+     * Get the setup_future_usage parameter.
+     *
+     * @return mixed
+     */
+    public function getSetupFutureUsage()
+    {
+        return $this->getParameter('setup_future_usage');
+    }
+
+    /**
+     * Set the setup_future_usage parameter.
+     *
+     * @param $value
+     * @return AbstractRequest provides a fluent interface.
+     */
+    public function setOffSession($value)
+    {
+        return $this->setParameter('off_session', $value);
+    }
+
+    /**
+     * Get the setup_future_usage parameter.
+     *
+     * @return mixed
+     */
+    public function getOffSession()
+    {
+        return $this->getParameter('off_session');
+    }
+
+    /**
      * @inheritdoc
      */
     public function getData()
@@ -343,15 +386,23 @@ class AuthorizeRequest extends AbstractRequest
             $data['customer'] = $this->getCustomerReference();
         }
 
+        if ($this->getSetupFutureUsage()) {
+            $data['setup_future_usage'] = $this->getSetupFutureUsage();
+        }
+
+        $data['off_session'] = $this->getOffSession() ? 'true' : 'false';
+
         $data['confirmation_method'] = 'manual';
         $data['capture_method'] = 'manual';
 
         $data['confirm'] = $this->getConfirm() ? 'true' : 'false';
 
-        if ($this->getConfirm()) {
+        if ($this->getConfirm() && !$this->getOffSession()) {
             $this->validate('returnUrl');
             $data['return_url'] = $this->getReturnUrl();
         }
+        $data['off_session'] = $this->getOffSession() ? 'true' : 'false';
+
 
         return $data;
     }

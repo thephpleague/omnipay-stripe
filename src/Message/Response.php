@@ -244,6 +244,10 @@ class Response extends AbstractResponse implements RedirectResponseInterface
             return $this->data['source'];
         }
 
+        if (isset($this->data['object']) && 'source' === $this->data['object']) {
+            return $this->data;
+        }
+
         return null;
     }
 
@@ -255,6 +259,20 @@ class Response extends AbstractResponse implements RedirectResponseInterface
     public function getSubscriptionReference()
     {
         if (isset($this->data['object']) && $this->data['object'] == 'subscription') {
+            return $this->data['id'];
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the subscription schedule reference from the response of FetchSubscriptionSchedulesRequest.
+     *
+     * @return array|null
+     */
+    public function getSubscriptionSchedulesReference()
+    {
+        if (isset($this->data['object']) && $this->data['object'] == 'subscription_schedule') {
             return $this->data['id'];
         }
 
@@ -360,6 +378,20 @@ class Response extends AbstractResponse implements RedirectResponseInterface
 
         if ($plan && array_key_exists('id', $plan)) {
             return $plan['id'];
+        }
+
+        return null;
+    }
+
+    /**
+     * Get plan id
+     *
+     * @return string|null
+     */
+    public function getSourceId()
+    {
+        if (isset($this->data['object']) && 'source' === $this->data['object']) {
+            return $this->data['id'];
         }
 
         return null;
@@ -525,6 +557,38 @@ class Response extends AbstractResponse implements RedirectResponseInterface
     {
         if (isset($this->data['type']) && 'three_d_secure' === $this->data['type']) {
             return $this->getSourceReference();
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the coupon plan from the response of CreateCouponRequest.
+     *
+     * @return array|null
+     */
+    public function getCoupon()
+    {
+        if (isset($this->data['coupon'])) {
+            return $this->data['coupon'];
+        } elseif (array_key_exists('object', $this->data) && $this->data['object'] == 'coupon') {
+            return $this->data;
+        }
+
+        return null;
+    }
+
+    /**
+     * Get coupon id
+     *
+     * @return string|null
+     */
+    public function getCouponId()
+    {
+        $coupon = $this->getCoupon();
+
+        if ($coupon && array_key_exists('id', $coupon)) {
+            return $coupon['id'];
         }
 
         return null;

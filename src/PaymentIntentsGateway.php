@@ -3,9 +3,8 @@
 /**
  * Stripe Payment Intents Gateway.
  */
-namespace Omnipay\Stripe;
 
-use Omnipay\Stripe\Message\PaymentIntents\Response;
+namespace Omnipay\Stripe;
 
 /**
  * Stripe Payment Intents Gateway.
@@ -165,5 +164,27 @@ class PaymentIntentsGateway extends AbstractGateway
     public function deleteCard(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\Stripe\Message\PaymentIntents\DetachPaymentMethodRequest', $parameters);
+    }
+
+    // Setup Intent
+
+    /**
+     * @inheritdoc
+     *
+     * @return \Omnipay\Stripe\Message\SetupIntents\CreateSetupIntentRequest
+     */
+    public function createSetupIntent(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\SetupIntents\CreateSetupIntentRequest', $parameters);
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @return \Omnipay\Stripe\Message\SetupIntents\CreateSetupIntentRequest
+     */
+    public function retrieveSetupIntent(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\SetupIntents\RetrieveSetupIntentRequest', $parameters);
     }
 }
