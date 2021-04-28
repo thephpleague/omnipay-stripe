@@ -37,10 +37,10 @@ class CreateSetupIntentRequest extends AbstractRequest
         }
 
         if ($this->getMetadata()) {
-            $this['metadata'] = $this->getMetadata();
+            $data['metadata'] = $this->getMetadata();
         }
         if ($this->getPaymentMethod()) {
-            $this['payment_method'] = $this->getPaymentMethod();
+            $data['payment_method'] = $this->getPaymentMethod();
         }
 
         $data['usage'] = 'off_session';
