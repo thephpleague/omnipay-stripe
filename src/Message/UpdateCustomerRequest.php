@@ -66,7 +66,7 @@ class UpdateCustomerRequest extends AbstractRequest
     {
         return $this->getParameter('source');
     }
-    
+
     /**
      * Sets the customer's source.
      *
@@ -78,11 +78,34 @@ class UpdateCustomerRequest extends AbstractRequest
         $this->setParameter('source', $value);
     }
 
+    /**
+     * Get the customer's def source.
+     *
+     * @return string
+     */
+    public function getDefaultSource()
+    {
+        return $this->getParameter('default_source');
+    }
+
+    /**
+     * Sets the customer's def source.
+     *
+     * @param string $value
+     * @return CreateCustomerRequest provides a fluent interface.
+     */
+    public function setDefaultSource($value)
+    {
+        $this->setParameter('default_source', $value);
+    }
+
     public function getData()
     {
         $this->validate('customerReference');
         $data = array();
         $data['description'] = $this->getDescription();
+
+        $data['default_source'] = $this->getDefaultSource();
 
         if ($this->getToken()) {
             $data['card'] = $this->getToken();
@@ -101,6 +124,7 @@ class UpdateCustomerRequest extends AbstractRequest
         if ($this->getSource()) {
             $data['source'] = $this->getSource();
         }
+
 
         return $data;
     }
