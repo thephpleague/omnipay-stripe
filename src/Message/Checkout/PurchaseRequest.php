@@ -54,7 +54,7 @@ class PurchaseRequest extends AbstractRequest
      */
     public function getCancelUrl()
     {
-        return $this->getParameter('success_url');
+        return $this->getParameter('cancel_url');
     }
 
     /**
