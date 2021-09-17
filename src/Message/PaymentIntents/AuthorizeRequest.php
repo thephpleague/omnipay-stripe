@@ -330,6 +330,28 @@ class AuthorizeRequest extends AbstractRequest
     }
 
     /**
+     * Set the setup_future_usage parameter.
+     *
+     * @param $value
+     * @return AbstractRequest provides a fluent interface.
+     */
+    public function setPaymentMethodTypes($value)
+    {
+        return $this->setParameter('payment_method_types', $value);
+    }
+
+    /**
+     * Get the success url
+     *
+     * @return string
+     */
+    public function getPaymentMethodTypes()
+    {
+        return $this->getParameter('payment_method_types');
+    }
+
+
+    /**
      * @inheritdoc
      */
     public function getData()
@@ -403,6 +425,7 @@ class AuthorizeRequest extends AbstractRequest
         }
         $data['off_session'] = $this->getOffSession() ? 'true' : 'false';
 
+        $data['payment_method_types'] = $this->getPaymentMethodTypes();
 
         return $data;
     }
