@@ -25,7 +25,6 @@ class PurchaseRequest extends AbstractRequest
     {
         return $this->setParameter('success_url', $value);
     }
-
     /**
      * Get the success url
      *
@@ -35,6 +34,28 @@ class PurchaseRequest extends AbstractRequest
     {
         return $this->getParameter('success_url');
     }
+
+    /**
+     * Get the Customer
+     *
+     * @return string
+     */
+    public function getCustomer()
+    {
+        return $this->getParameter('customer');
+    }
+        /**
+     * Set the Customer
+     *
+     * @param string $value
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest|PurchaseRequest
+     */
+    public function setCustomer($value)
+    {
+        return $this->setParameter('customer', $value);
+    }
+
     /**
      * Set the cancel url
      *
@@ -146,6 +167,16 @@ class PurchaseRequest extends AbstractRequest
     }
 
 
+    public function getMetadata()
+    {
+        return $this->getParameter('metadata');
+    }
+
+    public function setMetadata($value)
+    {
+        return $this->setParameter('metadata', $value);
+    }
+
     public function getData()
     {
         $data = array(
@@ -153,8 +184,14 @@ class PurchaseRequest extends AbstractRequest
             'cancel_url' => $this->getCancelUrl(),
             'payment_method_types' => $this->getPaymentMethodTypes(),
             'mode' => $this->getMode(),
-            'line_items' => $this->getLineItems()
+            'line_items' => $this->getLineItems(),
+            'customer' => $this->getCustomer(),
+            'client_reference_id'=>$this->getClientReferenceId()
         );
+
+        if ($this->getMetadata()) {
+            $data['metadata'] = $this->getMetadata();
+        }
 
         return $data;
     }
