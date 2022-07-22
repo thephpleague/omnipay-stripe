@@ -330,6 +330,42 @@ class AuthorizeRequest extends AbstractRequest
     }
 
     /**
+     * @return mixed
+     */
+    public function getConfirmationMethod()
+    {
+        return $this->getParameter('confirmation_method');
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return AbstractRequest provides a fluent interface.
+     */
+    public function setConfirmationMethod($value)
+    {
+        return $this->setParameter('confirmation_method', $value);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCaptureMethod()
+    {
+        return $this->getParameter('capture_method');
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return AbstractRequest provides a fluent interface.
+     */
+    public function setCaptureMethod($value)
+    {
+        return $this->setParameter('capture_method', $value);
+    }
+
+    /**
      * @inheritdoc
      */
     public function getData()
@@ -392,8 +428,13 @@ class AuthorizeRequest extends AbstractRequest
 
         $data['off_session'] = $this->getOffSession() ? 'true' : 'false';
 
-        $data['confirmation_method'] = 'manual';
-        $data['capture_method'] = 'manual';
+        if ($this->getConfirmationMethod()) {
+            $data['confirmation_method'] = $this->getConfirmationMethod();
+        }
+
+        if ($this->getCaptureMethod()) {
+            $data['capture_method'] = $this->getCaptureMethod();
+        }
 
         $data['confirm'] = $this->getConfirm() ? 'true' : 'false';
 
