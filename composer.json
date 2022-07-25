@@ -1,5 +1,5 @@
 {
-    "name": "enessacid-buker/stripe",
+    "name": "omnipay/stripe",
     "type": "library",
     "description": "Stripe driver for the Omnipay payment processing library",
     "keywords": [
