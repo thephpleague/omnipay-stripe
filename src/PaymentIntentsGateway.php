@@ -68,6 +68,17 @@ class PaymentIntentsGateway extends AbstractGateway
     {
         return $this->createRequest('\Omnipay\Stripe\Message\PaymentIntents\ConfirmPaymentIntentRequest', $parameters);
     }
+    
+    /**
+     * Void a Payment Intent.
+     *
+     * @param array $parameters
+     * @return \Omnipay\Stripe\Message\PaymentIntents\CancelPaymentIntentRequest
+     */
+    public function void(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\PaymentIntents\CancelPaymentIntentRequest', $parameters);
+    }
 
     /**
      * Cancel a Payment Intent.
