@@ -242,12 +242,26 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         );
 
         $body = $data ? http_build_query($data, '', '&') : null;
+        
+        /**
+         * Fix the bug on duplicate payments
+         */
+        if(isset($data['metadata']['orderID'])) {
+            $headers['Idempotency-Key'] = "payment_" . md5($data['metadata']['orderID']);
+        }
+        
         $httpResponse = $this->httpClient->request(
             $this->getHttpMethod(),
             $this->getExpandedEndpoint(),
             $headers,
             $body
         );
+        // Added logging for duplicate payments monitoring, this must be removed once client confirmed
+        // the issue is fixed.
+        \Log::debug("Headers:");
+        \Log::debug($headers);
+        \Log::debug("Body:");
+        \Log::debug($data);
 
         return $this->createResponse($httpResponse->getBody()->getContents(), $httpResponse->getHeaders());
     }
