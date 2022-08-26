@@ -149,6 +149,7 @@ class PurchaseRequest extends AbstractRequest
     public function getData()
     {
         $data = array(
+            'client_reference_id' => $this->getClientReferenceId(),
             'success_url' => $this->getSuccessUrl(),
             'cancel_url' => $this->getCancelUrl(),
             'payment_method_types' => $this->getPaymentMethodTypes(),
