@@ -450,6 +450,10 @@ class Response extends AbstractResponse implements RedirectResponseInterface
     {
         if (isset($this->headers['Request-Id'])) {
             return $this->headers['Request-Id'][0];
+        } else {
+            if (isset($this->headers[strtolower('Request-Id')])) {
+                return $this->headers[strtolower('Request-Id')][0];
+            }
         }
 
         return null;
