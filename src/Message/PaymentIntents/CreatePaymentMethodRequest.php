@@ -117,7 +117,7 @@ class CreatePaymentMethodRequest extends AbstractRequest
                 'country' => $data['address_country'],
                 'line1' => $data['address_line1'],
                 'line2' => $data['address_line2'],
-                'postal_code' => $data['address_zip'],
+                'postal_code' => $data['address_zip'] ?? null,
                 'state' => $data['address_state'],
             ]),
         ]);
