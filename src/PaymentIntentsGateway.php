@@ -113,6 +113,16 @@ class PaymentIntentsGateway extends AbstractGateway
         return $this->createRequest('\Omnipay\Stripe\Message\PaymentIntents\FetchPaymentIntentRequest', $parameters);
     }
 
+    /**
+     * List a payment intents.
+     *
+     * @return \Omnipay\Stripe\Message\PaymentIntents\ListPaymentIntentsRequest
+     */
+    public function listPaymentIntents(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\PaymentIntents\ListPaymentIntentsRequest', $parameters);
+    }
+
     //
     // Cards
     // @link https://stripe.com/docs/api/payment_methods

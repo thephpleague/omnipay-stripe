@@ -1,0 +1,311 @@
+HTTP/1.1 200 OK
+Server: nginx
+Date: Sat, 27 Jun 2020 18:28:24 GMT
+Content-Type: application/json
+Content-Length: 6247
+Connection: keep-alive
+Access-Control-Allow-Credentials: true
+Cache-Control: no-cache, no-store
+
+{
+  "object": "list",
+  "data": [
+    {
+      "id": "pi_1Iyf1VBG29hybwbqYndPrtA7",
+      "object": "payment_intent",
+      "amount": 1000,
+      "amount_capturable": 0,
+      "amount_received": 0,
+      "application": null,
+      "application_fee_amount": null,
+      "canceled_at": null,
+      "cancellation_reason": null,
+      "capture_method": "automatic",
+      "charges": {
+        "object": "list",
+        "data": [
+
+        ],
+        "has_more": false,
+        "total_count": 0,
+        "url": "/v1/charges?payment_intent=pi_1Iyf1VBG29hybwbqYndPrtA7"
+      },
+      "client_secret": "pi_1Iyf1VBG29hybwbqYndPrtA7_secret_gytYMX8c4knIAeSatw2aw371g",
+      "confirmation_method": "manual",
+      "created": 1622820805,
+      "currency": "eur",
+      "customer": null,
+      "description": "Test Adrien",
+      "invoice": null,
+      "last_payment_error": null,
+      "livemode": false,
+      "metadata": {
+      },
+      "next_action": {
+        "type": "use_stripe_sdk",
+        "use_stripe_sdk": {
+          "type": "three_d_secure_redirect",
+          "stripe_js": "https://hooks.stripe.com/redirect/authenticate/src_1Iyf1yBG29hybwbqM7OSeLF1?client_secret=src_client_secret_SoGoiSc6TWMXSWC5zTfpGCzI\u0026source_redirect_slug=test_YWNjdF8xSTNqcXJCRzI5aHlid2JxLF9KYnNuOTlBMGhtbTM0VmdMME5RSEppQnFUYmdIUVVG0100tsB3icsa",
+          "source": "src_1Iyf1yBG29hybwbqM7OSeLF1"
+        }
+      },
+      "on_behalf_of": null,
+      "payment_method": "pm_1Iyf1UBG29hybwbqSSn3Z3R1",
+      "payment_method_options": {
+        "card": {
+          "installments": null,
+          "network": null,
+          "request_three_d_secure": "automatic"
+        }
+      },
+      "payment_method_types": [
+        "card"
+      ],
+      "receipt_email": null,
+      "review": null,
+      "setup_future_usage": null,
+      "shipping": null,
+      "source": null,
+      "statement_descriptor": null,
+      "statement_descriptor_suffix": null,
+      "status": "requires_action",
+      "transfer_data": null,
+      "transfer_group": null
+    },
+    {
+      "id": "pi_1IyesoBG29hybwbq2ybYUtEv",
+      "object": "payment_intent",
+      "amount": 1000,
+      "amount_capturable": 0,
+      "amount_received": 1000,
+      "application": null,
+      "application_fee_amount": null,
+      "canceled_at": null,
+      "cancellation_reason": null,
+      "capture_method": "automatic",
+      "charges": {
+        "object": "list",
+        "data": [
+          {
+            "id": "ch_1Iyf0nBG29hybwbqgU5E0kxh",
+            "object": "charge",
+            "amount": 1000,
+            "amount_captured": 1000,
+            "amount_refunded": 1000,
+            "application": null,
+            "application_fee": null,
+            "application_fee_amount": null,
+            "balance_transaction": "txn_1Iyf0oBG29hybwbqsuJKhFqz",
+            "billing_details": {
+              "address": {
+                "city": "Esch",
+                "country": "LU",
+                "line1": "1 avenue du jazz",
+                "line2": null,
+                "postal_code": "1111",
+                "state": null
+              },
+              "email": "adrien@test.com",
+              "name": "Test fr Adrien",
+              "phone": null
+            },
+            "calculated_statement_descriptor": "test",
+            "captured": true,
+            "created": 1622820761,
+            "currency": "eur",
+            "customer": null,
+            "description": "Test Adrien",
+            "destination": null,
+            "dispute": null,
+            "disputed": false,
+            "failure_code": null,
+            "failure_message": null,
+            "fraud_details": {
+            },
+            "invoice": null,
+            "livemode": false,
+            "metadata": {
+            },
+            "on_behalf_of": null,
+            "order": null,
+            "outcome": {
+              "network_status": "approved_by_network",
+              "reason": null,
+              "risk_level": "normal",
+              "risk_score": 61,
+              "seller_message": "Payment complete.",
+              "type": "authorized"
+            },
+            "paid": true,
+            "payment_intent": "pi_1IyesoBG29hybwbq2ybYUtEv",
+            "payment_method": "pm_1IyesnBG29hybwbqsrx63eWg",
+            "payment_method_details": {
+              "card": {
+                "brand": "visa",
+                "checks": {
+                  "address_line1_check": "pass",
+                  "address_postal_code_check": "pass",
+                  "cvc_check": "pass"
+                },
+                "country": "DE",
+                "exp_month": 6,
+                "exp_year": 2030,
+                "fingerprint": "I1R9Xprj9BJJ4BRw",
+                "funding": "credit",
+                "installments": null,
+                "last4": "3184",
+                "network": "visa",
+                "three_d_secure": {
+                  "authentication_flow": "challenge",
+                  "result": "authenticated",
+                  "result_reason": null,
+                  "version": "1.0.2"
+                },
+                "wallet": null
+              },
+              "type": "card"
+            },
+            "receipt_email": null,
+            "receipt_number": null,
+            "receipt_url": "https://pay.stripe.com/receipts/acct_1I3jqrBG29hybwbq/ch_1Iyf0nBG29hybwbqgU5E0kxh/rcpt_JbsmnCGNieizTkaP2vHMYyMkf0Iz7zs",
+            "refunded": true,
+            "refunds": {
+              "object": "list",
+              "data": [
+                {
+                  "id": "re_1IzdXhBG29hybwbq5pA3uQtA",
+                  "object": "refund",
+                  "amount": 1000,
+                  "balance_transaction": "txn_1IzdXhBG29hybwbqFGbe3rhB",
+                  "charge": "ch_1Iyf0nBG29hybwbqgU5E0kxh",
+                  "created": 1623053441,
+                  "currency": "eur",
+                  "metadata": {
+                  },
+                  "payment_intent": "pi_1IyesoBG29hybwbq2ybYUtEv",
+                  "reason": null,
+                  "receipt_number": null,
+                  "source_transfer_reversal": null,
+                  "status": "succeeded",
+                  "transfer_reversal": null
+                }
+              ],
+              "has_more": false,
+              "total_count": 1,
+              "url": "/v1/charges/ch_1Iyf0nBG29hybwbqgU5E0kxh/refunds"
+            },
+            "review": null,
+            "shipping": null,
+            "source": null,
+            "source_transfer": null,
+            "statement_descriptor": null,
+            "statement_descriptor_suffix": null,
+            "status": "succeeded",
+            "transfer_data": null,
+            "transfer_group": null
+          }
+        ],
+        "has_more": false,
+        "total_count": 1,
+        "url": "/v1/charges?payment_intent=pi_1IyesoBG29hybwbq2ybYUtEv"
+      },
+      "client_secret": "pi_1IyesoBG29hybwbq2ybYUtEv_secret_VpWuPGPyLXx6aZXUEh6wnufb4",
+      "confirmation_method": "manual",
+      "created": 1622820266,
+      "currency": "eur",
+      "customer": null,
+      "description": "Test Adrien",
+      "invoice": null,
+      "last_payment_error": null,
+      "livemode": false,
+      "metadata": {
+      },
+      "next_action": null,
+      "on_behalf_of": null,
+      "payment_method": "pm_1IyesnBG29hybwbqsrx63eWg",
+      "payment_method_options": {
+        "card": {
+          "installments": null,
+          "network": null,
+          "request_three_d_secure": "automatic"
+        }
+      },
+      "payment_method_types": [
+        "card"
+      ],
+      "receipt_email": null,
+      "review": null,
+      "setup_future_usage": null,
+      "shipping": null,
+      "source": null,
+      "statement_descriptor": null,
+      "statement_descriptor_suffix": null,
+      "status": "succeeded",
+      "transfer_data": null,
+      "transfer_group": null
+    },
+    {
+      "id": "pi_1Iyes1BG29hybwbqINvTbdMx",
+      "object": "payment_intent",
+      "amount": 1000,
+      "amount_capturable": 0,
+      "amount_received": 0,
+      "application": null,
+      "application_fee_amount": null,
+      "canceled_at": null,
+      "cancellation_reason": null,
+      "capture_method": "automatic",
+      "charges": {
+        "object": "list",
+        "data": [
+
+        ],
+        "has_more": false,
+        "total_count": 0,
+        "url": "/v1/charges?payment_intent=pi_1Iyes1BG29hybwbqINvTbdMx"
+      },
+      "client_secret": "pi_1Iyes1BG29hybwbqINvTbdMx_secret_HCdc4QcoSIruO3m6q8t9Bzqec",
+      "confirmation_method": "manual",
+      "created": 1622820217,
+      "currency": "eur",
+      "customer": null,
+      "description": "Test Adrien",
+      "invoice": null,
+      "last_payment_error": null,
+      "livemode": false,
+      "metadata": {
+      },
+      "next_action": {
+        "redirect_to_url": {
+          "return_url": "https://www.test.com/app",
+          "url": "https://hooks.stripe.com/redirect/authenticate/sdF8xSTNqcXJCRzI5aHlid2JxLF9KYnNkNjVrRGY2UTM3bGZMZkx3ME40UTBpbk5XeTk20100NK4tn7i0"
+        },
+        "type": "redirect_to_url"
+      },
+      "on_behalf_of": null,
+      "payment_method": "pm_1Iyes0BG29hybwbq96aCG9WD",
+      "payment_method_options": {
+        "card": {
+          "installments": null,
+          "network": null,
+          "request_three_d_secure": "automatic"
+        }
+      },
+      "payment_method_types": [
+        "card"
+      ],
+      "receipt_email": null,
+      "review": null,
+      "setup_future_usage": null,
+      "shipping": null,
+      "source": null,
+      "statement_descriptor": null,
+      "statement_descriptor_suffix": null,
+      "status": "requires_action",
+      "transfer_data": null,
+      "transfer_group": null
+    }
+  ],
+  "has_more": true,
+  "url": "/v1/payment_intents"
+}
