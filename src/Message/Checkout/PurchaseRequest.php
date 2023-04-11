@@ -145,6 +145,50 @@ class PurchaseRequest extends AbstractRequest
         return $this->getParameter('client_reference_id');
     }
 
+    /**
+     * Set the customer email
+     *
+     * @param string $value
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest|PurchaseRequest
+     */
+    public function setCustomerEmail($value)
+    {
+        return $this->setParameter('customer_email', $value);
+    }
+
+    /**
+     * Get the customer email
+     *
+     * @return string
+     */
+    public function getCustomerEmail()
+    {
+        return $this->getParameter('customer_email');
+    }
+
+    /**
+     * Set the shipping options
+     *
+     * @param array $value
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest|PurchaseRequest
+     */
+    public function setShippingOptions($value)
+    {
+        return $this->setParameter('shipping_options', $value);
+    }
+
+    /**
+     * Get the shipping options
+     *
+     * @return array
+     */
+    public function getShippingOptions()
+    {
+        return $this->getParameter('shipping_options');
+    }
+
 
     public function getData()
     {
@@ -153,7 +197,9 @@ class PurchaseRequest extends AbstractRequest
             'cancel_url' => $this->getCancelUrl(),
             'payment_method_types' => $this->getPaymentMethodTypes(),
             'mode' => $this->getMode(),
-            'line_items' => $this->getLineItems()
+            'line_items' => $this->getLineItems(),
+            'customer_email' => $this->getCustomerEmail(),
+            'shipping_options' => $this->getShippingOptions(),
         );
 
         return $data;
