@@ -15,6 +15,19 @@ namespace Omnipay\Stripe\Message\Checkout;
 class PurchaseRequest extends AbstractRequest
 {
     /**
+     * Create response
+     *
+     * @param string $data
+     * @param array $headers
+     *
+     * @return Response
+     */
+    protected function createResponse($data, $headers = [])
+    {
+        return $this->response = new Response($this, $data, $headers);
+    }
+
+    /**
      * Set the success url
      *
      * @param string $value
