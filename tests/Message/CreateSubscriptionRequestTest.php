@@ -21,12 +21,14 @@ class CreateSubscriptionRequestTest extends TestCase
     {
         $this->request->setTaxPercent(14);
         $this->request->setMetadata(array('field' => 'value'));
+        $this->request->setCoupon('coupon');
 
         $data = $this->request->getData();
 
         $this->assertSame(14.0, $data['tax_percent']);
         $this->assertArrayHasKey('field', $data['metadata']);
         $this->assertSame('value', $data['metadata']['field']);
+        $this->assertSame('coupon', $data['coupon']);
     }
 
     public function testZeroPercentData()
@@ -64,6 +66,7 @@ class CreateSubscriptionRequestTest extends TestCase
         $this->assertSame('sub_7mUtC70CqhYYMX', $response->getSubscriptionReference());
         $this->assertNotNull($response->getPlan());
         $this->assertNull($response->getMessage());
+        $this->assertNotNull($response->getCoupon());
     }
 
 
@@ -75,6 +78,7 @@ class CreateSubscriptionRequestTest extends TestCase
         $this->assertFalse($response->isRedirect());
         $this->assertNull($response->getSubscriptionReference());
         $this->assertNull($response->getPlan());
+        $this->assertNull($response->getCoupon());
         $this->assertSame('No such plan: basico', $response->getMessage());
     }
 }
