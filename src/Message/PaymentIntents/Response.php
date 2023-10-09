@@ -106,19 +106,13 @@ class Response extends BaseResponse implements RedirectResponseInterface
             }
         }
 
-        return parent::getTransactionReference();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function isSuccessful()
-    {
         if (isset($this->data['object']) && 'payment_intent' === $this->data['object']) {
-            return in_array($this->getStatus(), ['succeeded', 'requires_capture']);
+            if (!empty($this->data['latest_charge'])) {
+                return $this->data['latest_charge'];
+            }
         }
 
-        return parent::isSuccessful();
+        return parent::getTransactionReference();
     }
 
     /**
@@ -131,6 +125,18 @@ class Response extends BaseResponse implements RedirectResponseInterface
         }
 
         return parent::isCancelled();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isSuccessful()
+    {
+        if (isset($this->data['object']) && 'payment_intent' === $this->data['object']) {
+            return in_array($this->getStatus(), ['succeeded', 'requires_capture']);
+        }
+
+        return parent::isSuccessful();
     }
 
     /**
