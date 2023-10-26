@@ -310,4 +310,12 @@ class PaymentIntentsGatewayTest extends GatewayTestCase
         $this->assertInstanceOf('Omnipay\Stripe\Message\DeleteInvoiceItemRequest', $request);
         $this->assertSame('ii_17ZPbRCryC4r2g4vIdAFxptK', $request->getInvoiceItemReference());
     }
+
+    public function testFetchPaymentMethods()
+    {
+        $request = $this->gateway->fetchPaymentMethods(array('customerReference' => 'cus_HJ8fYBDCaIUzgi'));
+
+        $this->assertInstanceOf('Omnipay\Stripe\Message\PaymentIntents\FetchPaymentMethodsRequest', $request);
+        $this->assertSame('cus_HJ8fYBDCaIUzgi', $request->getCustomerReference());
+    }
 }
