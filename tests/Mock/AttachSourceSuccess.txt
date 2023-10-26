@@ -1,0 +1,60 @@
+HTTP/1.1 200 OK
+Server: nginx
+Date: Fri, 31 Aug 2018 14:17:38 GMT
+Content-Type: application/json
+Content-Length: 1057
+Connection: keep-alive
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Methods: GET, POST, HEAD, OPTIONS, DELETE
+Access-Control-Allow-Origin: *
+Access-Control-Expose-Headers: Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+Access-Control-Max-Age: 300
+Cache-Control: no-cache, no-store
+Request-Id: req_VkaPcNwM5tgg0i
+Stripe-Version: 2017-08-15
+Strict-Transport-Security: max-age=31556926; includeSubDomains; preload
+
+{
+  "id": "src_1D5DQWIJb8S3vLIy6mbZY",
+  "object": "source",
+  "amount": null,
+  "card": {
+    "exp_month": 11,
+    "exp_year": 2022,
+    "brand": "Visa",
+    "card_automatically_updated": false,
+    "country": "US",
+    "cvc_check": "pass",
+    "fingerprint": "SSvN8gQK8y8aar",
+    "funding": "credit",
+    "last4": "4242",
+    "three_d_secure": "optional",
+    "name": null,
+    "address_line1_check": null,
+    "address_zip_check": null,
+    "tokenization_method": null,
+    "dynamic_last4": null
+  },
+  "client_secret": "src_client_secret_DWFwpG0P6vEwpYBzXj",
+  "created": 1535725004,
+  "currency": null,
+  "customer": "cus_1MZSEtqSghKx99",
+  "flow": "none",
+  "livemode": false,
+  "metadata": {
+  },
+  "owner": {
+    "address": null,
+    "email": "foo@foo.com",
+    "name": "foo@foo.com",
+    "phone": null,
+    "verified_address": null,
+    "verified_email": null,
+    "verified_name": null,
+    "verified_phone": null
+  },
+  "statement_descriptor": null,
+  "status": "chargeable",
+  "type": "card",
+  "usage": "reusable"
+}

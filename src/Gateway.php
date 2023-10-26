@@ -101,6 +101,103 @@ class Gateway extends AbstractGateway
     }
 
     //
+    // Customers
+    // link: https://stripe.com/docs/api#customers
+    //
+
+    /**
+     * Create Customer.
+     *
+     * Customer objects allow you to perform recurring charges and
+     * track multiple charges that are associated with the same customer.
+     * The API allows you to create, delete, and update your customers.
+     * You can retrieve individual customers as well as a list of all of
+     * your customers.
+     *
+     * @param array $parameters
+     *
+     * @return \Omnipay\Stripe\Message\CreateCustomerRequest
+     */
+    public function createCustomer(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\CreateCustomerRequest', $parameters);
+    }
+
+    /**
+     * Fetch Customer.
+     *
+     * Fetches customer by customer reference.
+     *
+     * @param array $parameters
+     *
+     * @return \Omnipay\Stripe\Message\FetchCustomerRequest
+     */
+    public function fetchCustomer(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\FetchCustomerRequest', $parameters);
+    }
+
+    /**
+     * Attach Source
+     *
+     * Attaches source to customer.
+     *
+     * @param array $parameters
+     *
+     * @return \Omnipay\Stripe\Message\AttachSourceRequest
+     */
+    public function attachSource(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\AttachSourceRequest', $parameters);
+    }
+
+
+    /**
+     * Update Customer.
+     *
+     * This request updates the specified customer by setting the values
+     * of the parameters passed. Any parameters not provided will be left
+     * unchanged. For example, if you pass the card parameter, that becomes
+     * the customer's active card to be used for all charges in the future,
+     * and the customer email address is updated to the email address
+     * on the card. When you update a customer to a new valid card: for
+     * each of the customer's current subscriptions, if the subscription
+     * is in the `past_due` state, then the latest unpaid, unclosed
+     * invoice for the subscription will be retried (note that this retry
+     * will not count as an automatic retry, and will not affect the next
+     * regularly scheduled payment for the invoice). (Note also that no
+     * invoices pertaining to subscriptions in the `unpaid` state, or
+     * invoices pertaining to canceled subscriptions, will be retried as
+     * a result of updating the customer's card.)
+     *
+     * This request accepts mostly the same arguments as the customer
+     * creation call.
+     *
+     * @param array $parameters
+     *
+     * @return \Omnipay\Stripe\Message\CreateCustomerRequest
+     */
+    public function updateCustomer(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\UpdateCustomerRequest', $parameters);
+    }
+
+    /**
+     * Delete a customer.
+     *
+     * Permanently deletes a customer. It cannot be undone. Also immediately
+     * cancels any active subscriptions on the customer.
+     *
+     * @param array $parameters
+     *
+     * @return \Omnipay\Stripe\Message\DeleteCustomerRequest
+     */
+    public function deleteCustomer(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Stripe\Message\DeleteCustomerRequest', $parameters);
+    }
+
+    //
     // Tokens
     // @link https://stripe.com/docs/api#tokens
     //

@@ -1,11 +1,14 @@
 <?php
+
 /**
- * CreateSourceRequest
+ * AttachSourceRequest
  */
 namespace Omnipay\Stripe\Message;
 
 /**
- * Class CreateSourceRequest
+ * Class AttachSourceRequest
+ *
+ * @link https://stripe.com/docs/api#attach_source
  *
  * @link https://stripe.com/docs/api/sources/attach
  */
@@ -17,6 +20,7 @@ class AttachSourceRequest extends AbstractRequest
     public function getData()
     {
         $this->validate('customerReference', 'source');
+        $this->validate('source');
 
         $data['source'] = $this->getSource();
 

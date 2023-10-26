@@ -159,6 +159,11 @@ class Response extends AbstractResponse implements RedirectResponseInterface
                 return $this->data['customer'];
             }
         }
+        if (isset($this->data['object']) && 'source' === $this->data['object']) {
+            if (!empty($this->data['customer'])) {
+                return $this->data['customer'];
+            }
+        }
 
         return null;
     }
