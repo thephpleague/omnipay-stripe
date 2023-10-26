@@ -19,9 +19,12 @@ class UpdateCustomerRequestTest extends TestCase
 
     public function testData()
     {
+        $shipping = array('name' => 'John Doe', ['address' => ['line1' => 'Some street']]);
+
         $this->request->setEmail('customer@business.dom');
         $this->request->setDescription('New customer');
         $this->request->setMetadata(array('field' => 'value'));
+        $this->request->setshipping($shipping);
 
         $data = $this->request->getData();
 
@@ -29,6 +32,7 @@ class UpdateCustomerRequestTest extends TestCase
         $this->assertSame('New customer', $data['description']);
         $this->assertArrayHasKey('field', $data['metadata']);
         $this->assertSame('value', $data['metadata']['field']);
+        $this->assertSame($shipping, $data['shipping']);
     }
 
     public function testDataWithToken()

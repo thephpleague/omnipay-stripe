@@ -21,8 +21,11 @@ class CreateCustomerRequestTest extends TestCase
 
     public function testData()
     {
+        $shipping = array('name' => 'John Doe', ['address' => ['line1' => 'Some street']]);
+
         $this->request->setEmail('customer@business.dom');
         $this->request->setDescription('New customer');
+        $this->request->setShipping($shipping);
         $this->request->setMetadata(['field' => 'value']);
         $this->request->setPaymentMethod('payment_method_id');
         $this->request->setName('Customer Name');
@@ -33,6 +36,7 @@ class CreateCustomerRequestTest extends TestCase
         $this->assertSame('New customer', $data['description']);
         $this->assertArrayHasKey('field', $data['metadata']);
         $this->assertSame('value', $data['metadata']['field']);
+        $this->assertSame($shipping, $data['shipping']);
         $this->assertSame('payment_method_id', $data['payment_method']);
         $this->assertSame('Customer Name', $data['name']);
     }
