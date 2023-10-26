@@ -36,15 +36,17 @@ class FetchSubscriptionRequest extends AbstractRequest
 
     public function getData()
     {
-        $this->validate('customerReference', 'subscriptionReference');
+        $this->validate('subscriptionReference');
 
         return array();
     }
 
     public function getEndpoint()
     {
-        return $this->endpoint.'/customers/'.$this->getCustomerReference()
-            .'/subscriptions/'.$this->getSubscriptionReference();
+        return $this->getCustomerReference() ?
+            $this->endpoint.'/customers/'.$this->getCustomerReference()
+            .'/subscriptions/'.$this->getSubscriptionReference() :
+            $this->endpoint.'/subscriptions/'.$this->getSubscriptionReference();
     }
 
     public function getHttpMethod()

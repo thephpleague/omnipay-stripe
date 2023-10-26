@@ -1,16 +1,24 @@
-HTTP/1.1 404 Not Found
+HTTP/1.1 404
 Server: nginx
-Date: Sun, 24 Jan 2016 22:29:41 GMT
+Date: Fri, 04 Sep 2020 09:19:40 GMT
 Content-Type: application/json
-Content-Length: 188
-Connection: keep-alive
+Content-Length: 240
 Access-Control-Allow-Credentials: true
+Access-Control-Allow-Methods: GET, POST, HEAD, OPTIONS, DELETE
+Access-Control-Allow-Origin: *
+Access-Control-Expose-Headers: Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+Access-Control-Max-age: 300
 Cache-Control: no-cache, no-store
+Request-Id: req_T3w109w5clA85G
+Stripe-Version: 2020-08-27
+Strict-Transport-security: max-age=31556926; includeSubDomains; preload
 
 {
   "error": {
-    "type": "invalid_request_error",
-    "message": "Customer cus_7lqqgOm33t4xSU does not have a subscription with ID sub_7mU0DonX8GQZFW",
-    "param": "subscription"
+    "code": "resource_missing",
+    "doc_url": "https://stripe.com/docs/error-codes/resource-missing",
+    "message": "No such subscription: 'sub_7mU0FokE8GQZFW'",
+    "param": "id",
+    "type": "invalid_request_error"
   }
 }

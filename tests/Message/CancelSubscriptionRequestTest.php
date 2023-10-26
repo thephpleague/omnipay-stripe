@@ -14,18 +14,12 @@ class CancelSubscriptionRequestTest extends TestCase
     public function setUp()
     {
         $this->request = new CancelSubscriptionRequest($this->getHttpClient(), $this->getHttpRequest());
-        $this->request->setCustomerReference('cus_7lfqk3Om3t4xSU');
         $this->request->setSubscriptionReference('sub_7mU0FokE8GQZFW');
-        $this->request->setAtPeriodEnd(true);
     }
 
     public function testEndpoint()
     {
-        $this->assertSame('https://api.stripe.com/v1/customers/cus_7lfqk3Om3t4xSU/subscriptions/sub_7mU0FokE8GQZFW', $this->request->getEndpoint());
-        $this->assertSame(true, $this->request->getAtPeriodEnd());
-
-        $data = $this->request->getData();
-        $this->assertSame('true', $data['at_period_end']);
+        $this->assertSame('https://api.stripe.com/v1/subscriptions/sub_7mU0FokE8GQZFW', $this->request->getEndpoint());
     }
 
     public function testSendSuccess()
@@ -48,6 +42,6 @@ class CancelSubscriptionRequestTest extends TestCase
         $this->assertFalse($response->isRedirect());
         $this->assertNull($response->getSubscriptionReference());
         $this->assertNull($response->getPlan());
-        $this->assertSame('Customer cus_7lqqgOm33t4xSU does not have a subscription with ID sub_7mU0DonX8GQZFW', $response->getMessage());
+        $this->assertSame("No such subscription: 'sub_7mU0FokE8GQZFW'", $response->getMessage());
     }
 }
