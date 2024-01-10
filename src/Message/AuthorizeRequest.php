@@ -211,6 +211,18 @@ class AuthorizeRequest extends AbstractRequest
         return $this->setParameter('statementDescriptor', $value);
     }
 
+    public function getStatementDescriptorSuffix()
+    {
+        return $this->getParameter('statementDescriptorSuffix');
+    }
+
+    public function setStatementDescriptorSuffix($value)
+    {
+        $value = str_replace(array('<', '>', '"', '\''), '', $value);
+
+        return $this->setParameter('statementDescriptorSuffix', $value);
+    }
+
     /**
      * @return mixed
      */
@@ -307,6 +319,11 @@ class AuthorizeRequest extends AbstractRequest
         if ($this->getStatementDescriptor()) {
             $data['statement_descriptor'] = $this->getStatementDescriptor();
         }
+
+        if ($this->getStatementDescriptorSuffix()) {
+            $data['statement_descriptor_suffix'] = $this->getStatementDescriptorSuffix();
+        }
+
         if ($this->getDestination()) {
             $data['destination'] = $this->getDestination();
         }
