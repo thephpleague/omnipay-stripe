@@ -324,7 +324,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
                 throw new InvalidRequestException('Amount precision is too high for currency.');
             }
 
-            $money = $moneyParser->parse((string) $number, $currency->getCode());
+            $money = $moneyParser->parse((string) $number, $currency);
 
             // Check for a negative amount.
             if (!$this->negativeAmountAllowed && $money->isNegative()) {
