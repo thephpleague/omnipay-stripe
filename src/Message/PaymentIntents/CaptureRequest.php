@@ -5,6 +5,8 @@
  */
 namespace Omnipay\Stripe\Message\PaymentIntents;
 
+use Money\Formatter\DecimalMoneyFormatter;
+
 /**
  * Stripe Capture Request.
  *
@@ -39,8 +41,55 @@ class CaptureRequest extends AbstractRequest
             $data['amount_to_capture'] = $amount;
         }
 
+        if ($this->getApplicationFee()) {
+            $data['application_fee_amount'] = $this->getApplicationFeeInteger();
+        }
+
         return $data;
     }
+
+    /**
+     * @return string
+     * @throws \Omnipay\Common\Exception\InvalidRequestException
+     */
+    public function getApplicationFee()
+    {
+        $money = $this->getMoney('applicationFee');
+
+        if ($money !== null) {
+            return (new DecimalMoneyFormatter($this->getCurrencies()))->format($money);
+        }
+
+        return '';
+    }
+
+    /**
+     * Get the payment amount as an integer.
+     *
+     * @return integer
+     * @throws \Omnipay\Common\Exception\InvalidRequestException
+     */
+    public function getApplicationFeeInteger()
+    {
+        $money = $this->getMoney('applicationFee');
+
+        if ($money !== null) {
+            return (integer) $money->getAmount();
+        }
+
+        return 0;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return AbstractRequest provides a fluent interface.
+     */
+    public function setApplicationFee($value)
+    {
+        return $this->setParameter('applicationFee', $value);
+    }
+
 
     public function getEndpoint()
     {
